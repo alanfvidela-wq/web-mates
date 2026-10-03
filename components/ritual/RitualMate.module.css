@@ -22,7 +22,7 @@
 }
 
 .cabeceraTexto {
-  font-family: var(--fuente-datos);
+  font-family: var(--fuente-texto);
 }
 
 /* Recorrido del scroll: cada paso tiene su tramo */
@@ -140,7 +140,7 @@
   flex-direction: column;
   align-items: center;
   transform: translateX(-50%);
-  font-family: var(--fuente-datos);
+  font-family: var(--fuente-texto);
   font-size: var(--t-dato);
 }
 

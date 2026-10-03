@@ -1,21 +1,34 @@
 import Link from "next/link";
-import {
-  IlustracionProducto,
-  Mate,
-  PaqueteYerba,
-  Termo,
-} from "./Ilustraciones";
-import { CATEGORIAS } from "@/lib/productos";
+import { Mate, PaqueteYerba, Termo } from "./Ilustraciones";
 import styles from "./Portada.module.css";
 
-// Hero estático de la home: marca, propuesta, CTA y accesos a las categorías.
+// Hero estático de la home: marca, propuesta y CTA.
 export default function Portada() {
   return (
     <section className={styles.portada} aria-labelledby="portada-titulo">
       <div className={styles.contenido}>
         <div className={styles.texto}>
           <h1 id="portada-titulo" className={styles.marca}>
-            La Montañita
+            <span className={styles.oculto}>La Montañita</span>
+            {/* La tilde de la fuente es muy ancha y queda separada a este
+                tamaño: se dibuja una propia, pegada a la N. */}
+            <span aria-hidden="true">
+              La{" "}
+              <span className={styles.palabra}>
+                Monta
+                <span className={styles.enie}>
+                  N
+                  <svg
+                    className={styles.tilde}
+                    viewBox="0 0 60 18"
+                    focusable="false"
+                  >
+                    <path d="M6 13C13 4 21 4 30 9s17 5 24-4" />
+                  </svg>
+                </span>
+                ita
+              </span>
+            </span>
           </h1>
           <p className={styles.propuesta}>
             Todo para el mate en un solo almacén: elegís mate, bombilla, termo y
@@ -33,25 +46,6 @@ export default function Portada() {
           <p className={styles.sello}>Cebado con paciencia</p>
         </div>
       </div>
-
-      <nav className={styles.accesos} aria-label="Categorías">
-        <ul className={styles.lista}>
-          {CATEGORIAS.map((categoria) => (
-            <li key={categoria.slug} data-categoria={categoria.slug}>
-              <Link
-                href={`/categoria/${categoria.slug}`}
-                className={styles.acceso}
-              >
-                <IlustracionProducto
-                  categoria={categoria.slug}
-                  className={styles.accesoDibujo}
-                />
-                {categoria.nombre}
-              </Link>
-            </li>
-          ))}
-        </ul>
-      </nav>
     </section>
   );
 }

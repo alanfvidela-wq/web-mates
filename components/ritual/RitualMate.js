@@ -37,9 +37,10 @@ class LimiteEscena extends Component {
 const BLOQUES = [...PASOS, CIERRE];
 const FUNDIDO = 0.025;
 
-// Easter egg: si te quedás mucho en la home, la yerba se lava.
-const INICIO_LAVADO = 40; // segundos con la pestaña visible
-const DURACION_LAVADO = 25;
+// Easter egg: si te quedás mucho mirando el mate ya cebado, la yerba se lava.
+// Solo corre con el ritual terminado; durante los pasos la yerba es nueva.
+const INICIO_LAVADO = 30; // segundos con el mate listo a la vista
+const DURACION_LAVADO = 20;
 const LAVADO_VISIBLE = 0.6; // desde acá aparece el botón
 
 function limitar(valor) {
@@ -59,6 +60,7 @@ export default function RitualMate() {
   const pistaRef = useRef(null);
   const progresoRef = useRef(0);
   const lavadoRef = useRef(0);
+  const enVistaRef = useRef(false);
   const avisoRef = useRef(null);
   const [cerca, setCerca] = useState(false);
   const [activo, setActivo] = useState(false);
@@ -88,18 +90,28 @@ export default function RitualMate() {
 
   // Pausa el render 3D cuando la sección sale de pantalla.
   useEffect(() => {
-    const observador = new IntersectionObserver(([entrada]) =>
-      setActivo(entrada.isIntersecting),
-    );
+    const observador = new IntersectionObserver(([entrada]) => {
+      enVistaRef.current = entrada.isIntersecting;
+      setActivo(entrada.isIntersecting);
+    });
     observador.observe(recorridoRef.current);
     return () => observador.disconnect();
   }, []);
 
-  // Cuenta el tiempo en la home (solo con la pestaña visible) y va lavando la yerba.
+  // Cuenta el tiempo con el mate listo a la vista y va lavando la yerba. Si se
+  // vuelve a los pasos, el mate se ceba de nuevo: yerba nueva y sin botón.
   useEffect(() => {
     let segundos = 0;
     const id = setInterval(() => {
-      if (document.visibilityState !== "visible") return;
+      if (progresoRef.current < CIERRE.desde) {
+        segundos = 0;
+        lavadoRef.current = 0;
+        setLavada(false);
+        return;
+      }
+      if (document.visibilityState !== "visible" || !enVistaRef.current) {
+        return;
+      }
       segundos += 1;
       const valor = limitar((segundos - INICIO_LAVADO) / DURACION_LAVADO);
       lavadoRef.current = valor;

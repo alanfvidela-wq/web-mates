@@ -14,7 +14,7 @@
 }
 
 .texto {
-  font-family: var(--fuente-datos);
+  font-family: var(--fuente-texto);
 }
 
 @media (prefers-reduced-motion: no-preference) {

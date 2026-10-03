@@ -64,7 +64,7 @@
 }
 
 .opcionStock {
-  font-family: var(--fuente-datos);
+  font-family: var(--fuente-texto);
   font-size: var(--t-dato);
 }
 
@@ -87,6 +87,6 @@
 }
 
 .nota {
-  font-family: var(--fuente-datos);
+  font-family: var(--fuente-texto);
   font-size: var(--t-dato);
 }

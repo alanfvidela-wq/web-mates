@@ -9,16 +9,16 @@ es tinta sobre papel, ordenado.
 ## Estructura de la home
 
 1. **Portada estática**: la marca en grande, la propuesta en una frase, el
-   botón «Armá tu combo», un bodegón dibujado y los accesos a las categorías.
-   Funciona sola, sin 3D.
-2. **Franja de leyendas** y **destacados góndola por góndola**: un cartel en
-   el color de cada categoría arriba de sus productos.
+   botón «Armá tu combo» y un bodegón dibujado. Funciona sola, sin 3D.
+2. **Franja de leyendas** y **Lo que más sale**: solo los productos
+   destacados, en un único estante continuo. Todas las ilustraciones tienen la
+   misma altura, y precios y nombres comparten línea base.
 3. **La montañita, paso a paso**: sección sticky guiada por el scroll, a mitad
    de página. El mate 3D muestra el ritual de cebar en seis pasos y cierra con
    «¿Te falta algo? Armá tu combo». three.js, el modelo y el HDRI se cargan
    recién cuando la sección está a media pantalla de distancia; hasta entonces
    se ve un mate dibujado.
-4. **Qué hay en el almacén**: la lista completa de categorías.
+4. **Qué hay en el almacén**: la única sección de categorías de la home.
 
 ## Concepto: «el paquete y la góndola»
 
@@ -27,7 +27,8 @@ es tinta sobre papel, ordenado.
   con datos cortos («Elaborada con palo», «Estacionada sin apuro»).
 - **La góndola.** Los productos van apoyados en estantes, no en tarjetas.
   Cada fila tiene una línea gruesa de estante abajo. El precio va en una
-  etiqueta troquelada, escrita a máquina.
+  etiqueta troquelada, escrita a máquina (es el único lugar donde aparece la
+  máquina de escribir).
 - **La etiqueta.** La ficha de producto se lee como el dorso de un paquete:
   una tabla de datos separada por filetes finos, sin cajas ni sombras.
 
@@ -69,21 +70,26 @@ rojo sobre kraft 4,7:1 (solo texto grande o en negrita).
 
 ## Tipografía
 
-| Rol     | Fuente                     | Uso                                                                                       |
-| ------- | -------------------------- | ----------------------------------------------------------------------------------------- |
-| Títulos | Sofia Sans Extra Condensed | Peso 800–900, en mayúsculas y sin espaciado extra. Es la letra del frente del paquete     |
-| Texto   | Archivo                    | Peso 400–600. El eje de ancho (`wdth`) se usa para la navegación y los botones (ancho 80) |
-| Datos   | Courier Prime              | Precios, ficha técnica, stock y sellos chicos. Es la máquina de escribir del almacenero   |
+| Rol     | Fuente                     | Uso                                                                                                                                                                                          |
+| ------- | -------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Títulos | Sofia Sans Extra Condensed | Peso 800–900, en mayúsculas y sin espaciado extra. Es la letra del frente del paquete                                                                                                        |
+| Texto   | Archivo                    | Peso 400–600. Texto corrido, marcas, links, contadores («4 productos»), ficha técnica, stock, migas y «Deslizá». El eje de ancho (`wdth`) se usa para la navegación y los botones (ancho 80) |
+| Precio  | Courier Prime              | Solo en las etiquetas de precio troqueladas de la góndola. Es la máquina de escribir del almacenero                                                                                          |
 
 El logo es un sello ovalado con el nombre en la fuente de títulos y dos
 volutas de fileteado porteño dibujadas en SVG. Es el único fileteado del
 sitio.
 
+En el título de la portada, la tilde de la Ñ se dibuja en SVG: la de la
+fuente es casi tan ancha como la N y, a ese tamaño, queda separada. La propia
+mide un tercio del ancho de la letra, tiene un trazo proporcional al de la
+fuente y va pegada a la N.
+
 ### Escala
 
 | Token          | Tamaño                      | Uso                               |
 | -------------- | --------------------------- | --------------------------------- |
-| `--t-dato`     | 0.8125rem (13px)            | Datos chicos y sellos             |
+| `--t-dato`     | 0.8125rem (13px)            | Datos chicos (marcas, contadores) |
 | `--t-texto`    | 1rem                        | Texto corrido                     |
 | `--t-entrada`  | 1.1875rem                   | Bajadas y descripciones           |
 | `--t-titulo-3` | 1.75rem                     | Nombre de producto en la góndola  |
@@ -136,8 +142,9 @@ chiste por línea. Ejemplos: «Elaborada con palo», «Se nos lavó el mate»,
    dos o tres tintas, sobra.
 3. **El color tiene significado.** El color de acento dice en qué categoría
    estás; no está para decorar.
-4. **Los datos van como datos.** Precios, pesos y stock se escriben a
-   máquina y se alinean como en una lista de precios.
+4. **El precio va en etiqueta.** Solo el precio se escribe a máquina, en
+   su etiqueta troquelada. Los demás datos van en la letra de texto, ordenados
+   en filas con filetes.
 5. **Accesible siempre.** Contraste AA, foco de 3px en tinta o amarillo según
    el fondo, navegación con teclado y layout fluido desde 320px.
 
@@ -146,7 +153,7 @@ chiste por línea. Ejemplos: «Elaborada con palo», «Se nos lavó el mate»,
 | Evitar                                                  | Cómo se resuelve                                                                        |
 | ------------------------------------------------------- | --------------------------------------------------------------------------------------- |
 | Fondo crema + serif + píldora                           | El fondo es kraft con textura, los títulos son sans condensada y los botones son rectos |
-| Etiquetas en mayúsculas con tracking sobre los títulos  | No hay antetítulos. Los datos chicos van a máquina, en minúscula y abajo del título     |
+| Etiquetas en mayúsculas con tracking sobre los títulos  | No hay antetítulos. Los datos chicos van en minúscula y abajo del título                |
 | Resaltar una palabra del título                         | Cada título va en un solo color y un solo estilo                                        |
 | Grillas de tarjetas iguales con el mismo radio y sombra | Góndola sin cajas, categorías como lista de almacén, radio 0, sin sombras               |
 | Gradientes o resplandores                               | Solo colores planos y textura de papel. Se saca el gradiente del hero 3D y del skeleton |

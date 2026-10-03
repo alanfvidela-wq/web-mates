@@ -4,6 +4,7 @@ import { useEffect, useMemo, useRef } from "react";
 import { useFrame, useThree } from "@react-three/fiber";
 import { useGLTF } from "@react-three/drei";
 import * as THREE from "three";
+import { toCreasedNormals } from "three/addons/utils/BufferGeometryUtils.js";
 import { FONDO_PANZA, quitarPie } from "./cuerpo";
 import { crearYerba } from "./yerba";
 
@@ -50,6 +51,15 @@ export const MATERIALES = {
   madera: { color: "#a0673a", roughness: 0.55, metalness: 0 },
   ceramica: { color: "#ece3d0", roughness: 0.18, metalness: 0, clearcoat: 1 },
   acero: { color: "#c3c6c9", roughness: 0.2, metalness: 1 },
+};
+
+// Cuero de la calabaza: marrón cálido. lumaMedia es la luminancia media
+// (lineal) de la textura original, para normalizarla alrededor de 1.
+const CUERO = {
+  color: "#9c6236",
+  lumaMedia: 0.035,
+  relieve: 2.2,
+  rugosidadMinima: 0.5, // cuero semimate, sin brillo de plástico
 };
 
 // Alpaca: metal plateado claro con reflejos suaves.
@@ -112,13 +122,110 @@ function ejeBombilla(geometria) {
   return arriba.sub(abajo).normalize();
 }
 
+// La textura original es un bordó casi negro. Se usa solo su luminancia
+// (veta, costuras) sobre un color de cuero, y se refuerza el normal map.
+function crearMaterialCuero(original, color) {
+  const copia = original.clone();
+  const uniforms = {
+    uCuero: { value: new THREE.Color(color) },
+    uLumaMedia: { value: CUERO.lumaMedia },
+  };
+  copia.normalScale.multiplyScalar(CUERO.relieve);
+  copia.onBeforeCompile = (shader) => {
+    Object.assign(shader.uniforms, uniforms);
+    shader.fragmentShader = shader.fragmentShader
+      .replace(
+        "#include <common>",
+        "#include <common>\nuniform vec3 uCuero;\nuniform float uLumaMedia;",
+      )
+      .replace(
+        "#include <roughnessmap_fragment>",
+        `#include <roughnessmap_fragment>
+        roughnessFactor = max( roughnessFactor, ${CUERO.rugosidadMinima.toFixed(2)} );`,
+      )
+      .replace(
+        "#include <map_fragment>",
+        `#ifdef USE_MAP
+          vec4 texelCuero = texture2D( map, vMapUv );
+          float lumaCuero = dot( texelCuero.rgb, vec3( 0.2126, 0.7152, 0.0722 ) );
+          diffuseColor.rgb *= uCuero * clamp( lumaCuero / uLumaMedia, 0.45, 2.2 );
+        #endif`,
+      );
+  };
+  copia.customProgramCacheKey = () => "cuero";
+  return copia;
+}
+
+// La virola del GLB es un anillo de pocos lados con normales planas: se ven
+// las aristas. Se subdivide cada triángulo llevando los puntos nuevos al
+// círculo (el perfil no cambia, la circunferencia queda redonda) y después se
+// suavizan las normales respetando solo los quiebres del perfil.
+const SUBDIVISIONES_VIROLA = 2;
+
+function puntoEnAnillo(a, b, centro) {
+  const anguloA = Math.atan2(a.z - centro.y, a.x - centro.x);
+  let anguloB = Math.atan2(b.z - centro.y, b.x - centro.x);
+  if (anguloB - anguloA > Math.PI) anguloB -= Math.PI * 2;
+  if (anguloA - anguloB > Math.PI) anguloB += Math.PI * 2;
+  const angulo = (anguloA + anguloB) / 2;
+  const radio =
+    (Math.hypot(a.x - centro.x, a.z - centro.y) +
+      Math.hypot(b.x - centro.x, b.z - centro.y)) /
+    2;
+  return new THREE.Vector3(
+    centro.x + Math.cos(angulo) * radio,
+    (a.y + b.y) / 2,
+    centro.y + Math.sin(angulo) * radio,
+  );
+}
+
+function suavizarVirola(geometria) {
+  const posicion = geometria.attributes.position;
+  const caja = new THREE.Box3().setFromBufferAttribute(posicion);
+  const centro = new THREE.Vector2(
+    (caja.min.x + caja.max.x) / 2,
+    (caja.min.z + caja.max.z) / 2,
+  );
+  const indice = geometria.index.array;
+  let triangulos = [];
+  for (let t = 0; t < indice.length; t += 3) {
+    triangulos.push(
+      [0, 1, 2].map((k) =>
+        new THREE.Vector3().fromBufferAttribute(posicion, indice[t + k]),
+      ),
+    );
+  }
+
+  for (let paso = 0; paso < SUBDIVISIONES_VIROLA; paso++) {
+    triangulos = triangulos.flatMap(([a, b, c]) => {
+      const ab = puntoEnAnillo(a, b, centro);
+      const bc = puntoEnAnillo(b, c, centro);
+      const ca = puntoEnAnillo(c, a, centro);
+      return [
+        [a, ab, ca],
+        [ab, b, bc],
+        [ca, bc, c],
+        [ab, bc, ca],
+      ];
+    });
+  }
+
+  const subdividida = new THREE.BufferGeometry();
+  subdividida.setAttribute(
+    "position",
+    new THREE.Float32BufferAttribute(
+      triangulos.flat().flatMap((v) => [v.x, v.y, v.z]),
+      3,
+    ),
+  );
+  const suave = toCreasedNormals(subdividida, THREE.MathUtils.degToRad(40));
+  subdividida.dispose();
+  return suave;
+}
+
 function crearMaterialCuerpo(material, color, original) {
   const config = MATERIALES[material];
-  if (!config) {
-    const copia = original.clone();
-    if (color) copia.color.set(color); // tiñe la textura original
-    return copia;
-  }
+  if (!config) return crearMaterialCuero(original, color ?? CUERO.color);
   return new THREE.MeshPhysicalMaterial({
     color: color ?? config.color,
     roughness: config.roughness,
@@ -137,7 +244,7 @@ function crearMaterialCuerpo(material, color, original) {
  *
  * - material: "calabaza" (original) | "madera" | "ceramica" | "acero";
  *   reemplaza solo el material del cuerpo.
- * - color: color del cuerpo (con "calabaza" tiñe la textura original).
+ * - color: color del cuerpo (con "calabaza", el color del cuero).
  * - yerba, montanita, bombilla: valores de 0 a 1 (llenado, inclinación, inserción).
  * - animacionRef: ref opcional que se lee en cada frame, para animar sin
  *   re-renderizar React. Además de { yerba, montanita, bombilla } acepta los
@@ -169,6 +276,10 @@ export default function Mate3D({
     const sinPie = quitarPie(partes.cuerpo.geometria);
     partes.cuerpo.geometria.dispose();
     partes.cuerpo.geometria = sinPie;
+
+    const virolaSuave = suavizarVirola(partes.virola.geometria);
+    partes.virola.geometria.dispose();
+    partes.virola.geometria = virolaSuave;
 
     // La textura de la virola trae sombras horneadas que la vuelven negra.
     const virola = partes.virola.material;

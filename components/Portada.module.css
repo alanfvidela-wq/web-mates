@@ -9,7 +9,7 @@
   gap: var(--espacio-8);
   max-width: var(--ancho-max);
   margin: 0 auto;
-  padding: var(--espacio-12) var(--gutter) var(--espacio-8);
+  padding: var(--espacio-12) var(--gutter);
 }
 
 .texto {
@@ -22,6 +22,38 @@
 .marca {
   font-size: clamp(4rem, 13vw, 10rem);
   line-height: 0.82;
+}
+
+.oculto {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.palabra {
+  white-space: nowrap;
+}
+
+.enie {
+  position: relative;
+  display: inline-block;
+}
+
+.tilde {
+  position: absolute;
+  bottom: 0.745em;
+  left: 50%;
+  width: 0.36em;
+  height: 0.108em;
+  overflow: visible;
+  transform: translateX(-50%);
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 11;
+  stroke-linecap: round;
 }
 
 .propuesta {
@@ -79,50 +111,6 @@
   transform: rotate(8deg);
 }
 
-/* Accesos rápidos: una fila por categoría con su color abajo */
-.accesos {
-  max-width: var(--ancho-max);
-  margin: 0 auto;
-  padding: 0 var(--gutter);
-}
-
-.lista {
-  display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
-  list-style: none;
-  border-top: var(--filete);
-}
-
-.lista li + li {
-  border-left: var(--filete);
-}
-
-.acceso {
-  display: flex;
-  align-items: center;
-  gap: var(--espacio-2);
-  height: 100%;
-  padding: var(--espacio-3);
-  border-bottom: 6px solid var(--acento);
-  font-family: var(--fuente-titulos);
-  font-size: 1.5rem;
-  font-weight: 850;
-  line-height: 1;
-  text-transform: uppercase;
-}
-
-.acceso:hover,
-.acceso:focus-visible {
-  background: var(--acento);
-  color: var(--sobre-acento);
-}
-
-.accesoDibujo {
-  flex-shrink: 0;
-  width: 44px;
-  height: 44px;
-}
-
 @media (max-width: 860px) {
   .contenido {
     grid-template-columns: 1fr;
@@ -137,21 +125,5 @@
 
   .sello {
     top: 0;
-  }
-
-  .lista {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .lista li + li {
-    border-left: none;
-  }
-
-  .lista li:nth-child(even) {
-    border-left: var(--filete);
-  }
-
-  .lista li:last-child {
-    grid-column: 1 / -1;
   }
 }

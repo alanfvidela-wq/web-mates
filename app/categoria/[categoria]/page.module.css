@@ -64,6 +64,6 @@
   margin-bottom: var(--espacio-6);
   padding-bottom: var(--espacio-2);
   border-bottom: var(--filete);
-  font-family: var(--fuente-datos);
+  font-family: var(--fuente-texto);
   font-size: var(--t-dato);
 }

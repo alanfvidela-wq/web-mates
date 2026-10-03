@@ -195,18 +195,11 @@ button {
   color: var(--papel);
 }
 
-/* Datos escritos a máquina */
-.dato {
-  font-family: var(--fuente-datos);
-  font-size: var(--t-dato);
-}
-
 /* Migas de pan */
 .migas {
   display: flex;
   flex-wrap: wrap;
   gap: var(--espacio-2);
-  font-family: var(--fuente-datos);
   font-size: var(--t-dato);
 }
 

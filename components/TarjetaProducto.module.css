@@ -49,13 +49,13 @@
   background: var(--etiqueta, var(--amarillo));
   color: var(--sobre-etiqueta, var(--tinta));
   font-family: var(--fuente-datos);
-  font-size: 1rem;
+  font-size: 0.875rem;
   font-weight: 700;
   white-space: nowrap;
   clip-path: polygon(0 0, 100% 0, 100% 70%, calc(100% - 8px) 100%, 0 100%);
 }
 
-/* Puede ser h3 o h4 según la página: el estilo de título va acá */
+/* Mismo estilo de título aunque cambie el nivel del encabezado */
 .nombre {
   font-family: var(--fuente-titulos);
   font-size: var(--t-titulo-3);
@@ -73,7 +73,7 @@
 
 .marca {
   margin-top: var(--espacio-1);
-  font-family: var(--fuente-datos);
+  font-family: var(--fuente-texto);
   font-size: var(--t-dato);
 }
 

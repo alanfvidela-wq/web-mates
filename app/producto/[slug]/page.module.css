@@ -57,7 +57,7 @@
 }
 
 .marca {
-  font-family: var(--fuente-datos);
+  font-family: var(--fuente-texto);
   font-size: 1rem;
   font-weight: 700;
 }
@@ -92,7 +92,7 @@
   gap: var(--espacio-4);
   padding: var(--espacio-2) 0;
   border-bottom: 1px solid var(--tinta);
-  font-family: var(--fuente-datos);
+  font-family: var(--fuente-texto);
 }
 
 .fila dt {
