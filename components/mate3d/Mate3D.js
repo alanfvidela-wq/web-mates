@@ -4,6 +4,8 @@ import { useEffect, useMemo, useRef } from "react";
 import { useFrame, useThree } from "@react-three/fiber";
 import { useGLTF } from "@react-three/drei";
 import * as THREE from "three";
+import { FONDO_PANZA, quitarPie } from "./cuerpo";
+import { crearYerba } from "./yerba";
 
 const RUTA_MODELO = "/models/mate.glb";
 
@@ -16,21 +18,21 @@ const PARTES = {
   MateFull: "bombilla",
 };
 
-// Normalización: el cuerpo mide ALTURA_CUERPO, centrado en x/z y apoyado en y = 0.
-const ALTURA_CUERPO = 1.1;
+// Escala del modelo original (el cuerpo con el pie medía 0.943 → 1.1).
+const ESCALA_MODELO = 1.1 / 0.943;
 // Cuánto baja la yerba (en unidades del modelo original) cuando el mate está vacío.
 const DESCENSO_YERBA = 0.35;
 // Cuánto sale la bombilla (en unidades del modelo original) cuando no está puesta.
 const SALIDA_BOMBILLA = 1.2;
 
-// Medidas del modelo original, para que la escena sepa dónde cae la yerba.
-const MODELO_BASE_Y = -1;
-const MODELO_ALTURA_CUERPO = 0.943;
-const MODELO_TOPE_YERBA = 0.03;
-const ESCALA_MODELO = ALTURA_CUERPO / MODELO_ALTURA_CUERPO;
+// Medidas del modelo original (unidades del GLB).
+const MODELO_BORDE_VIROLA = 0.065;
+const MODELO_RADIO_YERBA = 0.306; // un poco menos que el interior de la virola
+const MODELO_ALTURA_YERBA = 0.045; // yerba plana, justo bajo el borde
 
+// Altura de la superficie de la yerba en la escena (el mate apoya en y = 0).
 export function alturaYerba(nivel) {
-  const y = MODELO_TOPE_YERBA - (1 - nivel) * DESCENSO_YERBA - MODELO_BASE_Y;
+  const y = MODELO_ALTURA_YERBA - (1 - nivel) * DESCENSO_YERBA - FONDO_PANZA;
   return y * ESCALA_MODELO;
 }
 
@@ -42,7 +44,13 @@ export const MATERIALES = {
   acero: { color: "#c3c6c9", roughness: 0.2, metalness: 1 },
 };
 
-const COLOR_YERBA = "#a9a582"; // multiplica la textura hacia un verde oliva apagado
+// Alpaca: metal plateado claro con reflejos suaves.
+const VIROLA = {
+  color: "#e4e2dc",
+  metalness: 1,
+  roughness: 0.3,
+  envMapIntensity: 1.8,
+};
 
 function extraerPartes(escena) {
   escena.updateMatrixWorld(true);
@@ -60,57 +68,19 @@ function extraerPartes(escena) {
   return partes;
 }
 
-// Montañita: la yerba sube del lado opuesto a la bombilla y baja del lado de ella.
-function prepararYerba(geometria, geometriaBombilla) {
-  // Las tangentes del modelo dejan de valer al deformar; three las aproxima.
-  geometria.deleteAttribute("tangent");
-  geometria.computeBoundingBox();
-  const centro = geometria.boundingBox.getCenter(new THREE.Vector3());
-  const radio =
-    Math.max(
-      geometria.boundingBox.max.x - geometria.boundingBox.min.x,
-      geometria.boundingBox.max.z - geometria.boundingBox.min.z,
-    ) / 2;
-
-  // Dirección hacia donde la bombilla entra en la yerba.
-  const posBombilla = geometriaBombilla.attributes.position;
-  const entrada = new THREE.Vector2();
+// Punto (x, z) donde el eje de la bombilla cruza la altura y.
+function entradaBombilla(geometria, y) {
+  const posiciones = geometria.attributes.position;
+  const punto = new THREE.Vector2();
   let cantidad = 0;
-  for (let i = 0; i < posBombilla.count; i++) {
-    if (posBombilla.getY(i) < centro.y) {
-      entrada.x += posBombilla.getX(i);
-      entrada.y += posBombilla.getZ(i);
+  for (let i = 0; i < posiciones.count; i++) {
+    if (Math.abs(posiciones.getY(i) - y) < 0.12) {
+      punto.x += posiciones.getX(i);
+      punto.y += posiciones.getZ(i);
       cantidad++;
     }
   }
-  entrada.divideScalar(Math.max(cantidad, 1));
-  const direccion = new THREE.Vector2(
-    entrada.x - centro.x,
-    entrada.y - centro.z,
-  ).normalize();
-
-  // El GLB trae atributos intercalados: los pasamos a un buffer propio.
-  const posiciones = geometria.attributes.position.clone();
-  geometria.setAttribute("position", posiciones);
-  const original = Float32Array.from(posiciones.array);
-
-  return function deformar(montanita) {
-    for (let i = 0; i < posiciones.count; i++) {
-      const x = original[i * 3];
-      const y = original[i * 3 + 1];
-      const z = original[i * 3 + 2];
-      const dx = (x - centro.x) / radio;
-      const dz = (z - centro.z) / radio;
-      // t = 1 del lado de la bombilla, -1 del lado opuesto.
-      const t = dx * direccion.x + dz * direccion.y;
-      const r2 = Math.min(1, dx * dx + dz * dz);
-      const desplazamiento = -t * 0.085 + (1 - r2) * 0.03;
-      posiciones.setY(i, y + montanita * desplazamiento);
-    }
-    posiciones.needsUpdate = true;
-    geometria.computeVertexNormals();
-    geometria.computeBoundingSphere();
-  };
+  return punto.divideScalar(Math.max(cantidad, 1));
 }
 
 function ejeBombilla(geometria) {
@@ -179,23 +149,47 @@ export default function Mate3D({
   // Copias propias de geometrías y materiales: cada instancia se deforma por separado.
   const modelo = useMemo(() => {
     const partes = extraerPartes(scene);
-    partes.yerba.material.color.set(COLOR_YERBA);
-    partes.virola.material.envMapIntensity = 1.3;
+    // El disco de yerba del GLB tiene muy pocos vértices: se reemplaza.
+    partes.yerba.geometria.dispose();
+    partes.yerba.material.dispose();
+    delete partes.yerba;
+
+    const sinPie = quitarPie(partes.cuerpo.geometria);
+    partes.cuerpo.geometria.dispose();
+    partes.cuerpo.geometria = sinPie;
+
+    // La textura de la virola trae sombras horneadas que la vuelven negra.
+    const virola = partes.virola.material;
+    virola.map = null;
+    virola.metalnessMap = null;
+    virola.roughnessMap = null;
+    virola.normalMap = null;
+    virola.color.set(VIROLA.color);
+    virola.metalness = VIROLA.metalness;
+    virola.roughness = VIROLA.roughness;
+    virola.envMapIntensity = VIROLA.envMapIntensity;
     partes.bombilla.material.envMapIntensity = 1.3;
 
-    const caja = new THREE.Box3().setFromBufferAttribute(
-      partes.cuerpo.geometria.attributes.position,
-    );
+    const caja = sinPie.boundingBox;
     const centro = caja.getCenter(new THREE.Vector3());
+    const cajaVirola = new THREE.Box3().setFromBufferAttribute(
+      partes.virola.geometria.attributes.position,
+    );
+    const centroVirola = cajaVirola.getCenter(new THREE.Vector3());
 
     return {
       partes,
-      escala: ALTURA_CUERPO / (caja.max.y - caja.min.y),
       desplazamiento: [-centro.x, -caja.min.y, -centro.z],
-      deformarYerba: prepararYerba(
-        partes.yerba.geometria,
-        partes.bombilla.geometria,
-      ),
+      yerba: crearYerba({
+        centro: new THREE.Vector2(centroVirola.x, centroVirola.z),
+        radio: MODELO_RADIO_YERBA,
+        alturaBase: MODELO_ALTURA_YERBA,
+        alturaBorde: MODELO_BORDE_VIROLA,
+        entrada: entradaBombilla(
+          partes.bombilla.geometria,
+          MODELO_ALTURA_YERBA,
+        ),
+      }),
       ejeBombilla: ejeBombilla(partes.bombilla.geometria),
     };
   }, [scene]);
@@ -211,6 +205,7 @@ export default function Mate3D({
         geometria.dispose();
         m.dispose();
       });
+      modelo.yerba.dispose();
     },
     [modelo],
   );
@@ -228,7 +223,7 @@ export default function Mate3D({
     const previo = aplicado.current;
 
     if (Math.abs(inclinacion - previo.montanita) > 0.001) {
-      modelo.deformarYerba(inclinacion);
+      modelo.yerba.deformar(inclinacion);
       previo.montanita = inclinacion;
     }
     if (Math.abs(nivel - previo.yerba) > 0.001) {
@@ -254,18 +249,14 @@ export default function Mate3D({
 
   return (
     <group {...props}>
-      <group scale={modelo.escala}>
+      <group scale={ESCALA_MODELO}>
         <group position={modelo.desplazamiento}>
           <mesh geometry={partes.cuerpo.geometria} material={materialCuerpo} />
           <mesh
             geometry={partes.virola.geometria}
             material={partes.virola.material}
           />
-          <mesh
-            ref={yerbaRef}
-            geometry={partes.yerba.geometria}
-            material={partes.yerba.material}
-          />
+          <primitive ref={yerbaRef} object={modelo.yerba.grupo} />
           <mesh
             ref={bombillaRef}
             geometry={partes.bombilla.geometria}

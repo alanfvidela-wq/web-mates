@@ -92,8 +92,9 @@ function YerbaCayendo({ suaveRef, cantidad }) {
 
 function Animacion({ progresoRef, reducido, cantidadParticulas }) {
   const grupoMate = useRef(null);
-  const suave = useRef(0);
-  const animacion = useRef(valoresAnimacion(0));
+  // Sin animaciones arranca ya en el estado final, sin esperar un frame.
+  const suave = useRef(reducido ? 1 : 0);
+  const animacion = useRef(valoresAnimacion(reducido ? 1 : 0));
 
   useFrame((estado, delta) => {
     const objetivo = reducido ? 1 : progresoRef.current;
@@ -134,9 +135,10 @@ function CamaraAjustada() {
 
   useEffect(() => {
     const aspecto = ancho / alto;
-    const distancia = Math.max(5.6, 4.4 / aspecto);
+    // Distancia con aire entre la punta de la bombilla y el header.
+    const distancia = Math.max(6.5, 5.6 / aspecto);
     // En vertical el texto va abajo, así que el mate sube un poco.
-    const objetivoY = aspecto < 0.8 ? 0.1 : 0.6;
+    const objetivoY = aspecto < 0.8 ? 0.55 : 0.85;
     // Cámara elevada para ver la yerba dentro del mate.
     camara.position.set(0, objetivoY + distancia * 0.5, distancia);
     camara.lookAt(0, objetivoY, 0);
@@ -181,18 +183,19 @@ export default function EscenaHero({
           reducido={reducido}
           cantidadParticulas={esMobile ? 120 : 220}
         />
+        {/* Dentro del Suspense: con frames=1 tiene que esperar al modelo */}
+        <ContactShadows
+          position={[0, ALTURA_PISO, 0]}
+          opacity={0.45}
+          scale={3.5}
+          blur={2.8}
+          far={2}
+          resolution={512}
+          color="#5e3620"
+          frames={reducido ? 1 : Infinity}
+        />
         <AvisarListo alListo={alListo} />
       </Suspense>
-      <ContactShadows
-        position={[0, ALTURA_PISO, 0]}
-        opacity={0.45}
-        scale={3.5}
-        blur={2.8}
-        far={2}
-        resolution={512}
-        color="#5e3620"
-        frames={reducido ? 1 : Infinity}
-      />
     </Canvas>
   );
 }
