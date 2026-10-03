@@ -27,6 +27,14 @@ export default function Footer() {
 
         <p className={styles.legal}>
           Proyecto académico — Programación Web, ITBA. Precios ficticios.
+          <br />
+          Modelo 3D{" "}
+          <a href="https://sketchfab.com/3d-models/mate-uruguayo-e2fd6553b7b144f8afe2dc51929f95a3">
+            «Mate Uruguayo.»
+          </a>{" "}
+          de Ermolli, licencia{" "}
+          <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>
+          . HDRI de Poly Haven (CC0).
         </p>
       </div>
     </footer>

@@ -1,11 +1,11 @@
 "use client";
 
-import { useEffect, useMemo, useRef } from "react";
+import { Suspense, useEffect, useMemo, useRef } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
-import { ContactShadows, Environment, Lightformer } from "@react-three/drei";
+import { ContactShadows, Environment } from "@react-three/drei";
 import * as THREE from "three";
-import Mate3D from "@/components/mate3d/Mate3D";
-import { aleatorio, alturaYerba } from "@/components/mate3d/geometria";
+import Mate3D, { alturaYerba } from "@/components/mate3d/Mate3D";
+import { aleatorio } from "@/components/mate3d/geometria";
 
 const ALTURA_PISO = -0.55;
 const DURACION_CAIDA = 0.08;
@@ -115,12 +115,7 @@ function Animacion({ progresoRef, reducido, cantidadParticulas }) {
   return (
     <group position={[0, ALTURA_PISO, 0]}>
       <group ref={grupoMate}>
-        <Mate3D
-          material="calabaza"
-          color="#5e3620"
-          grabado="La Montañita"
-          animacionRef={animacion}
-        />
+        <Mate3D material="calabaza" animacionRef={animacion} />
       </group>
       <YerbaCayendo
         key={cantidadParticulas}
@@ -139,11 +134,11 @@ function CamaraAjustada() {
 
   useEffect(() => {
     const aspecto = ancho / alto;
-    const distancia = Math.max(6.2, 4.6 / aspecto);
+    const distancia = Math.max(5.6, 4.4 / aspecto);
     // En vertical el texto va abajo, así que el mate sube un poco.
-    const objetivoY = aspecto < 0.8 ? -0.6 : 0.1;
+    const objetivoY = aspecto < 0.8 ? 0.1 : 0.6;
     // Cámara elevada para ver la yerba dentro del mate.
-    camara.position.set(0, objetivoY + distancia * 0.62, distancia);
+    camara.position.set(0, objetivoY + distancia * 0.5, distancia);
     camara.lookAt(0, objetivoY, 0);
     camara.updateProjectionMatrix();
   }, [camara, ancho, alto]);
@@ -151,56 +146,49 @@ function CamaraAjustada() {
   return null;
 }
 
-export default function EscenaHero({ progresoRef, reducido, activo, esMobile }) {
+// Se monta recién cuando todo lo que está en el Suspense terminó de cargar.
+function AvisarListo({ alListo }) {
+  useEffect(() => {
+    alListo();
+  }, [alListo]);
+  return null;
+}
+
+export default function EscenaHero({
+  progresoRef,
+  reducido,
+  activo,
+  esMobile,
+  alListo,
+}) {
   return (
     <Canvas
       dpr={esMobile ? [1, 1.5] : [1, 2]}
       frameloop={activo && !reducido ? "always" : "demand"}
       camera={{ fov: 32, near: 0.1, far: 50, position: [0, 4, 6.2] }}
       gl={{ alpha: true, antialias: true, powerPreference: "high-performance" }}
+      onCreated={({ gl }) => {
+        gl.toneMapping = THREE.ACESFilmicToneMapping;
+        gl.toneMappingExposure = 1;
+      }}
     >
       <CamaraAjustada />
-      <ambientLight intensity={0.5} />
-      <directionalLight position={[3, 5, 4]} intensity={1.6} color="#fff1dc" />
-      <directionalLight position={[-4, 2, -2]} intensity={0.5} color="#dbe6c4" />
-      <Environment resolution={128} frames={1}>
-        {/* Fondo crema para que los metales reflejen la marca y no negro */}
-        <color attach="background" args={["#efe3c8"]} />
-        <Lightformer
-          form="rect"
-          intensity={2}
-          position={[0, 3, 3]}
-          scale={[5, 1.5, 1]}
-          color="#fff4e0"
+      {/* HDRI de estudio local (Poly Haven, CC0): ilumina y se refleja en los metales */}
+      <Suspense fallback={null}>
+        <Environment files="/hdri/estudio.hdr" environmentIntensity={1.1} />
+        <Animacion
+          progresoRef={progresoRef}
+          reducido={reducido}
+          cantidadParticulas={esMobile ? 120 : 220}
         />
-        <Lightformer
-          form="rect"
-          intensity={1}
-          position={[-3, 1, -1]}
-          scale={[3, 2, 1]}
-          color="#dbe6c4"
-        />
-        <Lightformer
-          form="ring"
-          intensity={1.5}
-          position={[3, 2, 2]}
-          scale={1.5}
-          color="#ffffff"
-        />
-      </Environment>
-
-      <Animacion
-        progresoRef={progresoRef}
-        reducido={reducido}
-        cantidadParticulas={esMobile ? 120 : 220}
-      />
-
+        <AvisarListo alListo={alListo} />
+      </Suspense>
       <ContactShadows
         position={[0, ALTURA_PISO, 0]}
-        opacity={0.4}
+        opacity={0.45}
         scale={3.5}
-        blur={2.4}
-        far={1.6}
+        blur={2.8}
+        far={2}
         resolution={512}
         color="#5e3620"
         frames={reducido ? 1 : Infinity}

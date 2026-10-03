@@ -1,18 +1,19 @@
 "use client";
 
-import { Component, useEffect, useRef, useState } from "react";
+import { Component, useCallback, useEffect, useRef, useState } from "react";
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import PlaceholderMate from "./PlaceholderMate";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 import styles from "./HeroMate.module.css";
 
+// El placeholder lo maneja HeroMate hasta que el modelo termina de cargar.
 const EscenaHero = dynamic(() => import("./EscenaHero"), {
   ssr: false,
-  loading: () => <PlaceholderMate />,
+  loading: () => null,
 });
 
-// Si WebGL falla, mostramos el placeholder en lugar de romper la home.
+// Si WebGL o el modelo fallan, queda el placeholder en lugar de romper la home.
 class LimiteEscena extends Component {
   state = { fallo: false };
 
@@ -20,9 +21,13 @@ class LimiteEscena extends Component {
     return { fallo: true };
   }
 
+  componentDidCatch(error) {
+    console.error(error);
+    this.props.alFallar();
+  }
+
   render() {
-    if (this.state.fallo) return <PlaceholderMate texto="" />;
-    return this.props.children;
+    return this.state.fallo ? null : this.props.children;
   }
 }
 
@@ -73,6 +78,9 @@ export default function HeroMate() {
   const pistaRef = useRef(null);
   const progresoRef = useRef(0);
   const [activo, setActivo] = useState(true);
+  const [carga, setCarga] = useState("cargando"); // cargando | lista | fallo
+  const alListo = useCallback(() => setCarga("lista"), []);
+  const alFallar = useCallback(() => setCarga("fallo"), []);
   const reducido = useMediaQuery("(prefers-reduced-motion: reduce)");
   const esMobile = useMediaQuery("(max-width: 768px)");
 
@@ -131,14 +139,21 @@ export default function HeroMate() {
         </h1>
 
         <div className={styles.escena}>
-          <LimiteEscena>
+          <LimiteEscena alFallar={alFallar}>
             <EscenaHero
               progresoRef={progresoRef}
               reducido={reducido}
               activo={activo}
               esMobile={esMobile}
+              alListo={alListo}
             />
           </LimiteEscena>
+          <div
+            className={`${styles.cargando} ${carga === "lista" ? styles.cargado : ""}`}
+            aria-hidden={carga === "lista"}
+          >
+            <PlaceholderMate texto={carga === "fallo" ? "" : undefined} />
+          </div>
         </div>
 
         <div className={styles.bloques}>

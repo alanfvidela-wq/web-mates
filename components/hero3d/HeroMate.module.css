@@ -30,6 +30,18 @@
   inset: 0;
 }
 
+/* Placeholder encima del canvas hasta que el modelo termina de cargar */
+.cargando {
+  position: absolute;
+  inset: 0;
+  transition: opacity 400ms ease;
+  pointer-events: none;
+}
+
+.cargado {
+  opacity: 0;
+}
+
 .bloques {
   position: absolute;
   inset: 0;

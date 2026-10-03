@@ -49,3 +49,7 @@
   font-size: var(--texto-xs);
   opacity: 0.7;
 }
+
+.legal a {
+  text-decoration: underline;
+}
