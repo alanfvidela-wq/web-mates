@@ -1,0 +1,29 @@
+.cuenta {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--espacio-2);
+}
+
+.unidad {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: var(--espacio-3) 0;
+  border-radius: var(--radio);
+  background: var(--color-superficie-alta);
+}
+
+.numero {
+  font-size: var(--texto-xl);
+  font-weight: var(--peso-titulo);
+  font-variant-numeric: tabular-nums;
+  line-height: 1.1;
+}
+
+.etiqueta {
+  font-size: var(--texto-xs);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-texto-suave);
+}

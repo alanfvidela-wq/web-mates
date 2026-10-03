@@ -1,0 +1,47 @@
+.tarjeta {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espacio-3);
+  padding: var(--espacio-3);
+  border: 1px solid var(--color-borde);
+  border-radius: var(--radio);
+  background: var(--color-superficie);
+  transition: border-color var(--transicion), transform var(--transicion);
+}
+
+.tarjeta:hover {
+  border-color: var(--color-acento);
+  transform: translateY(-4px);
+}
+
+.imagen {
+  position: relative;
+}
+
+.badge {
+  position: absolute;
+  top: var(--espacio-2);
+  left: var(--espacio-2);
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espacio-1);
+}
+
+.marca {
+  font-size: var(--texto-xs);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--color-texto-suave);
+}
+
+.nombre {
+  font-size: var(--texto-lg);
+}
+
+.precio {
+  font-weight: 700;
+}

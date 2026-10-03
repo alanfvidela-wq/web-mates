@@ -1,0 +1,67 @@
+.detalle {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--espacio-8);
+}
+
+@media (min-width: 800px) {
+  .detalle {
+    grid-template-columns: 1.1fr 1fr;
+    align-items: start;
+    gap: var(--espacio-12);
+  }
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--espacio-3);
+}
+
+.marca {
+  margin-top: var(--espacio-2);
+  font-size: var(--texto-sm);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--color-texto-suave);
+}
+
+.nombre {
+  font-size: var(--texto-xl);
+}
+
+.precio {
+  font-size: var(--texto-lg);
+  font-weight: 800;
+}
+
+.descripcion {
+  max-width: 50ch;
+  color: var(--color-texto-suave);
+}
+
+.drop {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espacio-4);
+  width: 100%;
+  margin-top: var(--espacio-4);
+  padding: var(--espacio-6);
+  border: 1px solid var(--color-proximo);
+  border-radius: var(--radio);
+}
+
+.dropTitulo {
+  font-weight: 700;
+  color: var(--color-proximo);
+}
+
+.dropTitulo::first-letter {
+  text-transform: uppercase;
+}
+
+.tallesPrevios {
+  opacity: 0.7;
+}
