@@ -1,10 +1,9 @@
 @AGENTS.md
-# Proyecto Boldy
+# Proyecto "La Montañita"
 
-E-commerce de Boldy, una tienda retail multimarca de zapatillas, para la materia
-Programación Web (ITBA). Vende modelos de marcas reales y tiene una línea propia "Boldy".
-Dos mecánicas: drops (lanzamientos limitados con fecha y stock) y, más adelante,
-un personalizador que aplica SOLO a la línea propia Boldy.
+E-commerce de "La Montañita", una tienda de mate: mates, bombillas, termos, yerbas y accesorios.
+Vende productos de marcas reales. Mecánica principal: "Armá tu combo", un armador por
+pasos donde el cliente elige mate, bombilla, termo, yerba y presentación, con descuento por combo.
 
 ## Stack
 - Next.js con App Router, JavaScript (sin TypeScript), sin Tailwind.
@@ -13,9 +12,8 @@ un personalizador que aplica SOLO a la línea propia Boldy.
 
 ## Cómo trabajar
 - Trabajá de forma autónoma, sin pedir confirmación en cada paso. Respuestas breves.
-- Al terminar cada tarea, verificá que `npm run build` no tenga errores y hacé un commit con un mensaje descriptivo.
+- Al terminar cada tarea, verificá que `npm run build` no tenga errores y hacé un commit descriptivo.
 - No instales dependencias nuevas salvo que sea imprescindible.
 - Server Components por defecto; "use client" solo donde haya interactividad.
-- Precios y stock siempre se validan en el servidor, nunca se confía en el cliente.
+- Precios, descuentos y stock siempre se calculan y validan en el servidor.
 - Precios en ARS como enteros.
-- La línea propia Boldy y su personalizador tienen diseño original: no reproducir siluetas ni logos de otras marcas.

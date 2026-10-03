@@ -1,7 +1,7 @@
-import styles from "./PlaceholderZapatilla.module.css";
+import styles from "./PlaceholderProducto.module.css";
 
 // Placeholder de color hasta tener fotos reales.
-export default function PlaceholderZapatilla({ color, nombre, grande = false }) {
+export default function PlaceholderProducto({ color, nombre, grande = false }) {
   return (
     <div
       className={`${styles.placeholder} ${grande ? styles.grande : ""}`}

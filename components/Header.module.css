@@ -2,44 +2,46 @@
   position: sticky;
   top: 0;
   z-index: 10;
-  background: rgb(11 11 12 / 0.9);
-  backdrop-filter: blur(8px);
-  border-bottom: 1px solid var(--color-borde);
+  background: var(--color-yerba-oscuro);
+  color: var(--color-sobre-oscuro);
 }
 
 .contenido {
-  display: flex;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
   align-items: center;
   gap: var(--espacio-6);
   max-width: var(--ancho-max);
   margin: 0 auto;
-  padding: var(--espacio-4) var(--gutter);
+  padding: var(--espacio-3) var(--gutter);
 }
 
 .logo {
+  font-family: var(--fuente-titulos);
   font-size: var(--texto-lg);
-  font-weight: var(--peso-titulo);
-  letter-spacing: 0.08em;
-  color: var(--color-acento);
+  font-weight: 800;
+  font-style: italic;
+  font-variation-settings: "SOFT" 100, "WONK" 1;
+  white-space: nowrap;
 }
 
 .nav {
   display: flex;
+  justify-content: center;
   gap: var(--espacio-6);
-  margin-left: auto;
   font-size: var(--texto-sm);
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
+  font-weight: 500;
 }
 
 .nav a {
-  color: var(--color-texto-suave);
-  transition: color var(--transicion);
+  opacity: 0.8;
+  transition: opacity var(--transicion);
 }
 
 .nav a:hover {
-  color: var(--color-texto);
+  opacity: 1;
+  text-decoration: underline;
+  text-underline-offset: 4px;
 }
 
 .carrito {
@@ -47,22 +49,30 @@
   place-items: center;
   width: 40px;
   height: 40px;
-  border: 1px solid var(--color-borde);
-  border-radius: var(--radio);
-  transition: border-color var(--transicion), color var(--transicion);
+  border: 1px solid rgb(251 244 228 / 0.3);
+  border-radius: 999px;
+  transition: background var(--transicion);
 }
 
 .carrito:hover {
-  border-color: var(--color-acento);
-  color: var(--color-acento);
+  background: rgb(251 244 228 / 0.12);
 }
 
-@media (max-width: 480px) {
+/* En pantallas chicas la navegación baja a una segunda fila con scroll horizontal */
+@media (max-width: 760px) {
   .contenido {
-    gap: var(--espacio-4);
+    grid-template-columns: 1fr auto;
+    row-gap: var(--espacio-2);
   }
 
   .nav {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    justify-content: flex-start;
     gap: var(--espacio-4);
+    overflow-x: auto;
+    padding-bottom: var(--espacio-1);
+    white-space: nowrap;
+    scrollbar-width: none;
   }
 }

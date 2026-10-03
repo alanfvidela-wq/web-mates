@@ -9,9 +9,11 @@
 
 .codigo {
   font-size: var(--texto-xxl);
-  font-weight: var(--peso-titulo);
+  font-family: var(--fuente-titulos);
+  font-weight: 800;
+  font-style: italic;
   line-height: 1;
-  color: var(--color-acento);
+  color: var(--color-yerba);
 }
 
 .titulo {

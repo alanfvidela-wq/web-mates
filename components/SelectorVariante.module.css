@@ -1,0 +1,86 @@
+.selector {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espacio-4);
+  margin-top: var(--espacio-2);
+}
+
+.precio {
+  font-family: var(--fuente-titulos);
+  font-size: var(--texto-xl);
+  font-weight: 700;
+}
+
+.fieldset {
+  border: none;
+}
+
+.legend {
+  margin-bottom: var(--espacio-3);
+  font-size: var(--texto-sm);
+  font-weight: 600;
+}
+
+.opciones {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: var(--espacio-2);
+}
+
+.opcion {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  padding: var(--espacio-3) var(--espacio-4);
+  border: 1.5px solid var(--color-borde);
+  border-radius: var(--radio);
+  background: var(--color-superficie);
+  text-align: left;
+  transition: border-color var(--transicion), background var(--transicion);
+}
+
+.opcion:hover:not(:disabled) {
+  border-color: var(--color-madera);
+}
+
+.opcion:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.opcion:disabled .opcionNombre {
+  text-decoration: line-through;
+}
+
+.activa {
+  border-color: var(--color-yerba);
+  background: var(--color-yerba-claro);
+}
+
+.opcionNombre {
+  font-weight: 600;
+}
+
+.opcionStock {
+  font-size: var(--texto-xs);
+  color: var(--color-yerba);
+}
+
+.pocas {
+  color: var(--color-madera);
+  font-weight: 600;
+}
+
+.agotada {
+  color: var(--color-sin-stock);
+}
+
+.agregar {
+  width: 100%;
+}
+
+.nota {
+  font-size: var(--texto-sm);
+  color: var(--color-texto-suave);
+}

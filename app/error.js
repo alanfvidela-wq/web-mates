@@ -11,8 +11,8 @@ export default function Error({ error, retry }) {
 
   return (
     <main className={styles.estado}>
-      <p className={styles.codigo}>Ups</p>
-      <h1 className={styles.titulo}>Algo salió mal</h1>
+      <p className={styles.codigo}>Uy</p>
+      <h1 className={styles.titulo}>Se nos volcó el termo</h1>
       <p className={styles.texto}>
         No pudimos cargar esta página. Probá de nuevo en unos segundos.
       </p>

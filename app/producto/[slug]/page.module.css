@@ -1,0 +1,48 @@
+.migas {
+  font-size: var(--texto-sm);
+  color: var(--color-texto-suave);
+}
+
+.migas a:hover {
+  color: var(--color-yerba);
+  text-decoration: underline;
+}
+
+.detalle {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--espacio-8);
+  padding-top: var(--espacio-6);
+}
+
+@media (min-width: 800px) {
+  .detalle {
+    grid-template-columns: 1fr 1fr;
+    align-items: start;
+    gap: var(--espacio-12);
+  }
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espacio-3);
+}
+
+.marca {
+  font-size: var(--texto-sm);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--color-madera);
+}
+
+.nombre {
+  font-size: var(--texto-xl);
+  color: var(--color-yerba-oscuro);
+}
+
+.descripcion {
+  max-width: 50ch;
+  color: var(--color-texto-suave);
+}

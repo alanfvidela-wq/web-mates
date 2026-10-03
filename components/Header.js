@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { CATEGORIAS } from "@/lib/productos";
 import styles from "./Header.module.css";
 
 export default function Header() {
@@ -6,18 +7,21 @@ export default function Header() {
     <header className={styles.header}>
       <div className={styles.contenido}>
         <Link href="/" className={styles.logo}>
-          BOLDY
+          La Montañita
         </Link>
 
-        <nav className={styles.nav} aria-label="Principal">
-          <Link href="/#drops">Drops</Link>
-          <Link href="/#catalogo">Catálogo</Link>
+        <nav className={styles.nav} aria-label="Categorías">
+          {CATEGORIAS.map((categoria) => (
+            <Link key={categoria.slug} href={`/categoria/${categoria.slug}`}>
+              {categoria.nombre}
+            </Link>
+          ))}
         </nav>
 
         <Link href="/carrito" className={styles.carrito} aria-label="Carrito">
           <svg
-            width="24"
-            height="24"
+            width="22"
+            height="22"
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
