@@ -1,30 +1,35 @@
+/* Sistema de diseño: ver DESIGN.md */
 :root {
-  /* Colores */
-  --color-fondo: #f6eedd;
-  --color-superficie: #fffaf0;
-  --color-superficie-alta: #efe3c8;
-  --color-borde: #ddc9a3;
-  --color-texto: #2e2218;
-  --color-texto-suave: #6e5b47;
-  --color-yerba: #3f6b2a;
-  --color-yerba-oscuro: #263f19;
-  --color-yerba-claro: #dbe6c4;
-  --color-madera: #8b5a2b;
-  --color-cuero: #5e3620;
-  --color-sin-stock: #a3402e;
-  --color-sobre-oscuro: #fbf4e4;
+  /* Paleta */
+  --kraft: #d9c49e;
+  --tinta: #1f1a14;
+  --verde: #1f5135;
+  --rojo: #bf3a1e;
+  --amarillo: #e9ae1b;
+  --azul: #2c4b6b;
+
+  /* Derivados */
+  --papel: color-mix(in srgb, var(--kraft) 30%, #fff);
+  --kraft-oscuro: color-mix(in srgb, var(--kraft) 55%, var(--tinta));
+  --tinta-suave: color-mix(in srgb, var(--tinta) 80%, var(--kraft));
+
+  /* Color por categoría (se redefine con data-categoria) */
+  --acento: var(--verde);
+  --sobre-acento: var(--papel);
+  --foco: var(--tinta);
 
   /* Tipografía */
-  --fuente-titulos: var(--font-fraunces), Georgia, serif;
-  --fuente-base: var(--font-work-sans), system-ui, sans-serif;
-  --texto-xs: 0.75rem;
-  --texto-sm: 0.875rem;
-  --texto-md: 1rem;
-  --texto-lg: 1.25rem;
-  --texto-xl: clamp(1.75rem, 4vw, 2.5rem);
-  --texto-xxl: clamp(2.5rem, 7vw, 4.75rem);
+  --fuente-titulos: var(--font-titulos), "Arial Narrow", sans-serif;
+  --fuente-texto: var(--font-texto), system-ui, sans-serif;
+  --fuente-datos: var(--font-datos), "Courier New", monospace;
+  --t-dato: 0.8125rem;
+  --t-texto: 1rem;
+  --t-entrada: 1.1875rem;
+  --t-titulo-3: 1.75rem;
+  --t-titulo-2: clamp(2.25rem, 5vw, 3.5rem);
+  --t-titulo-1: clamp(3.5rem, 12vw, 8.5rem);
 
-  /* Espaciado y forma */
+  /* Espaciado */
   --espacio-1: 0.25rem;
   --espacio-2: 0.5rem;
   --espacio-3: 0.75rem;
@@ -32,12 +37,40 @@
   --espacio-6: 1.5rem;
   --espacio-8: 2rem;
   --espacio-12: 3rem;
+  --espacio-16: 4rem;
   --ancho-max: 1200px;
   --gutter: clamp(1rem, 4vw, 2rem);
-  --radio: 10px;
-  --radio-grande: 20px;
-  --sombra: 0 2px 0 var(--color-borde);
-  --transicion: 150ms ease;
+  --filete: 2px solid var(--tinta);
+  --estante: 6px solid var(--tinta);
+  --transicion: 120ms ease;
+
+  /* Textura de papel kraft: ruido muy sutil, sin gradientes */
+  --textura-papel: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.32 0 0 0 0 0.22 0 0 0 0 0.1 0 0 0 0.16 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+[data-categoria="yerbas"] {
+  --acento: var(--verde);
+  --sobre-acento: var(--papel);
+}
+
+[data-categoria="mates"] {
+  --acento: var(--rojo);
+  --sobre-acento: var(--papel);
+}
+
+[data-categoria="bombillas"] {
+  --acento: var(--amarillo);
+  --sobre-acento: var(--tinta);
+}
+
+[data-categoria="termos"] {
+  --acento: var(--azul);
+  --sobre-acento: var(--papel);
+}
+
+[data-categoria="accesorios"] {
+  --acento: var(--tinta);
+  --sobre-acento: var(--amarillo);
 }
 
 * {
@@ -54,12 +87,19 @@ body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  background: var(--color-fondo);
-  color: var(--color-texto);
-  font-family: var(--fuente-base);
+  background: var(--kraft) var(--textura-papel);
+  color: var(--tinta);
+  font-family: var(--fuente-texto);
+  font-size: var(--t-texto);
   line-height: 1.55;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.contenido-principal {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
 }
 
 main {
@@ -67,17 +107,17 @@ main {
   width: 100%;
   max-width: var(--ancho-max);
   margin: 0 auto;
-  padding: var(--espacio-8) var(--gutter) var(--espacio-12);
+  padding: var(--espacio-8) var(--gutter) var(--espacio-16);
 }
 
 h1,
 h2,
 h3 {
   font-family: var(--fuente-titulos);
-  font-weight: 700;
-  font-variation-settings: "SOFT" 100, "WONK" 1;
-  letter-spacing: -0.01em;
-  line-height: 1.05;
+  font-weight: 850;
+  line-height: 0.9;
+  text-transform: uppercase;
+  text-wrap: balance;
 }
 
 a {
@@ -92,43 +132,97 @@ button {
 }
 
 :focus-visible {
-  outline: 2px solid var(--color-yerba);
-  outline-offset: 2px;
+  outline: 3px solid var(--foco);
+  outline-offset: 3px;
 }
 
-/* Botones reutilizables */
+/* Salto al contenido para teclado */
+.saltar {
+  position: absolute;
+  top: var(--espacio-2);
+  left: var(--espacio-2);
+  z-index: 20;
+  padding: var(--espacio-2) var(--espacio-4);
+  background: var(--amarillo);
+  color: var(--tinta);
+  font-weight: 700;
+  transform: translateY(-200%);
+}
+
+.saltar:focus-visible {
+  transform: none;
+}
+
+/* Botones: rectos, condensados, como una franja de paquete */
 .boton {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: var(--espacio-2);
-  padding: var(--espacio-3) var(--espacio-6);
-  border: 2px solid var(--color-yerba);
-  border-radius: 999px;
-  background: var(--color-yerba);
-  color: var(--color-sobre-oscuro);
-  font-weight: 600;
-  transition: background var(--transicion), transform var(--transicion),
-    opacity var(--transicion);
+  min-height: 48px;
+  padding: var(--espacio-2) var(--espacio-6);
+  border: var(--filete);
+  background: var(--tinta);
+  color: var(--papel);
+  font-weight: 700;
+  font-size: 1.0625rem;
+  font-stretch: 80%;
+  text-transform: uppercase;
+  transition:
+    background var(--transicion),
+    color var(--transicion);
 }
 
 .boton:hover:not(:disabled) {
-  background: var(--color-yerba-oscuro);
-  border-color: var(--color-yerba-oscuro);
-  transform: translateY(-1px);
+  background: var(--amarillo);
+  color: var(--tinta);
 }
 
 .boton:disabled {
-  opacity: 0.45;
+  border-color: var(--kraft-oscuro);
+  background: transparent;
+  color: var(--tinta-suave);
   cursor: not-allowed;
 }
 
 .boton-secundario {
   background: transparent;
-  color: var(--color-yerba-oscuro);
+  color: var(--tinta);
 }
 
 .boton-secundario:hover:not(:disabled) {
-  background: var(--color-yerba-claro);
-  border-color: var(--color-yerba);
+  background: var(--tinta);
+  color: var(--papel);
+}
+
+/* Datos escritos a máquina */
+.dato {
+  font-family: var(--fuente-datos);
+  font-size: var(--t-dato);
+}
+
+/* Migas de pan */
+.migas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--espacio-2);
+  font-family: var(--fuente-datos);
+  font-size: var(--t-dato);
+}
+
+.migas a {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.migas a:hover {
+  text-decoration-thickness: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0ms !important;
+  }
 }

@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import GrillaProductos from "@/components/GrillaProductos";
+import { IlustracionProducto } from "@/components/Ilustraciones";
+import { SELLOS } from "@/lib/fichas";
 import { getCategoria, getProductosPorCategoria } from "@/lib/productos";
 import styles from "./page.module.css";
 
@@ -19,15 +21,27 @@ export default async function PaginaCategoria({ params }) {
   const productos = await getProductosPorCategoria(slug);
 
   return (
-    <main>
-      <nav className={styles.migas} aria-label="Ubicación">
-        <Link href="/">Inicio</Link> / <span>{categoria.nombre}</span>
-      </nav>
+    <main className={styles.pagina} data-categoria={slug}>
       <header className={styles.encabezado}>
-        <h1 className={styles.titulo}>{categoria.nombre}</h1>
-        <p className={styles.descripcion}>{categoria.descripcion}</p>
+        <div className={styles.encabezadoContenido}>
+          <nav className="migas" aria-label="Ubicación">
+            <Link href="/">Inicio</Link>
+            <span aria-hidden="true">/</span>
+            <span aria-current="page">{categoria.nombre}</span>
+          </nav>
+          <h1 className={styles.titulo}>{categoria.nombre}</h1>
+          <p className={styles.descripcion}>{categoria.descripcion}</p>
+          <p className={styles.sello}>{SELLOS[slug]}</p>
+        </div>
+        <IlustracionProducto categoria={slug} className={styles.dibujo} />
       </header>
-      <GrillaProductos productos={productos} />
+
+      <div className={styles.contenido}>
+        <p className={styles.cuenta}>
+          {productos.length} productos en la góndola
+        </p>
+        <GrillaProductos productos={productos} />
+      </div>
     </main>
   );
 }

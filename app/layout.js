@@ -1,17 +1,27 @@
-import { Fraunces, Work_Sans } from "next/font/google";
+import {
+  Archivo,
+  Courier_Prime,
+  Sofia_Sans_Extra_Condensed,
+} from "next/font/google";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import "./globals.css";
 
-const fraunces = Fraunces({
-  variable: "--font-fraunces",
+const titulos = Sofia_Sans_Extra_Condensed({
+  variable: "--font-titulos",
   subsets: ["latin"],
-  axes: ["SOFT", "WONK", "opsz"],
 });
 
-const workSans = Work_Sans({
-  variable: "--font-work-sans",
+const texto = Archivo({
+  variable: "--font-texto",
   subsets: ["latin"],
+  axes: ["wdth"],
+});
+
+const datos = Courier_Prime({
+  variable: "--font-datos",
+  subsets: ["latin"],
+  weight: ["400", "700"],
 });
 
 export const metadata = {
@@ -25,10 +35,18 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="es" className={`${fraunces.variable} ${workSans.variable}`}>
+    <html
+      lang="es"
+      className={`${titulos.variable} ${texto.variable} ${datos.variable}`}
+    >
       <body>
+        <a href="#contenido" className="saltar">
+          Ir al contenido
+        </a>
         <Header />
-        {children}
+        <div id="contenido" className="contenido-principal">
+          {children}
+        </div>
         <Footer />
       </body>
     </html>

@@ -1,60 +1,77 @@
-.tarjeta {
+.producto {
   display: flex;
   flex-direction: column;
-  gap: var(--espacio-3);
-  padding: var(--espacio-3);
-  border: 1px solid var(--color-borde);
-  border-radius: var(--radio-grande);
-  background: var(--color-superficie);
-  box-shadow: var(--sombra);
-  transition: border-color var(--transicion), transform var(--transicion);
+  align-items: flex-start;
+  padding: 0 var(--espacio-4) var(--espacio-8);
 }
 
-.tarjeta:hover {
-  border-color: var(--color-madera);
-  transform: translateY(-3px);
-}
-
-.imagen {
+/* El borde inferior es el estante: entre productos vecinos queda continuo */
+.estante {
   position: relative;
+  align-self: stretch;
+  display: flex;
+  justify-content: center;
+  margin: 0 calc(-1 * var(--espacio-4));
+  padding: var(--espacio-4) var(--espacio-4) 0;
+  border-bottom: var(--estante);
 }
 
+.dibujo {
+  width: min(100%, 220px);
+  aspect-ratio: 1;
+  color: var(--tinta);
+}
+
+.producto:hover .dibujo {
+  transform: rotate(-3deg);
+}
+
+/* Sello de goma rojo */
 .sinStock {
   position: absolute;
-  top: var(--espacio-2);
-  left: var(--espacio-2);
+  top: 18%;
+  right: 8%;
   padding: var(--espacio-1) var(--espacio-3);
-  border-radius: 999px;
-  background: var(--color-superficie);
-  color: var(--color-sin-stock);
-  font-size: var(--texto-xs);
-  font-weight: 600;
-}
-
-.info {
-  display: flex;
-  flex-direction: column;
-  gap: var(--espacio-1);
-  padding: 0 var(--espacio-1) var(--espacio-1);
-}
-
-.marca {
-  font-size: var(--texto-xs);
-  font-weight: 600;
+  border: 3px double var(--rojo);
+  border-radius: 50%;
+  color: var(--rojo);
+  font-family: var(--fuente-titulos);
+  font-size: 1.25rem;
+  font-weight: 900;
   text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: var(--color-madera);
+  transform: rotate(-12deg);
+}
+
+/* Etiqueta de precio troquelada, colgando del estante */
+.precio {
+  margin-bottom: var(--espacio-3);
+  padding: var(--espacio-1) var(--espacio-4) var(--espacio-1) var(--espacio-3);
+  background: var(--etiqueta, var(--amarillo));
+  color: var(--sobre-etiqueta, var(--tinta));
+  font-family: var(--fuente-datos);
+  font-size: 1rem;
+  font-weight: 700;
+  clip-path: polygon(0 0, 100% 0, 100% 70%, calc(100% - 8px) 100%, 0 100%);
 }
 
 .nombre {
-  font-size: var(--texto-lg);
+  font-size: var(--t-titulo-3);
 }
 
-.precio {
-  font-weight: 600;
+.producto:hover .nombre {
+  text-decoration: underline;
+  text-decoration-thickness: 3px;
+  text-underline-offset: 4px;
 }
 
-.desde {
-  font-weight: 400;
-  color: var(--color-texto-suave);
+.marca {
+  margin-top: var(--espacio-1);
+  font-family: var(--fuente-datos);
+  font-size: var(--t-dato);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .dibujo {
+    transition: transform 160ms ease;
+  }
 }

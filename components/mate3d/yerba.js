@@ -71,29 +71,45 @@ function crearTexturaGrano() {
   return textura;
 }
 
-// Junto a la bombilla la yerba está mojada: más oscura y con más brillo.
-function materialConHumedad(parametros) {
-  const material = new THREE.MeshStandardMaterial(parametros);
+// Ajusta el shader estándar de three:
+// - humedad: junto a la bombilla la yerba está mojada (más brillo).
+// - lavado: uniform de 0 a 1 que aclara y apaga el verde (yerba lavada).
+function prepararMaterial(material, lavado, { humedad = false } = {}) {
   material.onBeforeCompile = (shader) => {
-    shader.vertexShader = shader.vertexShader
-      .replace(
-        "#include <common>",
-        "#include <common>\nattribute float humedad;\nvarying float vHumedad;",
-      )
-      .replace(
-        "#include <begin_vertex>",
-        "#include <begin_vertex>\nvHumedad = humedad;",
-      );
+    shader.uniforms.uLavado = lavado;
+    if (humedad) {
+      shader.vertexShader = shader.vertexShader
+        .replace(
+          "#include <common>",
+          "#include <common>\nattribute float humedad;\nvarying float vHumedad;",
+        )
+        .replace(
+          "#include <begin_vertex>",
+          "#include <begin_vertex>\nvHumedad = humedad;",
+        );
+    }
     shader.fragmentShader = shader.fragmentShader
       .replace(
         "#include <common>",
-        "#include <common>\nvarying float vHumedad;",
+        `#include <common>\nuniform float uLavado;${humedad ? "\nvarying float vHumedad;" : ""}`,
       )
       .replace(
-        "#include <roughnessmap_fragment>",
-        "#include <roughnessmap_fragment>\nroughnessFactor = mix(roughnessFactor, 0.55, vHumedad);",
+        "#include <color_fragment>",
+        `#include <color_fragment>
+        float luz = dot(diffuseColor.rgb, vec3(0.3, 0.59, 0.11));
+        vec3 lavada = luz * vec3(1.15, 1.25, 0.8) + vec3(0.2, 0.19, 0.12);
+        diffuseColor.rgb = mix(diffuseColor.rgb, lavada, uLavado * 0.85);`,
       );
+    if (humedad) {
+      shader.fragmentShader = shader.fragmentShader.replace(
+        "#include <roughnessmap_fragment>",
+        "#include <roughnessmap_fragment>\nroughnessFactor = mix(roughnessFactor, 0.55, vHumedad * (1.0 - uLavado));",
+      );
+    }
   };
+  // Programas distintos para la superficie (con humedad) y las partículas.
+  material.customProgramCacheKey = () =>
+    humedad ? "yerba-superficie" : "yerba-particulas";
   return material;
 }
 
@@ -104,7 +120,7 @@ function materialConHumedad(parametros) {
  * - alturaBase: altura de la yerba plana (montanita = 0).
  * - alturaBorde: altura del borde de la virola.
  * - entrada: Vector2 (x, z) donde la bombilla entra en la yerba.
- * Devuelve { grupo, deformar(montanita), dispose() }.
+ * Devuelve { grupo, deformar(montanita), lavar(0 a 1), dispose() }.
  */
 export function crearYerba({
   centro,
@@ -206,7 +222,8 @@ export function crearYerba({
   geometria.setIndex(indices);
 
   const texturaGrano = crearTexturaGrano();
-  const material = materialConHumedad({
+  const lavado = { value: 0 };
+  const material = new THREE.MeshStandardMaterial({
     vertexColors: true,
     map: texturaGrano,
     bumpMap: texturaGrano,
@@ -214,6 +231,7 @@ export function crearYerba({
     roughness: 0.95,
     side: THREE.DoubleSide,
   });
+  prepararMaterial(material, lavado, { humedad: true });
   const superficie = new THREE.Mesh(geometria, material);
 
   // --- Hojitas y palitos sueltos sobre la superficie ---
@@ -238,6 +256,7 @@ export function crearYerba({
   const materialParticulas = new THREE.MeshStandardMaterial({
     roughness: 0.85,
   });
+  prepararMaterial(materialParticulas, lavado);
   const mallaHojas = new THREE.InstancedMesh(
     new THREE.BoxGeometry(1, 0.12, 0.65),
     materialParticulas,
@@ -340,5 +359,9 @@ export function crearYerba({
     materialParticulas.dispose();
   }
 
-  return { grupo, deformar, dispose };
+  function lavar(valor) {
+    lavado.value = valor;
+  }
+
+  return { grupo, deformar, lavar, dispose };
 }

@@ -1,26 +1,69 @@
-.migas {
-  font-size: var(--texto-sm);
-  color: var(--color-texto-suave);
+.pagina {
+  max-width: none;
+  padding: 0;
 }
 
-.migas a:hover {
-  color: var(--color-yerba);
-  text-decoration: underline;
-}
-
+/* Encabezado a todo el ancho en el color de la categoría */
 .encabezado {
+  --foco: var(--sobre-acento);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: end;
+  gap: var(--espacio-6);
+  padding: var(--espacio-6)
+    max(var(--gutter), (100% - var(--ancho-max)) / 2 + var(--gutter))
+    var(--espacio-8);
+  background: var(--acento);
+  color: var(--sobre-acento);
+}
+
+.encabezadoContenido {
   display: flex;
   flex-direction: column;
-  gap: var(--espacio-2);
-  padding: var(--espacio-6) 0 var(--espacio-8);
+  gap: var(--espacio-4);
 }
 
 .titulo {
-  font-size: var(--texto-xxl);
-  color: var(--color-yerba-oscuro);
+  margin-top: var(--espacio-4);
+  font-size: var(--t-titulo-1);
 }
 
 .descripcion {
-  max-width: 52ch;
-  color: var(--color-texto-suave);
+  max-width: 44ch;
+  font-size: var(--t-entrada);
+}
+
+/* Sello ovalado, como el de un paquete */
+.sello {
+  align-self: flex-start;
+  padding: var(--espacio-2) var(--espacio-4);
+  border: 2px solid currentColor;
+  border-radius: 50%;
+  font-family: var(--fuente-titulos);
+  font-size: 1.375rem;
+  font-weight: 850;
+  line-height: 1;
+  text-transform: uppercase;
+  transform: rotate(-4deg);
+}
+
+.dibujo {
+  width: clamp(110px, 24vw, 260px);
+  aspect-ratio: 1;
+}
+
+.contenido {
+  --etiqueta: var(--acento);
+  --sobre-etiqueta: var(--sobre-acento);
+  max-width: var(--ancho-max);
+  margin: 0 auto;
+  padding: var(--espacio-8) var(--gutter) var(--espacio-16);
+}
+
+.cuenta {
+  margin-bottom: var(--espacio-6);
+  padding-bottom: var(--espacio-2);
+  border-bottom: var(--filete);
+  font-family: var(--fuente-datos);
+  font-size: var(--t-dato);
 }

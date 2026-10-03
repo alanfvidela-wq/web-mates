@@ -131,8 +131,9 @@ function crearMaterialCuerpo(material, color, original) {
  *   reemplaza solo el material del cuerpo.
  * - color: color del cuerpo (con "calabaza" tiñe la textura original).
  * - yerba, montanita, bombilla: valores de 0 a 1 (llenado, inclinación, inserción).
- * - animacionRef: ref opcional { yerba, montanita, bombilla } que se lee en cada
- *   frame, para animar sin re-renderizar React.
+ * - animacionRef: ref opcional { yerba, montanita, bombilla, lavado } que se lee
+ *   en cada frame, para animar sin re-renderizar React. `lavado` (0 a 1) aclara
+ *   la yerba como cuando ya se tomaron muchos mates.
  */
 export default function Mate3D({
   material = "calabaza",
@@ -213,15 +214,25 @@ export default function Mate3D({
 
   const yerbaRef = useRef(null);
   const bombillaRef = useRef(null);
-  const aplicado = useRef({ yerba: -1, montanita: -1, bombilla: -1 });
+  const aplicado = useRef({
+    yerba: -1,
+    montanita: -1,
+    bombilla: -1,
+    lavado: 0,
+  });
 
   useFrame(() => {
     const animacion = animacionRef?.current;
     const nivel = animacion?.yerba ?? yerba;
     const inclinacion = animacion?.montanita ?? montanita;
     const insercion = animacion?.bombilla ?? bombilla;
+    const lavado = animacion?.lavado ?? 0;
     const previo = aplicado.current;
 
+    if (lavado !== previo.lavado) {
+      modelo.yerba.lavar(lavado);
+      previo.lavado = lavado;
+    }
     if (Math.abs(inclinacion - previo.montanita) > 0.001) {
       modelo.yerba.deformar(inclinacion);
       previo.montanita = inclinacion;

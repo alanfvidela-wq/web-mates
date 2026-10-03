@@ -8,42 +8,24 @@
   height: 100%;
 }
 
-/* Un mate visto desde arriba: virola de cuero y la yerba adentro */
 .mate {
-  position: relative;
-  width: min(220px, 50vw);
+  width: min(240px, 50vw);
   aspect-ratio: 1;
-  border-radius: 50%;
-  background: var(--color-cuero);
-  box-shadow: inset 0 0 0 12px var(--color-madera);
-  animation: latir 1.6s ease-in-out infinite;
-}
-
-.yerba {
-  position: absolute;
-  inset: 22%;
-  border-radius: 50%;
-  background:
-    radial-gradient(circle at 35% 35%, #7d9b48 0 18%, transparent 19%),
-    radial-gradient(circle at 65% 60%, #557a30 0 22%, transparent 23%),
-    var(--color-yerba);
 }
 
 .texto {
-  font-family: var(--fuente-titulos);
-  font-style: italic;
-  color: var(--color-texto-suave);
+  font-family: var(--fuente-datos);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .mate {
+    animation: latir 1.6s ease-in-out infinite;
+  }
 }
 
 @keyframes latir {
   50% {
-    transform: scale(0.94);
-    opacity: 0.8;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .mate {
-    animation: none;
+    transform: scale(0.95);
+    opacity: 0.75;
   }
 }

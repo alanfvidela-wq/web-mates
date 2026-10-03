@@ -2,13 +2,14 @@
   display: flex;
   flex-direction: column;
   gap: var(--espacio-4);
-  margin-top: var(--espacio-2);
+  margin-top: var(--espacio-4);
 }
 
 .precio {
   font-family: var(--fuente-titulos);
-  font-size: var(--texto-xl);
-  font-weight: 700;
+  font-size: var(--t-titulo-2);
+  font-weight: 900;
+  line-height: 1;
 }
 
 .fieldset {
@@ -16,14 +17,13 @@
 }
 
 .legend {
-  margin-bottom: var(--espacio-3);
-  font-size: var(--texto-sm);
-  font-weight: 600;
+  margin-bottom: var(--espacio-2);
+  font-weight: 700;
 }
 
 .opciones {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
   gap: var(--espacio-2);
 }
 
@@ -32,20 +32,20 @@
   flex-direction: column;
   align-items: flex-start;
   gap: 2px;
-  padding: var(--espacio-3) var(--espacio-4);
-  border: 1.5px solid var(--color-borde);
-  border-radius: var(--radio);
-  background: var(--color-superficie);
+  min-height: 48px;
+  padding: var(--espacio-2) var(--espacio-3);
+  border: var(--filete);
+  background: transparent;
   text-align: left;
-  transition: border-color var(--transicion), background var(--transicion);
 }
 
 .opcion:hover:not(:disabled) {
-  border-color: var(--color-madera);
+  background: var(--papel);
 }
 
 .opcion:disabled {
-  opacity: 0.55;
+  border-style: dashed;
+  border-color: var(--kraft-oscuro);
   cursor: not-allowed;
 }
 
@@ -53,27 +53,33 @@
   text-decoration: line-through;
 }
 
-.activa {
-  border-color: var(--color-yerba);
-  background: var(--color-yerba-claro);
+.activa,
+.activa:hover:not(:disabled) {
+  background: var(--tinta);
+  color: var(--papel);
 }
 
 .opcionNombre {
-  font-weight: 600;
+  font-weight: 700;
 }
 
 .opcionStock {
-  font-size: var(--texto-xs);
-  color: var(--color-yerba);
+  font-family: var(--fuente-datos);
+  font-size: var(--t-dato);
 }
 
 .pocas {
-  color: var(--color-madera);
-  font-weight: 600;
+  font-weight: 700;
 }
 
+.activa .pocas {
+  color: var(--amarillo);
+}
+
+.opcion:not(.activa) .pocas,
 .agotada {
-  color: var(--color-sin-stock);
+  color: var(--rojo);
+  font-weight: 700;
 }
 
 .agregar {
@@ -81,6 +87,6 @@
 }
 
 .nota {
-  font-size: var(--texto-sm);
-  color: var(--color-texto-suave);
+  font-family: var(--fuente-datos);
+  font-size: var(--t-dato);
 }

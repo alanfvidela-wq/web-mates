@@ -1,9 +1,10 @@
 .header {
+  --foco: var(--amarillo);
   position: sticky;
   top: 0;
   z-index: 10;
-  background: var(--color-yerba-oscuro);
-  color: var(--color-sobre-oscuro);
+  background: var(--verde);
+  color: var(--papel);
 }
 
 .contenido {
@@ -13,56 +14,56 @@
   gap: var(--espacio-6);
   max-width: var(--ancho-max);
   margin: 0 auto;
-  padding: var(--espacio-3) var(--gutter);
-}
-
-.logo {
-  font-family: var(--fuente-titulos);
-  font-size: var(--texto-lg);
-  font-weight: 800;
-  font-style: italic;
-  font-variation-settings: "SOFT" 100, "WONK" 1;
-  white-space: nowrap;
+  padding: var(--espacio-2) var(--gutter);
 }
 
 .nav {
   display: flex;
-  justify-content: center;
+  justify-content: flex-end;
   gap: var(--espacio-6);
-  font-size: var(--texto-sm);
-  font-weight: 500;
+  font-family: var(--fuente-titulos);
+  font-size: 1.375rem;
+  font-weight: 700;
+  text-transform: uppercase;
 }
 
 .nav a {
-  opacity: 0.8;
-  transition: opacity var(--transicion);
+  padding: var(--espacio-1) 0;
+  border-bottom: 3px solid transparent;
 }
 
 .nav a:hover {
-  opacity: 1;
-  text-decoration: underline;
-  text-underline-offset: 4px;
+  border-bottom-color: var(--amarillo);
 }
 
 .carrito {
   display: grid;
   place-items: center;
-  width: 40px;
-  height: 40px;
-  border: 1px solid rgb(251 244 228 / 0.3);
-  border-radius: 999px;
-  transition: background var(--transicion);
+  width: 44px;
+  height: 44px;
 }
 
 .carrito:hover {
-  background: rgb(251 244 228 / 0.12);
+  color: var(--amarillo);
+}
+
+.bolsa {
+  width: 30px;
+  height: 30px;
+}
+
+/* Franjas del paquete: amarillo y rojo, de lado a lado */
+.franjas {
+  height: 10px;
+  border-top: 6px solid var(--amarillo);
+  background: var(--rojo);
 }
 
 /* En pantallas chicas la navegación baja a una segunda fila con scroll horizontal */
-@media (max-width: 760px) {
+@media (max-width: 860px) {
   .contenido {
     grid-template-columns: 1fr auto;
-    row-gap: var(--espacio-2);
+    row-gap: 0;
   }
 
   .nav {
@@ -72,6 +73,7 @@
     gap: var(--espacio-4);
     overflow-x: auto;
     padding-bottom: var(--espacio-1);
+    font-size: 1.1875rem;
     white-space: nowrap;
     scrollbar-width: none;
   }

@@ -1,13 +1,3 @@
-.migas {
-  font-size: var(--texto-sm);
-  color: var(--color-texto-suave);
-}
-
-.migas a:hover {
-  color: var(--color-yerba);
-  text-decoration: underline;
-}
-
 .detalle {
   display: grid;
   grid-template-columns: 1fr;
@@ -15,34 +5,103 @@
   padding-top: var(--espacio-6);
 }
 
-@media (min-width: 800px) {
+@media (min-width: 860px) {
   .detalle {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
     align-items: start;
     gap: var(--espacio-12);
   }
 }
 
+/* Frente del paquete: bloque plano en el color de la categoría */
+.frente {
+  position: relative;
+  align-self: start;
+  display: grid;
+  place-items: center;
+  aspect-ratio: 1;
+  border-bottom: var(--estante);
+  background: var(--acento);
+  color: var(--sobre-acento);
+}
+
+.dibujo {
+  width: 72%;
+  aspect-ratio: 1;
+  color: var(--tinta);
+}
+
+[data-categoria="accesorios"] .dibujo {
+  color: var(--amarillo);
+}
+
+.sello {
+  position: absolute;
+  top: var(--espacio-6);
+  right: var(--espacio-6);
+  padding: var(--espacio-2) var(--espacio-4);
+  border: 2px solid currentColor;
+  border-radius: 50%;
+  font-family: var(--fuente-titulos);
+  font-size: 1.25rem;
+  font-weight: 850;
+  line-height: 1;
+  text-transform: uppercase;
+  transform: rotate(6deg);
+}
+
 .info {
   display: flex;
   flex-direction: column;
-  gap: var(--espacio-3);
+  gap: var(--espacio-4);
 }
 
 .marca {
-  font-size: var(--texto-sm);
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
-  color: var(--color-madera);
+  font-family: var(--fuente-datos);
+  font-size: 1rem;
+  font-weight: 700;
 }
 
 .nombre {
-  font-size: var(--texto-xl);
-  color: var(--color-yerba-oscuro);
+  font-size: clamp(2.75rem, 6vw, 5rem);
 }
 
 .descripcion {
-  max-width: 50ch;
-  color: var(--color-texto-suave);
+  max-width: 46ch;
+  font-size: var(--t-entrada);
+}
+
+/* Dorso del paquete: tabla de datos entre filetes, sin cajas */
+.etiqueta {
+  margin-top: var(--espacio-4);
+  border-top: var(--estante);
+}
+
+.etiquetaTitulo {
+  padding: var(--espacio-3) 0 var(--espacio-2);
+  font-size: var(--t-titulo-3);
+}
+
+.ficha {
+  border-top: var(--filete);
+}
+
+.fila {
+  display: grid;
+  grid-template-columns: minmax(7rem, 0.4fr) 1fr;
+  gap: var(--espacio-4);
+  padding: var(--espacio-2) 0;
+  border-bottom: 1px solid var(--tinta);
+  font-family: var(--fuente-datos);
+}
+
+.fila dt {
+  font-weight: 700;
+}
+
+@media (min-width: 860px) {
+  .frente {
+    position: sticky;
+    top: 110px;
+  }
 }

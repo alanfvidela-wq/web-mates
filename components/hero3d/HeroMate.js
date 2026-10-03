@@ -4,6 +4,7 @@ import { Component, useCallback, useEffect, useRef, useState } from "react";
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import PlaceholderMate from "./PlaceholderMate";
+import { FlechaAbajo } from "@/components/Ilustraciones";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 import styles from "./HeroMate.module.css";
 
@@ -37,30 +38,35 @@ const BLOQUES = [
     desde: 0,
     hasta: 0.3,
     lado: "izquierda",
-    kicker: "Calabaza, madera, cerámica, acero",
-    titulo: "Mates de todos los estilos",
-    texto: "Curados, torneados a mano o listos para la mochila.",
+    titulo: "Un mate para cada cebador",
+    texto:
+      "Calabaza, madera, cerámica o acero. Curados, torneados a mano o listos para la mochila.",
   },
   {
     desde: 0.36,
     hasta: 0.64,
     lado: "derecha",
-    kicker: "Con palo, sin palo, compuestas",
-    titulo: "Las mejores yerbas",
-    texto: "Playadito, Taragüí, Rosamonte, CBSé y más, siempre frescas.",
+    titulo: "Yerba de la buena",
+    texto:
+      "Playadito, Taragüí, Rosamonte, CBSé y más. Con palo, sin palo o con yuyos serranos.",
   },
   {
     desde: 0.7,
     hasta: 1,
     lado: "izquierda",
-    kicker: "Mate, bombilla, termo y yerba",
     titulo: "Armá tu combo",
-    texto: "Elegí cada parte a tu gusto y llevate todo con descuento.",
+    texto:
+      "Mate, bombilla, termo y yerba a tu gusto. Te llevás todo junto y con descuento.",
     link: { href: "/arma-tu-combo", texto: "Armá tu combo" },
   },
 ];
 
 const FUNDIDO = 0.06;
+
+// Easter egg: si te quedás mucho en la home, la yerba se lava.
+const INICIO_LAVADO = 40; // segundos con la pestaña visible
+const DURACION_LAVADO = 25;
+const LAVADO_VISIBLE = 0.6; // desde acá aparece el botón
 
 function limitar(valor) {
   return Math.min(1, Math.max(0, valor));
@@ -77,6 +83,11 @@ export default function HeroMate() {
   const bloquesRef = useRef([]);
   const pistaRef = useRef(null);
   const progresoRef = useRef(0);
+  const lavadoRef = useRef(0);
+  const avisoRef = useRef(null);
+  const [lavada, setLavada] = useState(false);
+  const [aviso, setAviso] = useState("");
+  const [cebadas, setCebadas] = useState(0);
   const [activo, setActivo] = useState(true);
   const [carga, setCarga] = useState("cargando"); // cargando | lista | fallo
   const alListo = useCallback(() => setCarga("lista"), []);
@@ -92,6 +103,30 @@ export default function HeroMate() {
     observador.observe(seccionRef.current);
     return () => observador.disconnect();
   }, []);
+
+  // Cuenta el tiempo en la home (solo con la pestaña visible) y va lavando la yerba.
+  useEffect(() => {
+    let segundos = 0;
+    const id = setInterval(() => {
+      if (document.visibilityState !== "visible") return;
+      segundos += 1;
+      const valor = limitar((segundos - INICIO_LAVADO) / DURACION_LAVADO);
+      lavadoRef.current = valor;
+      if (valor >= LAVADO_VISIBLE) {
+        setLavada(true);
+        setAviso("La yerba ya está lavada.");
+      }
+    }, 1000);
+    return () => clearInterval(id);
+  }, [cebadas]);
+
+  function cambiarYerba() {
+    lavadoRef.current = 0;
+    setLavada(false);
+    setAviso("Yerba nueva. Buen mate.");
+    setCebadas((n) => n + 1);
+    avisoRef.current?.focus();
+  }
 
   // Progreso del scroll dentro del hero. Se escribe en refs y estilos para no
   // re-renderizar React en cada scroll.
@@ -132,7 +167,11 @@ export default function HeroMate() {
   }, [reducido]);
 
   return (
-    <section ref={seccionRef} className={styles.hero} aria-labelledby="hero-titulo">
+    <section
+      ref={seccionRef}
+      className={styles.hero}
+      aria-labelledby="hero-titulo"
+    >
       <div className={styles.sticky}>
         <h1 id="hero-titulo" className={styles.oculto}>
           La Montañita: todo para el mate
@@ -146,8 +185,26 @@ export default function HeroMate() {
               activo={activo}
               esMobile={esMobile}
               alListo={alListo}
+              lavadoRef={lavadoRef}
             />
           </LimiteEscena>
+          {lavada && carga === "lista" && (
+            <button
+              type="button"
+              className={`boton ${styles.cambiarYerba}`}
+              onClick={cambiarYerba}
+            >
+              Cambiar la yerba
+            </button>
+          )}
+          <p
+            ref={avisoRef}
+            className={styles.oculto}
+            role="status"
+            tabIndex={-1}
+          >
+            {aviso}
+          </p>
           <div
             className={`${styles.cargando} ${carga === "lista" ? styles.cargado : ""}`}
             aria-hidden={carga === "lista"}
@@ -166,11 +223,13 @@ export default function HeroMate() {
               className={`${styles.bloque} ${styles[bloque.lado]}`}
               data-inicial={i === 0 ? "" : undefined}
             >
-              <p className={styles.kicker}>{bloque.kicker}</p>
               <h2 className={styles.titulo}>{bloque.titulo}</h2>
               <p className={styles.texto}>{bloque.texto}</p>
               {bloque.link && (
-                <Link href={bloque.link.href} className={`boton ${styles.boton}`}>
+                <Link
+                  href={bloque.link.href}
+                  className={`boton ${styles.boton}`}
+                >
                   {bloque.link.texto}
                 </Link>
               )}
@@ -179,7 +238,8 @@ export default function HeroMate() {
         </div>
 
         <p ref={pistaRef} className={styles.pista} aria-hidden="true">
-          Deslizá ↓
+          Deslizá
+          <FlechaAbajo className={styles.flecha} />
         </p>
       </div>
     </section>

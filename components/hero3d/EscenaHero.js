@@ -90,11 +90,14 @@ function YerbaCayendo({ suaveRef, cantidad }) {
   );
 }
 
-function Animacion({ progresoRef, reducido, cantidadParticulas }) {
+function Animacion({ progresoRef, lavadoRef, reducido, cantidadParticulas }) {
   const grupoMate = useRef(null);
   // Sin animaciones arranca ya en el estado final, sin esperar un frame.
   const suave = useRef(reducido ? 1 : 0);
-  const animacion = useRef(valoresAnimacion(reducido ? 1 : 0));
+  const animacion = useRef({
+    ...valoresAnimacion(reducido ? 1 : 0),
+    lavado: 0,
+  });
 
   useFrame((estado, delta) => {
     const objetivo = reducido ? 1 : progresoRef.current;
@@ -109,8 +112,22 @@ function Animacion({ progresoRef, reducido, cantidadParticulas }) {
     grupoMate.current.rotation.y = 0.3 + (p - 1) * Math.PI * 2;
     Object.assign(animacion.current, valoresAnimacion(p));
 
+    // La yerba se lava de a poco y vuelve rápido al cambiarla.
+    const lavadoAnterior = animacion.current.lavado;
+    const lavadoObjetivo = lavadoRef.current;
+    let lavado = reducido
+      ? lavadoObjetivo
+      : THREE.MathUtils.damp(
+          lavadoAnterior,
+          lavadoObjetivo,
+          2.5,
+          Math.min(delta, 0.1),
+        );
+    if (Math.abs(lavado - lavadoObjetivo) < 0.002) lavado = lavadoObjetivo;
+    animacion.current.lavado = lavado;
+
     // Con frameloop="demand" pedimos otro frame mientras haya cambios.
-    if (p !== anterior) estado.invalidate();
+    if (p !== anterior || lavado !== lavadoAnterior) estado.invalidate();
   });
 
   return (
@@ -148,6 +165,22 @@ function CamaraAjustada() {
   return null;
 }
 
+// Con frameloop="demand" nadie pide frames: avisa cuando cambia el lavado.
+function SeguirLavado({ lavadoRef }) {
+  const invalidate = useThree((estado) => estado.invalidate);
+  useEffect(() => {
+    let previo = lavadoRef.current;
+    const id = setInterval(() => {
+      if (lavadoRef.current !== previo) {
+        previo = lavadoRef.current;
+        invalidate();
+      }
+    }, 250);
+    return () => clearInterval(id);
+  }, [lavadoRef, invalidate]);
+  return null;
+}
+
 // Se monta recién cuando todo lo que está en el Suspense terminó de cargar.
 function AvisarListo({ alListo }) {
   useEffect(() => {
@@ -162,6 +195,7 @@ export default function EscenaHero({
   activo,
   esMobile,
   alListo,
+  lavadoRef,
 }) {
   return (
     <Canvas
@@ -175,11 +209,13 @@ export default function EscenaHero({
       }}
     >
       <CamaraAjustada />
+      <SeguirLavado lavadoRef={lavadoRef} />
       {/* HDRI de estudio local (Poly Haven, CC0): ilumina y se refleja en los metales */}
       <Suspense fallback={null}>
         <Environment files="/hdri/estudio.hdr" environmentIntensity={1.1} />
         <Animacion
           progresoRef={progresoRef}
+          lavadoRef={lavadoRef}
           reducido={reducido}
           cantidadParticulas={esMobile ? 120 : 220}
         />

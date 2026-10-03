@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { CATEGORIAS } from "@/lib/productos";
+import Logo from "./Logo";
 import styles from "./Footer.module.css";
 
 export default function Footer() {
@@ -7,9 +8,9 @@ export default function Footer() {
     <footer className={styles.footer}>
       <div className={styles.contenido}>
         <div className={styles.marca}>
-          <p className={styles.logo}>La Montañita</p>
-          <p className={styles.texto}>
-            Todo para el mate: de la calabaza a la última ronda.
+          <Logo />
+          <p className={styles.frase}>
+            Elaborada con palo, cebada con paciencia.
           </p>
         </div>
 
@@ -33,8 +34,8 @@ export default function Footer() {
             «Mate Uruguayo.»
           </a>{" "}
           de Ermolli, licencia{" "}
-          <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>
-          . HDRI de Poly Haven (CC0).
+          <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>.
+          HDRI de Poly Haven (CC0).
         </p>
       </div>
     </footer>
