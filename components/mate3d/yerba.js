@@ -19,7 +19,6 @@ const CANTIDAD_HOJAS = 650;
 const CANTIDAD_PALITOS = 90;
 
 const COLORES = ["#7b8240", "#858a46", "#6d7536", "#8f9152", "#747c3b"];
-const COLOR_HUMEDO = new THREE.Color("#3d4519");
 const COLORES_HOJAS = ["#66702f", "#7c8540", "#57602a", "#8d9049", "#4c5524"];
 const COLOR_PALITO = new THREE.Color("#a99a62");
 
@@ -71,45 +70,42 @@ function crearTexturaGrano() {
   return textura;
 }
 
-// Ajusta el shader estándar de three:
-// - humedad: junto a la bombilla la yerba está mojada (más brillo).
-// - lavado: uniform de 0 a 1 que aclara y apaga el verde (yerba lavada).
-function prepararMaterial(material, lavado, { humedad = false } = {}) {
+// Ajusta el shader estándar de three. Las mallas llevan un atributo
+// `humedad` (0 a 1: cercanía al hueco de la bombilla) y comparten dos uniforms:
+// - uMojado: cuánta agua cayó (la zona del hueco se oscurece y brilla).
+// - uLavado: aclara y apaga el verde (yerba lavada).
+function prepararMaterial(material, uniforms) {
   material.onBeforeCompile = (shader) => {
-    shader.uniforms.uLavado = lavado;
-    if (humedad) {
-      shader.vertexShader = shader.vertexShader
-        .replace(
-          "#include <common>",
-          "#include <common>\nattribute float humedad;\nvarying float vHumedad;",
-        )
-        .replace(
-          "#include <begin_vertex>",
-          "#include <begin_vertex>\nvHumedad = humedad;",
-        );
-    }
+    Object.assign(shader.uniforms, uniforms);
+    shader.vertexShader = shader.vertexShader
+      .replace(
+        "#include <common>",
+        "#include <common>\nattribute float humedad;\nvarying float vHumedad;",
+      )
+      .replace(
+        "#include <begin_vertex>",
+        "#include <begin_vertex>\nvHumedad = humedad;",
+      );
     shader.fragmentShader = shader.fragmentShader
       .replace(
         "#include <common>",
-        `#include <common>\nuniform float uLavado;${humedad ? "\nvarying float vHumedad;" : ""}`,
+        "#include <common>\nuniform float uLavado;\nuniform float uMojado;\nvarying float vHumedad;",
       )
       .replace(
         "#include <color_fragment>",
         `#include <color_fragment>
+        float mojado = vHumedad * uMojado;
+        diffuseColor.rgb *= mix(vec3(1.0), vec3(0.4, 0.46, 0.28), mojado * 0.9);
         float luz = dot(diffuseColor.rgb, vec3(0.3, 0.59, 0.11));
         vec3 lavada = luz * vec3(1.15, 1.25, 0.8) + vec3(0.2, 0.19, 0.12);
         diffuseColor.rgb = mix(diffuseColor.rgb, lavada, uLavado * 0.85);`,
-      );
-    if (humedad) {
-      shader.fragmentShader = shader.fragmentShader.replace(
+      )
+      .replace(
         "#include <roughnessmap_fragment>",
-        "#include <roughnessmap_fragment>\nroughnessFactor = mix(roughnessFactor, 0.55, vHumedad * (1.0 - uLavado));",
+        "#include <roughnessmap_fragment>\nroughnessFactor = mix(roughnessFactor, 0.55, mojado * (1.0 - uLavado));",
       );
-    }
   };
-  // Programas distintos para la superficie (con humedad) y las partículas.
-  material.customProgramCacheKey = () =>
-    humedad ? "yerba-superficie" : "yerba-particulas";
+  material.customProgramCacheKey = () => "yerba";
   return material;
 }
 
@@ -120,7 +116,8 @@ function prepararMaterial(material, lavado, { humedad = false } = {}) {
  * - alturaBase: altura de la yerba plana (montanita = 0).
  * - alturaBorde: altura del borde de la virola.
  * - entrada: Vector2 (x, z) donde la bombilla entra en la yerba.
- * Devuelve { grupo, deformar(montanita), lavar(0 a 1), dispose() }.
+ * Devuelve { grupo, deformar(montanita), lavar(0 a 1), mojar(0 a 1), hueco,
+ * dispose() }.
  */
 export function crearYerba({
   centro,
@@ -186,10 +183,8 @@ export function crearYerba({
     uvs[i * 2] = x * 0.5 + 0.5;
     uvs[i * 2 + 1] = z * 0.5 + 0.5;
     grano[i] = (azar() - 0.5) * 0.003;
-    const h = humedad(x, z);
-    humedades[i] = h;
+    humedades[i] = humedad(x, z);
     color.set(COLORES[Math.floor(azar() * COLORES.length)]);
-    color.lerp(COLOR_HUMEDO, h * 0.85);
     color.toArray(colores, i * 3);
   }
 
@@ -222,7 +217,7 @@ export function crearYerba({
   geometria.setIndex(indices);
 
   const texturaGrano = crearTexturaGrano();
-  const lavado = { value: 0 };
+  const uniforms = { uLavado: { value: 0 }, uMojado: { value: 0 } };
   const material = new THREE.MeshStandardMaterial({
     vertexColors: true,
     map: texturaGrano,
@@ -231,7 +226,7 @@ export function crearYerba({
     roughness: 0.95,
     side: THREE.DoubleSide,
   });
-  prepararMaterial(material, lavado, { humedad: true });
+  prepararMaterial(material, uniforms);
   const superficie = new THREE.Mesh(geometria, material);
 
   // --- Hojitas y palitos sueltos sobre la superficie ---
@@ -256,26 +251,34 @@ export function crearYerba({
   const materialParticulas = new THREE.MeshStandardMaterial({
     roughness: 0.85,
   });
-  prepararMaterial(materialParticulas, lavado);
+  prepararMaterial(materialParticulas, uniforms);
+  // La humedad de cada partícula va como atributo por instancia.
+  function geometriaParticula(geometria, particulas) {
+    const valores = Float32Array.from(particulas, (p) => humedad(p.x, p.z));
+    geometria.setAttribute(
+      "humedad",
+      new THREE.InstancedBufferAttribute(valores, 1),
+    );
+    return geometria;
+  }
+
   const mallaHojas = new THREE.InstancedMesh(
-    new THREE.BoxGeometry(1, 0.12, 0.65),
+    geometriaParticula(new THREE.BoxGeometry(1, 0.12, 0.65), hojas),
     materialParticulas,
     CANTIDAD_HOJAS,
   );
   const mallaPalitos = new THREE.InstancedMesh(
-    new THREE.CylinderGeometry(0.5, 0.5, 1, 5),
+    geometriaParticula(new THREE.CylinderGeometry(0.5, 0.5, 1, 5), palitos),
     materialParticulas,
     CANTIDAD_PALITOS,
   );
 
   hojas.forEach((hoja, i) => {
     color.set(COLORES_HOJAS[Math.floor(hoja.tono * COLORES_HOJAS.length)]);
-    color.lerp(COLOR_HUMEDO, humedad(hoja.x, hoja.z) * 0.8);
     mallaHojas.setColorAt(i, color);
   });
   palitos.forEach((palito, i) => {
     color.copy(COLOR_PALITO).multiplyScalar(0.85 + palito.tono * 0.25);
-    color.lerp(COLOR_HUMEDO, humedad(palito.x, palito.z) * 0.7);
     mallaPalitos.setColorAt(i, color);
   });
 
@@ -360,8 +363,20 @@ export function crearYerba({
   }
 
   function lavar(valor) {
-    lavado.value = valor;
+    uniforms.uLavado.value = valor;
   }
 
-  return { grupo, deformar, lavar, dispose };
+  function mojar(valor) {
+    uniforms.uMojado.value = valor;
+  }
+
+  return {
+    grupo,
+    deformar,
+    lavar,
+    mojar,
+    dispose,
+    // Hueco de la bombilla, en unidades del modelo (para apuntar el agua).
+    hueco: entrada.clone(),
+  };
 }

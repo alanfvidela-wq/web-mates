@@ -2,9 +2,23 @@
 
 La tienda tiene que parecer un almacén de barrio que vende yerba. Nada de
 plantilla de e-commerce. Las referencias son los paquetes de yerba, las
-etiquetas de almacén y la lista de precios escrita a máquina. El mate 3D del
-hero es lo único que llama la atención. Todo lo demás es tinta sobre papel,
-ordenado.
+etiquetas de almacén y la lista de precios escrita a máquina. El mate 3D de
+«La montañita, paso a paso» es lo único que llama la atención. Todo lo demás
+es tinta sobre papel, ordenado.
+
+## Estructura de la home
+
+1. **Portada estática**: la marca en grande, la propuesta en una frase, el
+   botón «Armá tu combo», un bodegón dibujado y los accesos a las categorías.
+   Funciona sola, sin 3D.
+2. **Franja de leyendas** y **destacados góndola por góndola**: un cartel en
+   el color de cada categoría arriba de sus productos.
+3. **La montañita, paso a paso**: sección sticky guiada por el scroll, a mitad
+   de página. El mate 3D muestra el ritual de cebar en seis pasos y cierra con
+   «¿Te falta algo? Armá tu combo». three.js, el modelo y el HDRI se cargan
+   recién cuando la sección está a media pantalla de distancia; hasta entonces
+   se ve un mate dibujado.
+4. **Qué hay en el almacén**: la lista completa de categorías.
 
 ## Concepto: «el paquete y la góndola»
 
@@ -104,18 +118,19 @@ chiste por línea. Ejemplos: «Elaborada con palo», «Se nos lavó el mate»,
 
 ## Movimiento
 
-- La única animación orquestada es la del hero (el mate 3D con el scroll).
+- La única animación orquestada es la del ritual (el mate 3D con el scroll).
 - El resto solo tiene cambios de estado inmediatos: hover que invierte los
   colores y foco visible. No hay entradas con fundido.
 - Easter egg: si la persona se queda un rato largo en la home, la yerba del
   mate 3D se va lavando (se aclara) y aparece el botón «Cambiar la yerba»,
   que la deja nueva otra vez.
-- Con `prefers-reduced-motion` el hero queda quieto, y el cambio de yerba y
-  la pantalla de carga no se animan.
+- Con `prefers-reduced-motion` el ritual se muestra como una secuencia fija
+  de pasos con el mate ya cebado, y ni el cambio de yerba ni la pantalla de
+  carga se animan.
 
 ## Principios
 
-1. **El mate es la estrella.** Nada compite con el hero: ni gradientes, ni
+1. **El mate es la estrella.** Nada compite con el mate 3D: ni gradientes, ni
    brillos, ni movimiento.
 2. **Tinta sobre papel.** Si algo no se podría imprimir en una etiqueta con
    dos o tres tintas, sobra.
@@ -134,7 +149,7 @@ chiste por línea. Ejemplos: «Elaborada con palo», «Se nos lavó el mate»,
 | Etiquetas en mayúsculas con tracking sobre los títulos  | No hay antetítulos. Los datos chicos van a máquina, en minúscula y abajo del título     |
 | Resaltar una palabra del título                         | Cada título va en un solo color y un solo estilo                                        |
 | Grillas de tarjetas iguales con el mismo radio y sombra | Góndola sin cajas, categorías como lista de almacén, radio 0, sin sombras               |
-| Gradientes o resplandores                               | Solo colores planos y textura de papel. Se saca el gradiente del hero y del skeleton    |
+| Gradientes o resplandores                               | Solo colores planos y textura de papel. Se saca el gradiente del hero 3D y del skeleton |
 | «→» en botones y «·» como separador                     | Sin flechas de texto. El separador es una hojita de yerba en SVG                        |
-| Fade + slide up por sección                             | No hay. Solo se anima el hero                                                           |
+| Fade + slide up por sección                             | No hay. Solo se anima el ritual                                                         |
 | Inter, Geist, Roboto, Playfair, Fraunces, Poppins       | Se usan Sofia Sans Extra Condensed, Archivo y Courier Prime. Se saca Fraunces           |

@@ -6,22 +6,10 @@ import { ContactShadows, Environment } from "@react-three/drei";
 import * as THREE from "three";
 import Mate3D, { alturaYerba } from "@/components/mate3d/Mate3D";
 import { aleatorio } from "@/components/mate3d/geometria";
+import { LLENADO, valoresAnimacion } from "./pasos";
 
 const ALTURA_PISO = -0.55;
-const DURACION_CAIDA = 0.08;
-
-function tramo(desde, hasta, p) {
-  return THREE.MathUtils.smoothstep(p, desde, hasta);
-}
-
-// Qué pasa en cada tramo del scroll (p de 0 a 1).
-function valoresAnimacion(p) {
-  return {
-    yerba: tramo(0.12, 0.66, p),
-    montanita: tramo(0.52, 0.84, p),
-    bombilla: tramo(0.82, 0.96, p),
-  };
-}
+const DURACION_CAIDA = 0.035;
 
 function crearParticulas(cantidad) {
   const azar = aleatorio(42);
@@ -33,7 +21,9 @@ function crearParticulas(cantidad) {
       x: Math.cos(angulo) * radio,
       z: Math.sin(angulo) * radio,
       inicioY: 2 + azar() * 0.8,
-      inicio: 0.1 + azar() * (0.66 - DURACION_CAIDA - 0.1),
+      inicio:
+        LLENADO.desde +
+        azar() * (LLENADO.hasta - DURACION_CAIDA - LLENADO.desde),
       giro: [azar() * 6, azar() * 6, azar() * 6],
       escala: [0.015 + azar() * 0.02, 0.008, 0.012 + azar() * 0.02],
       color: new THREE.Color(tonos[Math.floor(azar() * tonos.length)]),
@@ -41,6 +31,7 @@ function crearParticulas(cantidad) {
   });
 }
 
+// Yerba que cae desde arriba mientras se llena el mate (paso 1).
 function YerbaCayendo({ suaveRef, cantidad }) {
   const malla = useRef(null);
   const particulas = useMemo(() => crearParticulas(cantidad), [cantidad]);
@@ -109,7 +100,8 @@ function Animacion({ progresoRef, lavadoRef, reducido, cantidadParticulas }) {
     if (Math.abs(p - objetivo) < 0.0005) p = objetivo;
     suave.current = p;
 
-    grupoMate.current.rotation.y = 0.3 + (p - 1) * Math.PI * 2;
+    // Gira despacio a lo largo del ritual para mostrarlo desde varios lados.
+    grupoMate.current.rotation.y = 0.3 + (p - 1) * 0.9;
     Object.assign(animacion.current, valoresAnimacion(p));
 
     // La yerba se lava de a poco y vuelve rápido al cambiarla.
@@ -135,11 +127,13 @@ function Animacion({ progresoRef, lavadoRef, reducido, cantidadParticulas }) {
       <group ref={grupoMate}>
         <Mate3D material="calabaza" animacionRef={animacion} />
       </group>
-      <YerbaCayendo
-        key={cantidadParticulas}
-        suaveRef={suave}
-        cantidad={cantidadParticulas}
-      />
+      {!reducido && (
+        <YerbaCayendo
+          key={cantidadParticulas}
+          suaveRef={suave}
+          cantidad={cantidadParticulas}
+        />
+      )}
     </group>
   );
 }
@@ -152,8 +146,8 @@ function CamaraAjustada() {
 
   useEffect(() => {
     const aspecto = ancho / alto;
-    // Distancia con aire entre la punta de la bombilla y el header.
-    const distancia = Math.max(6.5, 5.6 / aspecto);
+    // Distancia con aire arriba (el mate se levanta al darlo vuelta).
+    const distancia = Math.max(6.8, 5.8 / aspecto);
     // En vertical el texto va abajo, así que el mate sube un poco.
     const objetivoY = aspecto < 0.8 ? 0.55 : 0.85;
     // Cámara elevada para ver la yerba dentro del mate.
@@ -189,7 +183,9 @@ function AvisarListo({ alListo }) {
   return null;
 }
 
-export default function EscenaHero({
+// Escena 3D del ritual. Este módulo (three.js, el modelo y el HDRI) se carga
+// recién cuando la sección se acerca al viewport.
+export default function EscenaRitual({
   progresoRef,
   reducido,
   activo,

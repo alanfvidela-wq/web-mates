@@ -45,8 +45,52 @@
   display: flex;
   flex-direction: column;
   gap: var(--espacio-8);
-  padding-top: var(--espacio-16);
+  padding-top: var(--espacio-12);
   scroll-margin-top: 100px;
+}
+
+/* Destacados: una góndola por categoría, una al lado de la otra */
+.gondolas {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.gondola {
+  --etiqueta: var(--acento);
+  --sobre-etiqueta: var(--sobre-acento);
+  flex: var(--cantidad) 1 calc(var(--cantidad) * 180px);
+  display: flex;
+  flex-direction: column;
+}
+
+/* Cartel colgado arriba de cada góndola, en el color de la categoría */
+.cartel {
+  --foco: var(--sobre-acento);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--espacio-1) var(--espacio-3);
+  padding: var(--espacio-2) var(--espacio-4);
+  background: var(--acento);
+  color: var(--sobre-acento);
+}
+
+.cartel h3 {
+  font-size: 1.75rem;
+}
+
+.cartel a {
+  font-family: var(--fuente-datos);
+  font-size: var(--t-dato);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.productos {
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 170px), 1fr));
 }
 
 .subtitulo {

@@ -25,6 +25,14 @@ const DESCENSO_YERBA = 0.35;
 // Cuánto sale la bombilla (en unidades del modelo original) cuando no está puesta.
 const SALIDA_BOMBILLA = 1.2;
 
+// Gestos del ritual (unidades de la escena).
+const PIVOTE = 0.6; // altura del centro de giro al dar vuelta o inclinar
+const ALZADO = 0.45; // cuánto se levanta el mate para darlo vuelta
+const ANGULO_INCLINADO = 0.85; // radianes
+const AMPLITUD_SACUDIDA = 0.07;
+const ALTURA_CHORRO = 2.2;
+const EJE_VOLTEO = new THREE.Vector3(0, 0, 1);
+
 // Medidas del modelo original (unidades del GLB).
 const MODELO_BORDE_VIROLA = 0.065;
 const MODELO_RADIO_YERBA = 0.306; // un poco menos que el interior de la virola
@@ -131,9 +139,12 @@ function crearMaterialCuerpo(material, color, original) {
  *   reemplaza solo el material del cuerpo.
  * - color: color del cuerpo (con "calabaza" tiñe la textura original).
  * - yerba, montanita, bombilla: valores de 0 a 1 (llenado, inclinación, inserción).
- * - animacionRef: ref opcional { yerba, montanita, bombilla, lavado } que se lee
- *   en cada frame, para animar sin re-renderizar React. `lavado` (0 a 1) aclara
- *   la yerba como cuando ya se tomaron muchos mates.
+ * - animacionRef: ref opcional que se lee en cada frame, para animar sin
+ *   re-renderizar React. Además de { yerba, montanita, bombilla } acepta los
+ *   gestos del ritual, de 0 a 1: tapa (la palma sobre la boca), alzado,
+ *   volteo (boca abajo), sacudida (-1 a 1), inclinado, agua (chorro en el
+ *   hueco), humedad (la yerba se oscurece junto al hueco) y lavado (yerba
+ *   lavada, como después de muchos mates).
  */
 export default function Mate3D({
   material = "calabaza",
@@ -177,21 +188,39 @@ export default function Mate3D({
       partes.virola.geometria.attributes.position,
     );
     const centroVirola = cajaVirola.getCenter(new THREE.Vector3());
+    const desplazamiento = [-centro.x, -caja.min.y, -centro.z];
+    // De unidades del modelo a unidades de la escena (el mate apoya en y = 0).
+    const aEscena = (x, y, z) =>
+      new THREE.Vector3(
+        (x + desplazamiento[0]) * ESCALA_MODELO,
+        (y + desplazamiento[1]) * ESCALA_MODELO,
+        (z + desplazamiento[2]) * ESCALA_MODELO,
+      );
+
+    const entrada = entradaBombilla(
+      partes.bombilla.geometria,
+      MODELO_ALTURA_YERBA,
+    );
+    // Se inclina hacia el lado opuesto a la bombilla: ahí se junta la yerba.
+    const haciaBombilla = new THREE.Vector2(
+      entrada.x - centroVirola.x,
+      entrada.y - centroVirola.z,
+    ).normalize();
 
     return {
       partes,
-      desplazamiento: [-centro.x, -caja.min.y, -centro.z],
+      desplazamiento,
       yerba: crearYerba({
         centro: new THREE.Vector2(centroVirola.x, centroVirola.z),
         radio: MODELO_RADIO_YERBA,
         alturaBase: MODELO_ALTURA_YERBA,
         alturaBorde: MODELO_BORDE_VIROLA,
-        entrada: entradaBombilla(
-          partes.bombilla.geometria,
-          MODELO_ALTURA_YERBA,
-        ),
+        entrada,
       }),
       ejeBombilla: ejeBombilla(partes.bombilla.geometria),
+      ejeInclinado: new THREE.Vector3(-haciaBombilla.y, 0, haciaBombilla.x),
+      boca: aEscena(centroVirola.x, MODELO_BORDE_VIROLA, centroVirola.z),
+      hueco: aEscena(entrada.x, MODELO_ALTURA_YERBA, entrada.y),
     };
   }, [scene]);
 
@@ -214,11 +243,22 @@ export default function Mate3D({
 
   const yerbaRef = useRef(null);
   const bombillaRef = useRef(null);
+  const poseRef = useRef(null);
+  const tapaRef = useRef(null);
+  const chorroRef = useRef(null);
+  const giro = useMemo(
+    () => ({
+      volteo: new THREE.Quaternion(),
+      inclinado: new THREE.Quaternion(),
+    }),
+    [],
+  );
   const aplicado = useRef({
     yerba: -1,
     montanita: -1,
     bombilla: -1,
     lavado: 0,
+    humedad: 0,
   });
 
   useFrame(() => {
@@ -227,12 +267,52 @@ export default function Mate3D({
     const inclinacion = animacion?.montanita ?? montanita;
     const insercion = animacion?.bombilla ?? bombilla;
     const lavado = animacion?.lavado ?? 0;
+    const humedad = animacion?.humedad ?? 0;
     const previo = aplicado.current;
 
     if (lavado !== previo.lavado) {
       modelo.yerba.lavar(lavado);
       previo.lavado = lavado;
     }
+    if (humedad !== previo.humedad) {
+      modelo.yerba.mojar(humedad);
+      previo.humedad = humedad;
+    }
+
+    // Pose: levantarlo, darlo vuelta, sacudirlo e inclinarlo.
+    const pose = poseRef.current;
+    pose.position.set(
+      (animacion?.sacudida ?? 0) * AMPLITUD_SACUDIDA,
+      PIVOTE + (animacion?.alzado ?? 0) * ALZADO,
+      0,
+    );
+    giro.volteo.setFromAxisAngle(
+      EJE_VOLTEO,
+      (animacion?.volteo ?? 0) * Math.PI,
+    );
+    giro.inclinado.setFromAxisAngle(
+      modelo.ejeInclinado,
+      (animacion?.inclinado ?? 0) * ANGULO_INCLINADO,
+    );
+    pose.quaternion.copy(giro.volteo).multiply(giro.inclinado);
+
+    // La palma baja hasta tapar la boca.
+    const tapa = animacion?.tapa ?? 0;
+    tapaRef.current.visible = tapa > 0.001;
+    tapaRef.current.position.y = modelo.boca.y + 0.03 + (1 - tapa) * 0.9;
+    tapaRef.current.material.opacity = tapa;
+
+    // Chorro de agua: baja hasta el hueco y después se corta desde arriba.
+    const agua = animacion?.agua ?? 0;
+    const arriba = modelo.hueco.y + ALTURA_CHORRO;
+    const frente = Math.min(1, agua / 0.35);
+    const cola = Math.max(0, (agua - 0.65) / 0.35);
+    const yAbajo = arriba - frente * ALTURA_CHORRO;
+    const yArriba = arriba - cola * ALTURA_CHORRO;
+    const chorro = chorroRef.current;
+    chorro.visible = agua > 0 && agua < 1 && yArriba - yAbajo > 0.01;
+    chorro.scale.y = Math.max(yArriba - yAbajo, 0.001);
+    chorro.position.y = (yArriba + yAbajo) / 2;
     if (Math.abs(inclinacion - previo.montanita) > 0.001) {
       modelo.yerba.deformar(inclinacion);
       previo.montanita = inclinacion;
@@ -256,23 +336,54 @@ export default function Mate3D({
     invalidate();
   }, [yerba, montanita, bombilla, materialCuerpo, invalidate]);
 
-  const { partes } = modelo;
+  const { partes, boca, hueco } = modelo;
 
   return (
     <group {...props}>
-      <group scale={ESCALA_MODELO}>
-        <group position={modelo.desplazamiento}>
-          <mesh geometry={partes.cuerpo.geometria} material={materialCuerpo} />
+      <group ref={poseRef} position={[0, PIVOTE, 0]}>
+        <group position={[0, -PIVOTE, 0]}>
+          <group scale={ESCALA_MODELO}>
+            <group position={modelo.desplazamiento}>
+              <mesh
+                geometry={partes.cuerpo.geometria}
+                material={materialCuerpo}
+              />
+              <mesh
+                geometry={partes.virola.geometria}
+                material={partes.virola.material}
+              />
+              <primitive ref={yerbaRef} object={modelo.yerba.grupo} />
+              <mesh
+                ref={bombillaRef}
+                geometry={partes.bombilla.geometria}
+                material={partes.bombilla.material}
+              />
+            </group>
+          </group>
+
           <mesh
-            geometry={partes.virola.geometria}
-            material={partes.virola.material}
-          />
-          <primitive ref={yerbaRef} object={modelo.yerba.grupo} />
+            ref={tapaRef}
+            position={[boca.x, boca.y, boca.z]}
+            visible={false}
+          >
+            <cylinderGeometry args={[0.6, 0.6, 0.05, 48]} />
+            <meshStandardMaterial color="#c99a72" roughness={0.8} transparent />
+          </mesh>
+
           <mesh
-            ref={bombillaRef}
-            geometry={partes.bombilla.geometria}
-            material={partes.bombilla.material}
-          />
+            ref={chorroRef}
+            position={[hueco.x, hueco.y, hueco.z]}
+            visible={false}
+          >
+            <cylinderGeometry args={[0.022, 0.03, 1, 12, 1, true]} />
+            <meshStandardMaterial
+              color="#d9ecf2"
+              roughness={0.05}
+              transparent
+              opacity={0.6}
+              envMapIntensity={1.6}
+            />
+          </mesh>
         </group>
       </group>
     </group>

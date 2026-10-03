@@ -51,11 +51,18 @@
   font-family: var(--fuente-datos);
   font-size: 1rem;
   font-weight: 700;
+  white-space: nowrap;
   clip-path: polygon(0 0, 100% 0, 100% 70%, calc(100% - 8px) 100%, 0 100%);
 }
 
+/* Puede ser h3 o h4 según la página: el estilo de título va acá */
 .nombre {
+  font-family: var(--fuente-titulos);
   font-size: var(--t-titulo-3);
+  font-weight: 850;
+  line-height: 0.9;
+  text-transform: uppercase;
+  text-wrap: balance;
 }
 
 .producto:hover .nombre {

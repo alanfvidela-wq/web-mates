@@ -5,7 +5,7 @@ import { tieneStock, tienePreciosDistintos } from "@/lib/productos";
 import styles from "./TarjetaProducto.module.css";
 
 // Producto apoyado en la góndola: dibujo sobre el estante y etiqueta de precio.
-export default function TarjetaProducto({ producto }) {
+export default function TarjetaProducto({ producto, Titulo = "h3" }) {
   const disponible = tieneStock(producto);
 
   return (
@@ -22,7 +22,7 @@ export default function TarjetaProducto({ producto }) {
         {tienePreciosDistintos(producto) && "desde "}
         {formatearPrecio(producto.precioBase)}
       </p>
-      <h3 className={styles.nombre}>{producto.nombre}</h3>
+      <Titulo className={styles.nombre}>{producto.nombre}</Titulo>
       <p className={styles.marca}>{producto.marca}</p>
     </Link>
   );
