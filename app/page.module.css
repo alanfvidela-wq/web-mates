@@ -1,96 +1,13 @@
-.hero {
-  position: relative;
-  display: grid;
-  grid-template-columns: 1fr;
-  align-items: center;
-  gap: var(--espacio-8);
-  padding: var(--espacio-12) var(--espacio-8);
-  overflow: hidden;
-  border-radius: var(--radio-grande);
-  background: var(--color-yerba-claro);
+/* La home ocupa todo el ancho para el hero; el resto va centrado */
+.home {
+  max-width: none;
+  padding: 0;
 }
 
-@media (min-width: 800px) {
-  .hero {
-    grid-template-columns: 1.4fr 1fr;
-    padding: var(--espacio-12);
-  }
-}
-
-@media (max-width: 480px) {
-  .hero {
-    padding: var(--espacio-8) var(--espacio-6);
-  }
-}
-
-.heroTexto {
-  position: relative;
-  z-index: 1;
-  display: flex;
-  flex-direction: column;
-  gap: var(--espacio-4);
-}
-
-.kicker {
-  font-size: var(--texto-sm);
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
-  color: var(--color-madera);
-}
-
-.titulo {
-  font-size: var(--texto-xxl);
-  color: var(--color-yerba-oscuro);
-}
-
-.titulo em {
-  color: var(--color-cuero);
-}
-
-.bajada {
-  max-width: 44ch;
-  font-size: var(--texto-lg);
-  color: var(--color-texto-suave);
-}
-
-.acciones {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--espacio-3);
-  margin-top: var(--espacio-2);
-}
-
-/* Ilustración abstracta: un mate visto desde arriba con la yerba */
-.heroDecoracion {
-  position: relative;
-  justify-self: center;
-  width: min(280px, 70vw);
-  aspect-ratio: 1;
-}
-
-.circulo {
-  position: absolute;
-  inset: 0;
-  border-radius: 50%;
-  background: var(--color-cuero);
-  box-shadow: inset 0 0 0 14px var(--color-madera);
-}
-
-.hoja {
-  position: absolute;
-  inset: 22%;
-  border-radius: 50%;
-  background:
-    radial-gradient(circle at 35% 35%, #7d9b48 0 18%, transparent 19%),
-    radial-gradient(circle at 65% 60%, #557a30 0 22%, transparent 23%),
-    var(--color-yerba);
-}
-
-@media (max-width: 799px) {
-  .heroDecoracion {
-    display: none;
-  }
+.contenido {
+  max-width: var(--ancho-max);
+  margin: 0 auto;
+  padding: 0 var(--gutter) var(--espacio-12);
 }
 
 .seccion {
