@@ -1,7 +1,7 @@
 @AGENTS.md
-# Proyecto "La Montañita"
+# Proyecto "Amargo"
 
-E-commerce de "La Montañita", una tienda de mate: mates, bombillas, termos, yerbas y accesorios.
+E-commerce de "Amargo", una tienda de mate: mates, bombillas, termos, yerbas y accesorios.
 Vende productos de marcas reales. Mecánica principal: "Armá tu combo", un armador por
 pasos donde el cliente elige mate, bombilla, termo, yerba y presentación, con descuento por combo.
 
@@ -17,3 +17,4 @@ pasos donde el cliente elige mate, bombilla, termo, yerba y presentación, con d
 - Server Components por defecto; "use client" solo donde haya interactividad.
 - Precios, descuentos y stock siempre se calculan y validan en el servidor.
 - Precios en ARS como enteros.
+- Después de cada commit, hacé git push a main (Vercel publica automáticamente).

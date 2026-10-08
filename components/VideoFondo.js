@@ -19,8 +19,6 @@ export default function VideoFondo({ className, claseBoton, claseIcono }) {
   const version = VIDEOS_HERO[mobile ? "mobile" : "desktop"];
   const conVideo = montado && !reducido;
 
-  useAltoHeader();
-
   useEffect(() => {
     const video = ref.current;
     if (!video) return;
@@ -78,17 +76,3 @@ export default function VideoFondo({ className, claseBoton, claseIcono }) {
   );
 }
 
-// Publica el alto real del header en --alto-header para que el hero mida
-// exactamente 100svh menos el header (el CSS trae un valor aproximado).
-function useAltoHeader() {
-  useEffect(() => {
-    const header = document.querySelector("body > header, header");
-    if (!header) return;
-    const raiz = document.documentElement;
-    const observador = new ResizeObserver(() => {
-      raiz.style.setProperty("--alto-header", `${header.offsetHeight}px`);
-    });
-    observador.observe(header);
-    return () => observador.disconnect();
-  }, []);
-}

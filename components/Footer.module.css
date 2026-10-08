@@ -1,6 +1,5 @@
 .footer {
-  --foco: var(--amarillo);
-  border-top: 6px solid var(--amarillo);
+  --foco: var(--verde-claro);
   background: var(--tinta);
   color: var(--papel);
 }
@@ -11,7 +10,7 @@
   gap: var(--espacio-8);
   max-width: var(--ancho-max);
   margin: 0 auto;
-  padding: var(--espacio-12) var(--gutter) var(--espacio-8);
+  padding: var(--espacio-16) var(--gutter) var(--espacio-8);
 }
 
 .marca {
@@ -34,18 +33,18 @@
   flex-direction: column;
   gap: var(--espacio-1);
   list-style: none;
+  font-family: var(--fuente-datos);
   font-size: 1.0625rem;
-  font-weight: 500;
+  font-weight: 700;
 }
 
 .lista a:hover {
-  color: var(--amarillo);
+  color: var(--verde-claro);
 }
 
 .legal {
   grid-column: 1 / -1;
-  padding-top: var(--espacio-6);
-  border-top: 1px solid color-mix(in srgb, var(--papel) 30%, transparent);
+  margin-top: var(--espacio-8);
   font-family: var(--fuente-texto);
   font-size: var(--t-dato);
   color: color-mix(in srgb, var(--papel) 80%, var(--tinta));

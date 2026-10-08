@@ -12,6 +12,7 @@
   --papel: color-mix(in srgb, var(--kraft) 30%, #fff);
   --kraft-oscuro: color-mix(in srgb, var(--kraft) 55%, var(--tinta));
   --tinta-suave: color-mix(in srgb, var(--tinta) 80%, var(--kraft));
+  --verde-claro: color-mix(in srgb, var(--verde) 22%, #c8e3a0);
 
   /* Color por categoría (se redefine con data-categoria) */
   --acento: var(--verde);
@@ -41,11 +42,11 @@
   --espacio-16: 4rem;
   --ancho-max: 1200px;
   --gutter: clamp(1rem, 4vw, 2rem);
-  --filete: 2px solid var(--tinta);
-  --estante: 6px solid var(--tinta);
+  --espacio-24: 6rem;
+  --radio: 16px;
   --transicion: 120ms ease;
-  /* Aproximado; el hero lo reemplaza por el alto medido del header */
-  --alto-header: 70px;
+  /* Aproximado; el header lo reemplaza por su alto medido */
+  --alto-header: 76px;
 
   /* Textura de papel kraft: ruido muy sutil, sin gradientes */
   --textura-papel: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.32 0 0 0 0 0.22 0 0 0 0 0.1 0 0 0 0.16 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
@@ -103,6 +104,8 @@ body {
   flex: 1;
   display: flex;
   flex-direction: column;
+  /* El header es fijo: el contenido arranca debajo */
+  padding-top: var(--alto-header);
 }
 
 main {
@@ -156,7 +159,7 @@ button {
   transform: none;
 }
 
-/* Botones: rectos, en la letra de texto y en sentence case */
+/* Botones: píldoras sin borde, a máquina de escribir y en sentence case */
 .boton {
   display: inline-flex;
   align-items: center;
@@ -164,10 +167,12 @@ button {
   gap: var(--espacio-2);
   min-height: 48px;
   padding: var(--espacio-2) var(--espacio-6);
-  border: var(--filete);
+  border: none;
+  border-radius: 999px;
   background: var(--tinta);
   color: var(--papel);
-  font-weight: 600;
+  font-family: var(--fuente-datos);
+  font-weight: 700;
   font-size: 1.0625rem;
   transition:
     background var(--transicion),
@@ -175,25 +180,35 @@ button {
 }
 
 .boton:hover:not(:disabled) {
-  background: var(--amarillo);
-  color: var(--tinta);
+  background: var(--verde);
+  color: var(--papel);
 }
 
 .boton:disabled {
-  border-color: var(--kraft-oscuro);
-  background: transparent;
+  background: color-mix(in srgb, var(--kraft-oscuro) 35%, var(--kraft));
   color: var(--tinta-suave);
   cursor: not-allowed;
 }
 
 .boton-secundario {
-  background: transparent;
+  background: var(--papel);
   color: var(--tinta);
 }
 
 .boton-secundario:hover:not(:disabled) {
   background: var(--tinta);
   color: var(--papel);
+}
+
+/* Píldora principal de compra: verde yerba claro */
+.boton-yerba {
+  background: var(--verde-claro);
+  color: var(--tinta);
+}
+
+.boton-yerba:hover:not(:disabled) {
+  background: var(--papel);
+  color: var(--tinta);
 }
 
 /* Migas de pan */
@@ -215,7 +230,7 @@ button {
 
 @media (max-width: 860px) {
   :root {
-    --alto-header: 114px;
+    --alto-header: 113px;
   }
 }
 

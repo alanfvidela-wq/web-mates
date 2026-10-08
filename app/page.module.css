@@ -4,15 +4,14 @@
   padding: 0;
 }
 
-/* Franja verde de paquete con las leyendas de la casa */
+/* Bloque verde con las leyendas de la casa */
 .franja {
-  --foco: var(--amarillo);
+  --foco: var(--papel);
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   gap: var(--espacio-2) var(--espacio-6);
-  padding: var(--espacio-4) var(--gutter);
-  border-block: 6px solid var(--amarillo);
+  padding: var(--espacio-8) var(--gutter);
   background: var(--verde);
   color: var(--papel);
   list-style: none;
@@ -32,7 +31,7 @@
 .hojita {
   width: 1.25rem;
   height: 1.25rem;
-  color: var(--amarillo);
+  color: var(--verde-claro);
 }
 
 .contenido {
@@ -45,14 +44,21 @@
   display: flex;
   flex-direction: column;
   gap: var(--espacio-8);
-  padding-top: var(--espacio-12);
-  scroll-margin-top: 100px;
+  padding-top: var(--espacio-16);
+  padding-bottom: var(--espacio-24);
+  scroll-margin-top: calc(var(--alto-header) + var(--espacio-4));
 }
 
-/* Destacados en un solo estante: todos a la misma altura y en fila */
+/* Sección sobre fondo papel, a todo el ancho */
+.fondoPapel {
+  background: var(--papel);
+}
+
+/* Destacados en una sola fila, todos a la misma altura */
 .estante {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--espacio-8) var(--espacio-4);
 }
 
 @media (min-width: 640px) {
@@ -68,18 +74,15 @@
 }
 
 .subtitulo {
-  padding-bottom: var(--espacio-3);
-  border-bottom: var(--estante);
   font-size: var(--t-titulo-2);
 }
 
-/* Categorías como lista de almacén: filas separadas por filetes */
+/* Categorías como lista de almacén: filas en bloques kraft, separadas por aire */
 .categorias {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espacio-3);
   list-style: none;
-}
-
-.categorias li + li {
-  border-top: var(--filete);
 }
 
 .categoria {
@@ -91,7 +94,12 @@
     "cantidad dibujo";
   align-items: center;
   column-gap: var(--espacio-6);
-  padding: var(--espacio-4) var(--espacio-3);
+  padding: var(--espacio-4) var(--espacio-6);
+  border-radius: var(--radio);
+  background: var(--kraft);
+  transition:
+    background-color var(--transicion),
+    color var(--transicion);
 }
 
 .categoria:hover,

@@ -34,12 +34,12 @@
   aspect-ratio: 8 / 5;
 }
 
-/* Sello de goma rojo */
+/* Sello ovalado rojo, relleno */
 .codigo {
   padding: var(--espacio-1) var(--espacio-4);
-  border: 3px double var(--rojo);
   border-radius: 50%;
-  color: var(--rojo);
+  background: var(--rojo);
+  color: var(--papel);
   font-family: var(--fuente-titulos);
   font-size: 2rem;
   font-style: italic;
@@ -84,25 +84,16 @@
 .gondola {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(min(100%, 230px), 1fr));
+  gap: var(--espacio-12) var(--espacio-6);
   align-self: stretch;
   margin-top: var(--espacio-8);
 }
 
+/* Lugar vacío de un producto: el mismo bloque claro, sin dibujo */
 .hueco {
   aspect-ratio: 1;
-  margin: 0 var(--espacio-4);
-  border: 2px dashed var(--kraft-oscuro);
-  border-bottom: none;
-  position: relative;
-}
-
-.gondola .hueco::after {
-  content: "";
-  position: absolute;
-  right: calc(-1 * var(--espacio-4) - 2px);
-  bottom: -6px;
-  left: calc(-1 * var(--espacio-4) - 2px);
-  border-bottom: var(--estante);
+  border-radius: var(--radio);
+  background: color-mix(in srgb, var(--papel) 55%, var(--kraft));
 }
 
 @media (prefers-reduced-motion: no-preference) {

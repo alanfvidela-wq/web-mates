@@ -10,9 +10,9 @@
   grid-template-columns: minmax(0, 1fr) auto;
   align-items: end;
   gap: var(--espacio-6);
-  padding: var(--espacio-6)
+  padding: var(--espacio-8)
     max(var(--gutter), (100% - var(--ancho-max)) / 2 + var(--gutter))
-    var(--espacio-8);
+    var(--espacio-12);
   background: var(--acento);
   color: var(--sobre-acento);
 }
@@ -33,12 +33,13 @@
   font-size: var(--t-entrada);
 }
 
-/* Sello ovalado, como el de un paquete */
+/* Sello ovalado relleno, como el de un paquete */
 .sello {
   align-self: flex-start;
   padding: var(--espacio-2) var(--espacio-4);
-  border: 2px solid currentColor;
   border-radius: 50%;
+  background: var(--sobre-acento);
+  color: var(--acento);
   font-family: var(--fuente-titulos);
   font-size: 1.5rem;
   font-style: italic;
@@ -57,13 +58,11 @@
   --sobre-etiqueta: var(--sobre-acento);
   max-width: var(--ancho-max);
   margin: 0 auto;
-  padding: var(--espacio-8) var(--gutter) var(--espacio-16);
+  padding: var(--espacio-12) var(--gutter) var(--espacio-24);
 }
 
 .cuenta {
-  margin-bottom: var(--espacio-6);
-  padding-bottom: var(--espacio-2);
-  border-bottom: var(--filete);
+  margin-bottom: var(--espacio-8);
   font-family: var(--fuente-texto);
   font-size: var(--t-dato);
 }

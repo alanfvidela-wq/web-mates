@@ -48,41 +48,43 @@ export default async function Home() {
 
       <section
         id="categorias"
-        className={`${styles.contenido} ${styles.seccion}`}
+        className={styles.fondoPapel}
         aria-labelledby="titulo-categorias"
       >
-        <h2 id="titulo-categorias" className={styles.subtitulo}>
-          Qué hay en el almacén
-        </h2>
-        <ul className={styles.categorias}>
-          {CATEGORIAS.map((categoria) => {
-            const cantidad = productos.filter(
-              (p) => p.categoria === categoria.slug,
-            ).length;
-            return (
-              <li key={categoria.slug} data-categoria={categoria.slug}>
-                <Link
-                  href={`/categoria/${categoria.slug}`}
-                  className={styles.categoria}
-                >
-                  <span className={styles.categoriaNombre}>
-                    {categoria.nombre}
-                  </span>
-                  <span className={styles.categoriaDescripcion}>
-                    {categoria.descripcion}
-                  </span>
-                  <span className={styles.categoriaCantidad}>
-                    {cantidad} productos
-                  </span>
-                  <IlustracionProducto
-                    categoria={categoria.slug}
-                    className={styles.categoriaDibujo}
-                  />
-                </Link>
-              </li>
-            );
-          })}
-        </ul>
+        <div className={`${styles.contenido} ${styles.seccion}`}>
+          <h2 id="titulo-categorias" className={styles.subtitulo}>
+            Qué hay en el almacén
+          </h2>
+          <ul className={styles.categorias}>
+            {CATEGORIAS.map((categoria) => {
+              const cantidad = productos.filter(
+                (p) => p.categoria === categoria.slug,
+              ).length;
+              return (
+                <li key={categoria.slug} data-categoria={categoria.slug}>
+                  <Link
+                    href={`/categoria/${categoria.slug}`}
+                    className={styles.categoria}
+                  >
+                    <span className={styles.categoriaNombre}>
+                      {categoria.nombre}
+                    </span>
+                    <span className={styles.categoriaDescripcion}>
+                      {categoria.descripcion}
+                    </span>
+                    <span className={styles.categoriaCantidad}>
+                      {cantidad} productos
+                    </span>
+                    <IlustracionProducto
+                      categoria={categoria.slug}
+                      className={styles.categoriaDibujo}
+                    />
+                  </Link>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
       </section>
     </main>
   );

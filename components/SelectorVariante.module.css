@@ -33,19 +33,23 @@
   align-items: flex-start;
   gap: 2px;
   min-height: 48px;
-  padding: var(--espacio-2) var(--espacio-3);
-  border: var(--filete);
-  background: transparent;
+  padding: var(--espacio-2) var(--espacio-4);
+  border: none;
+  border-radius: 12px;
+  background: var(--papel);
   text-align: left;
+  transition:
+    background-color var(--transicion),
+    color var(--transicion);
 }
 
 .opcion:hover:not(:disabled) {
-  background: var(--papel);
+  background: var(--verde-claro);
 }
 
 .opcion:disabled {
-  border-style: dashed;
-  border-color: var(--kraft-oscuro);
+  background: color-mix(in srgb, var(--kraft-oscuro) 25%, var(--kraft));
+  color: var(--tinta-suave);
   cursor: not-allowed;
 }
 

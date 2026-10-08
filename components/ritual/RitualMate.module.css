@@ -2,17 +2,16 @@
   position: relative;
 }
 
-/* Cartel de la sección: franja de tinta antes del recorrido */
+/* Cartel de la sección: bloque de tinta antes del recorrido */
 .cabecera {
-  --foco: var(--amarillo);
+  --foco: var(--verde-claro);
   display: flex;
   flex-wrap: wrap;
   align-items: baseline;
   justify-content: space-between;
   gap: var(--espacio-2) var(--espacio-8);
-  padding: var(--espacio-8)
+  padding: var(--espacio-12)
     max(var(--gutter), (100% - var(--ancho-max)) / 2 + var(--gutter));
-  border-top: 6px solid var(--amarillo);
   background: var(--tinta);
   color: var(--papel);
 }
@@ -114,15 +113,15 @@
   font-size: clamp(2.5rem, 4.2vw, 4rem);
 }
 
-/* Número del paso como sello de goma */
+/* Número del paso como sello redondo relleno */
 .numero {
   display: grid;
   place-items: center;
   width: 3rem;
   height: 3rem;
-  border: 3px double var(--rojo);
   border-radius: 50%;
-  color: var(--rojo);
+  background: var(--rojo);
+  color: var(--papel);
   font-size: 1.75rem;
   font-style: italic;
   line-height: 1;
@@ -156,14 +155,14 @@
   top: 80%;
   left: 50%;
   z-index: 1;
-  background: var(--amarillo);
+  background: var(--verde-claro);
   color: var(--tinta);
   transform: translateX(-50%) rotate(-2deg);
 }
 
 .cambiarYerba:hover:not(:disabled) {
   background: var(--tinta);
-  color: var(--amarillo);
+  color: var(--papel);
 }
 
 /* Mobile: el texto va abajo, centrado y sobre una etiqueta */
@@ -177,7 +176,7 @@
     gap: var(--espacio-2);
     width: auto;
     padding: var(--espacio-4);
-    border: var(--filete);
+    border-radius: var(--radio);
     background: var(--papel);
     text-align: center;
     transform: translateY(calc((1 - var(--opacidad)) * 16px));
@@ -244,10 +243,9 @@
     --opacidad: 1 !important;
     position: static;
     width: auto;
-    padding: var(--espacio-4) 0 0;
-    border: none;
-    border-top: var(--filete);
-    background: none;
+    padding: var(--espacio-6);
+    border-radius: var(--radio);
+    background: var(--papel);
     align-items: flex-start;
     text-align: left;
     transform: none;

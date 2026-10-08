@@ -1,10 +1,11 @@
-/* Alto exacto: pantalla menos el header (--alto-header lo mide VideoFondo) */
+/* Pantalla completa: sube por debajo del header, que flota transparente encima */
 .hero {
-  --foco: var(--amarillo);
+  --foco: var(--papel);
   position: relative;
   display: flex;
   align-items: flex-end;
-  height: calc(100svh - var(--alto-header));
+  margin-top: calc(-1 * var(--alto-header));
+  height: 100svh;
   min-height: 480px;
   overflow: hidden;
   background: var(--tinta);
@@ -28,18 +29,24 @@
   object-position: 85% 60%;
 }
 
-/* Degradado oscuro desde abajo: la única excepción a los colores planos,
-   para que el texto se lea sobre el video */
+/* Degradados de tinta: la única excepción a los colores planos, para que
+   se lean el titular (desde abajo) y el header (un velo suave arriba) */
 .degradado {
   position: absolute;
   inset: 0;
   pointer-events: none;
-  background: linear-gradient(
-    to top,
-    color-mix(in srgb, var(--tinta) 88%, transparent) 0%,
-    color-mix(in srgb, var(--tinta) 55%, transparent) 32%,
-    transparent 62%
-  );
+  background:
+    linear-gradient(
+      to bottom,
+      color-mix(in srgb, var(--tinta) 45%, transparent) 0,
+      transparent calc(var(--alto-header) + 80px)
+    ),
+    linear-gradient(
+      to top,
+      color-mix(in srgb, var(--tinta) 88%, transparent) 0%,
+      color-mix(in srgb, var(--tinta) 55%, transparent) 32%,
+      transparent 62%
+    );
 }
 
 .texto {
@@ -66,23 +73,15 @@
   line-height: 1.4;
 }
 
-/* Sobre el video el botón va en amarillo (tinta sobre amarillo 8,6:1) */
+/* Píldora verde yerba claro (estilo .boton-yerba), más grande */
 .cta {
   min-height: 56px;
   margin-top: var(--espacio-2);
   padding-inline: var(--espacio-8);
-  border-color: var(--amarillo);
-  background: var(--amarillo);
-  color: var(--tinta);
-  font-size: 1.25rem;
+  font-size: 1.1875rem;
 }
 
-.cta:hover {
-  border-color: var(--papel);
-  background: var(--papel);
-}
-
-/* Pausa/play: chico, en la esquina de abajo a la derecha */
+/* Pausa/play: círculo claro sin borde, en la esquina de abajo a la derecha */
 .pausa {
   position: absolute;
   z-index: 1;
@@ -92,20 +91,21 @@
   place-items: center;
   width: 44px;
   height: 44px;
-  border: 2px solid var(--papel);
-  background: color-mix(in srgb, var(--tinta) 40%, transparent);
-  color: var(--papel);
+  border: none;
+  border-radius: 50%;
+  background: var(--papel);
+  color: var(--tinta);
   cursor: pointer;
+  transition: background-color var(--transicion);
 }
 
 .pausa:hover {
-  background: var(--papel);
-  color: var(--tinta);
+  background: var(--verde-claro);
 }
 
 .icono {
-  width: 20px;
-  height: 20px;
+  width: 18px;
+  height: 18px;
 }
 
 /* Mobile: video vertical 9:16; se prioriza la parte de arriba (chorro y yerba) */
@@ -124,7 +124,6 @@
   }
 
   .pausa {
-    top: var(--espacio-4);
-    bottom: auto;
+    bottom: var(--espacio-8);
   }
 }

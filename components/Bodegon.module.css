@@ -1,12 +1,11 @@
 .bodegon {
   position: relative;
   aspect-ratio: 8 / 5;
-  border-bottom: 3px solid var(--tinta);
 }
 
 .bodegon svg {
   position: absolute;
-  bottom: -6px;
+  bottom: 0;
 }
 
 .termo {

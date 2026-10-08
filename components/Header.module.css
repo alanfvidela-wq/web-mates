@@ -1,9 +1,21 @@
+/* Fijo arriba: sólido y claro, salvo cuando flota sobre el video del hero */
 .header {
-  --foco: var(--amarillo);
-  position: sticky;
+  --foco: var(--tinta);
+  position: fixed;
   top: 0;
+  right: 0;
+  left: 0;
   z-index: 10;
-  background: var(--verde);
+  background: var(--papel);
+  color: var(--tinta);
+  transition:
+    background-color 300ms ease,
+    color 300ms ease;
+}
+
+.header[data-transparente] {
+  --foco: var(--papel);
+  background: transparent;
   color: var(--papel);
 }
 
@@ -14,54 +26,73 @@
   gap: var(--espacio-6);
   max-width: var(--ancho-max);
   margin: 0 auto;
-  padding: var(--espacio-2) var(--gutter);
+  padding: var(--espacio-4) var(--gutter);
 }
 
+.logo {
+  color: var(--verde);
+  transition: color 300ms ease;
+}
+
+.header[data-transparente] .logo {
+  color: var(--papel);
+}
+
+/* Navegación a máquina de escribir, como en Graza */
 .nav {
   display: flex;
   justify-content: flex-end;
   gap: var(--espacio-6);
+  font-family: var(--fuente-datos);
   font-size: 1rem;
-  font-weight: 500;
+  font-weight: 700;
 }
 
 .nav a {
   padding: var(--espacio-1) 0;
-  border-bottom: 3px solid transparent;
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 6px;
+  transition: text-decoration-color var(--transicion);
 }
 
 .nav a:hover {
-  border-bottom-color: var(--amarillo);
+  text-decoration-color: currentColor;
 }
 
+/* Carrito: píldora clara con la cantidad, siempre sobre fondo claro */
 .carrito {
-  display: grid;
-  place-items: center;
-  width: 44px;
-  height: 44px;
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 var(--espacio-4);
+  border-radius: 999px;
+  background: var(--kraft);
+  color: var(--tinta);
+  font-family: var(--fuente-datos);
+  font-size: 1rem;
+  font-weight: 700;
+  white-space: nowrap;
+  transition: background-color var(--transicion);
 }
 
-.carrito:hover {
-  color: var(--amarillo);
+.header[data-transparente] .carrito {
+  --foco: var(--papel);
+  background: var(--papel);
 }
 
-.bolsa {
-  width: 30px;
-  height: 30px;
-}
-
-/* Franjas del paquete: amarillo y rojo, de lado a lado */
-.franjas {
-  height: 10px;
-  border-top: 6px solid var(--amarillo);
-  background: var(--rojo);
+.carrito:hover,
+.header[data-transparente] .carrito:hover {
+  background: var(--verde-claro);
 }
 
 /* En pantallas chicas la navegación baja a una segunda fila con scroll horizontal */
 @media (max-width: 860px) {
   .contenido {
     grid-template-columns: 1fr auto;
-    row-gap: 0;
+    row-gap: var(--espacio-2);
+    padding-block: var(--espacio-3);
   }
 
   .nav {
@@ -71,7 +102,6 @@
     gap: var(--espacio-4);
     overflow-x: auto;
     padding-bottom: var(--espacio-1);
-    font-size: 1.1875rem;
     white-space: nowrap;
     scrollbar-width: none;
   }

@@ -20,7 +20,7 @@
   display: grid;
   place-items: center;
   aspect-ratio: 1;
-  border-bottom: var(--estante);
+  border-radius: var(--radio);
   background: var(--acento);
   color: var(--sobre-acento);
 }
@@ -40,8 +40,9 @@
   top: var(--espacio-6);
   right: var(--espacio-6);
   padding: var(--espacio-2) var(--espacio-4);
-  border: 2px solid currentColor;
   border-radius: 50%;
+  background: var(--sobre-acento);
+  color: var(--acento);
   font-family: var(--fuente-titulos);
   font-size: 1.375rem;
   font-style: italic;
@@ -71,28 +72,30 @@
   font-size: var(--t-entrada);
 }
 
-/* Dorso del paquete: tabla de datos entre filetes, sin cajas */
+/* Dorso del paquete: bloque papel con filas alternadas, sin líneas */
 .etiqueta {
   margin-top: var(--espacio-4);
-  border-top: var(--estante);
+  padding: var(--espacio-6);
+  border-radius: var(--radio);
+  background: var(--papel);
 }
 
 .etiquetaTitulo {
-  padding: var(--espacio-3) 0 var(--espacio-2);
+  padding-bottom: var(--espacio-4);
   font-size: var(--t-titulo-3);
-}
-
-.ficha {
-  border-top: var(--filete);
 }
 
 .fila {
   display: grid;
   grid-template-columns: minmax(7rem, 0.4fr) 1fr;
   gap: var(--espacio-4);
-  padding: var(--espacio-2) 0;
-  border-bottom: 1px solid var(--tinta);
+  padding: var(--espacio-2) var(--espacio-3);
+  border-radius: 8px;
   font-family: var(--fuente-datos);
+}
+
+.fila:nth-child(odd) {
+  background: color-mix(in srgb, var(--kraft) 45%, var(--papel));
 }
 
 .fila dt {
@@ -102,6 +105,6 @@
 @media (min-width: 860px) {
   .frente {
     position: sticky;
-    top: 110px;
+    top: calc(var(--alto-header) + var(--espacio-6));
   }
 }

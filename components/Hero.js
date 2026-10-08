@@ -3,11 +3,12 @@ import { CORTE_MOBILE, VIDEOS_HERO } from "@/lib/heroVideo";
 import VideoFondo from "./VideoFondo";
 import styles from "./Hero.module.css";
 
-// Hero de la home: video de fondo a pantalla completa con el titular encima.
+// Hero de la home: video de fondo a pantalla completa, con el header flotando
+// encima y el titular abajo a la izquierda.
 // El poster va en un <picture> del servidor, así se ve desde el primer pintado.
 export default function Hero() {
   return (
-    <section className={styles.hero} aria-labelledby="hero-titulo">
+    <section className={styles.hero} aria-labelledby="hero-titulo" data-hero>
       <picture className={styles.medio}>
         <source media={CORTE_MOBILE} srcSet={VIDEOS_HERO.mobile.poster} />
         <img
@@ -34,7 +35,7 @@ export default function Hero() {
           Elegís mate, bombilla, termo y yerba, y te llevás el combo con
           descuento.
         </p>
-        <Link href="/arma-tu-combo" className={`boton ${styles.cta}`}>
+        <Link href="/arma-tu-combo" className={`boton boton-yerba ${styles.cta}`}>
           Armá tu combo
         </Link>
       </div>
