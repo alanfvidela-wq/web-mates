@@ -30,7 +30,7 @@
 }
 
 /* Degradados de tinta: la única excepción a los colores planos, para que
-   se lean el titular (desde abajo) y el header (un velo suave arriba) */
+   se lean el titular (desde abajo) y el menú (un velo muy sutil arriba) */
 .degradado {
   position: absolute;
   inset: 0;
@@ -38,8 +38,8 @@
   background:
     linear-gradient(
       to bottom,
-      color-mix(in srgb, var(--tinta) 45%, transparent) 0,
-      transparent calc(var(--alto-header) + 80px)
+      color-mix(in srgb, var(--tinta) 38%, transparent) 0,
+      transparent calc(var(--alto-header) + 60px)
     ),
     linear-gradient(
       to top,
@@ -63,7 +63,7 @@
 
 .titulo {
   max-width: 11ch;
-  font-size: clamp(3.5rem, 9vw, 8.5rem);
+  font-size: var(--t-titulo-1);
   line-height: 0.9;
 }
 
@@ -73,7 +73,7 @@
   line-height: 1.4;
 }
 
-/* Píldora verde yerba claro (estilo .boton-yerba), más grande */
+/* La acción principal (.boton, verde vivo), más grande para que resalte */
 .cta {
   min-height: 56px;
   margin-top: var(--espacio-2);

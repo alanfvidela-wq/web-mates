@@ -2,7 +2,7 @@
 .logo {
   display: inline-block;
   font-family: var(--font-logo), Georgia, serif;
-  font-size: 2rem;
+  font-size: 2.75rem;
   font-weight: 900;
   font-variation-settings: "SOFT" 100;
   letter-spacing: -0.01em;

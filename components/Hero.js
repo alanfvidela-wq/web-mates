@@ -35,7 +35,7 @@ export default function Hero() {
           Elegís mate, bombilla, termo y yerba, y te llevás el combo con
           descuento.
         </p>
-        <Link href="/arma-tu-combo" className={`boton boton-yerba ${styles.cta}`}>
+        <Link href="/arma-tu-combo" className={`boton ${styles.cta}`}>
           Armá tu combo
         </Link>
       </div>

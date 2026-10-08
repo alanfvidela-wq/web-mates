@@ -15,8 +15,8 @@ export default function ArmaTuCombo() {
       <p className={styles.codigo}>Próximamente</p>
       <h1 className={styles.titulo}>Armá tu combo</h1>
       <p className={styles.texto}>
-        Estamos preparando el armador: vas a poder elegir mate, bombilla, termo
-        y yerba paso a paso, y llevarte todo junto con descuento.
+        Estamos afilando el armador. Muy pronto elegís mate, bombilla, termo y
+        yerba, y te llevás todo con descuento.
       </p>
       <div className={styles.acciones}>
         <Link href="/categoria/mates" className="boton">

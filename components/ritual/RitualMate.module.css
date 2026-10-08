@@ -10,7 +10,7 @@
   align-items: baseline;
   justify-content: space-between;
   gap: var(--espacio-2) var(--espacio-8);
-  padding: var(--espacio-12)
+  padding: var(--espacio-16)
     max(var(--gutter), (100% - var(--ancho-max)) / 2 + var(--gutter));
   background: var(--tinta);
   color: var(--papel);
@@ -140,8 +140,9 @@
   flex-direction: column;
   align-items: center;
   transform: translateX(-50%);
-  font-family: var(--fuente-texto);
+  font-family: var(--fuente-datos);
   font-size: var(--t-dato);
+  font-weight: 700;
 }
 
 .flecha {

@@ -18,6 +18,8 @@
 
 .legend {
   margin-bottom: var(--espacio-2);
+  font-family: var(--fuente-datos);
+  font-size: var(--t-dato);
   font-weight: 700;
 }
 
@@ -35,8 +37,9 @@
   min-height: 48px;
   padding: var(--espacio-2) var(--espacio-4);
   border: none;
-  border-radius: 12px;
+  border-radius: var(--radio);
   background: var(--papel);
+  font-family: var(--fuente-datos);
   text-align: left;
   transition:
     background-color var(--transicion),
@@ -68,7 +71,6 @@
 }
 
 .opcionStock {
-  font-family: var(--fuente-texto);
   font-size: var(--t-dato);
 }
 
@@ -91,6 +93,7 @@
 }
 
 .nota {
-  font-family: var(--fuente-texto);
+  font-family: var(--fuente-datos);
   font-size: var(--t-dato);
+  font-weight: 700;
 }

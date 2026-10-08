@@ -13,7 +13,8 @@ export default function NotFound() {
       <p className={styles.codigo}>404</p>
       <h1 className={styles.titulo}>Se nos lavó el mate</h1>
       <p className={styles.texto}>
-        La página o el producto que buscás no existe o ya no está disponible.
+        Lo que buscás no está, o ya se terminó. Pasá por la góndola, que siempre
+        hay algo para cebar.
       </p>
       <div className={styles.acciones}>
         <Link href="/" className="boton">

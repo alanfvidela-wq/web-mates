@@ -7,13 +7,51 @@ estantes dibujados. Hay dos cosas que llaman la atención: el video del mate
 cebándose en la portada y el mate 3D de «La montañita, paso a paso». Todo lo
 demás es tinta sobre papel, ordenado.
 
+## Reglas de la estética
+
+La vara es el header y el hero. Todo el sitio cumple estas reglas; si algo no
+las cumple, se corrige.
+
+1. **Sin líneas.** Nada de bordes, contornos, líneas divisorias, subrayados
+   de sección ni cajas con sombra. La única línea permitida es el contorno de
+   foco del teclado.
+2. **Bloques de color a todo el ancho.** Cada sección es un bloque de fondo
+   de lado a lado, con el contenido alineado a `--ancho-max` y `--gutter`. Los
+   fondos alternan entre el claro de base (kraft o papel), el verde yerba, la
+   tinta y el acento de la categoría. **Nunca dos secciones seguidas con el
+   mismo fondo** (el header sólido cuenta como papel).
+3. **Aire generoso.** Las secciones llevan al menos `--espacio-16` arriba y
+   `--espacio-24` abajo; dentro, los elementos se separan con espacio, no con
+   cajas.
+4. **Títulos grandes.** Instrument Serif 400, sentence case, interlineado 0.9
+   y tracking `-0.02em`. Los títulos de página usan `--t-titulo-1`, la misma
+   escala que el titular del hero, y los de sección `--t-titulo-2`, apenas
+   menor: un título de sección nunca es mediano.
+5. **La máquina hace cosas.** Navegación, botones, links, migas y etiquetas
+   chicas (`.dato`: marcas, contadores, stock) van en Courier Prime bold. Los
+   precios también van en Courier Prime. El texto para leer va en Work Sans.
+6. **Botones en píldora, sin borde.** `.boton` es la acción principal: verde
+   yerba vivo con texto en tinta. `.boton-secundario` es la secundaria: papel
+   con texto en tinta. Mínimo 48px de alto (56px en el hero).
+7. **El patrón del hero.** Cada bloque importante dice una cosa: un título,
+   una frase corta (34–46ch como máximo) y, si hace falta, una acción.
+8. **Productos sin recuadro.** La ilustración va sobre un fondo suave del color
+   de su categoría que la contiene, sin borde. Debajo, el nombre en Instrument
+   Serif, la marca como `.dato` y el precio en Courier Prime.
+9. **Listas sin líneas.** «Qué hay en el almacén», la ficha de producto y
+   cualquier lista se separan con espacio o con fondos alternados.
+10. **Footer como bloque.** Verde yerba sólido, el logo «Amargo» grande, los
+    links en Courier Prime, sin líneas.
+11. **La voz del hero.** Textos cortos, rioplatenses, con humor matero sin
+    forzar. Una frase por lugar.
+
 ## Estructura de la home
 
 1. **Portada con video**: a pantalla completa (100svh), con el header
    flotando transparente encima. Un video en loop de un mate cebándose; encima,
    un degradado oscuro desde abajo y, abajo a la izquierda, el titular «Que no
    se corte la ronda» en Instrument Serif, una frase corta y la píldora «Armá tu
-   combo» en verde yerba claro. Ver «Video de la portada».
+   combo» en verde yerba vivo. Ver «Video de la portada».
 2. **Leyendas** (bloque verde) y **Lo que más sale** (sobre kraft): solo los
    productos destacados, en una fila. Todas las ilustraciones tienen la misma
    altura, y precios y nombres comparten línea base.
@@ -24,12 +62,19 @@ demás es tinta sobre papel, ordenado.
    cuando la sección está a media pantalla de distancia; hasta entonces se ve
    un mate dibujado.
 4. **Qué hay en el almacén** (sobre papel): la única sección de categorías de
-   la home.
+   la home. Cada categoría es una fila en un bloque suave de su color.
+5. **Footer** (verde yerba).
+
+Secuencia de fondos de la home: video → verde → kraft → tinta (cabecera del
+ritual) → kraft (escena) → papel → verde. En las demás páginas: header papel →
+acento de la categoría (solo en categoría) → kraft → verde.
 
 ## Header
 
+- **Aire arriba.** `--espacio-6` de margen superior en escritorio y mobile:
+  ni el logo ni la píldora del carrito tocan el borde. Logo a 2.75rem.
 - **Fijo y flotante.** En la home arranca transparente sobre el video, con el
-  texto en papel. Cuando se scrollea (un poco antes de terminar el hero, para
+  texto en papel y un velo de tinta muy sutil detrás para que el menú se lea. Cuando se scrollea (un poco antes de terminar el hero, para
   que el titular no pase por debajo) pasa a fondo papel con texto en tinta, con
   una transición de 300ms. En las demás páginas es sólido desde el principio.
   Mide su alto y lo publica en `--alto-header`; el contenido arranca debajo.
@@ -62,9 +107,9 @@ demás es tinta sobre papel, ordenado.
 - **Bloques en vez de bordes.** Las secciones se separan con color de fondo
   (kraft, papel, verde, tinta, el acento de la categoría) y con espacio
   generoso. No hay bordes, contornos, filetes ni estantes.
-- **El producto en su bloque.** Cada producto va dibujado sobre un bloque
-  papel con esquinas redondeadas (verde yerba claro al pasar el mouse). El
-  precio va abajo, en una etiqueta troquelada escrita a máquina.
+- **El producto en su fondo.** Cada producto va dibujado sobre un fondo suave
+  del color de su categoría (acento al 16% sobre papel; al 30% al pasar el
+  mouse), con esquinas redondeadas. Debajo: nombre, marca y precio a máquina.
 - **La etiqueta.** La ficha de producto se lee como el dorso de un paquete:
   un bloque papel con filas alternadas, sin líneas.
 - **Sellos** ovalados y rellenos (no contorneados), en serif itálica:
@@ -73,24 +118,25 @@ demás es tinta sobre papel, ordenado.
 
 ## Paleta
 
-Seis colores planos y un derivado verde claro, sin gradientes (la única
+Seis colores planos y dos verdes derivados, sin gradientes (la única
 excepción es el degradado de tinta sobre el video de la portada, para que el
 texto y el header se lean). Las variantes más claras u oscuras salen de
 mezclarlos (`color-mix`), no son colores nuevos.
 
-| Token        | Nombre           | Hex       | Uso                                                     |
-| ------------ | ---------------- | --------- | ------------------------------------------------------- |
-| `--kraft`    | Papel kraft      | `#D9C49E` | Fondo general, con una textura de papel muy sutil       |
-| `--tinta`    | Tinta            | `#1F1A14` | Texto, botón principal, footer y cabecera del ritual    |
-| `--verde`    | Verde yerba      | `#1F5135` | Logo, bloque de leyendas, categoría Yerbas              |
-| `--rojo`     | Rojo almacén     | `#BF3A1E` | Sellos, «sin stock», categoría Mates                    |
-| `--amarillo` | Amarillo paquete | `#E9AE1B` | Etiquetas de precio, categoría Bombillas                |
-| `--azul`     | Azul enlozado    | `#2C4B6B` | Categoría Termos, links en el texto                     |
+| Token        | Nombre           | Hex       | Uso                                               |
+| ------------ | ---------------- | --------- | ------------------------------------------------- |
+| `--kraft`    | Papel kraft      | `#D9C49E` | Fondo general, con una textura de papel muy sutil |
+| `--tinta`    | Tinta            | `#1F1A14` | Texto y cabecera del ritual                       |
+| `--verde`    | Verde yerba      | `#1F5135` | Logo, leyendas, footer, categoría Yerbas          |
+| `--rojo`     | Rojo almacén     | `#BF3A1E` | Sellos, «sin stock», categoría Mates              |
+| `--amarillo` | Amarillo paquete | `#E9AE1B` | Categoría Bombillas                               |
+| `--azul`     | Azul enlozado    | `#2C4B6B` | Categoría Termos, links en el texto               |
 
 Derivados: `--papel` (kraft con blanco: header sólido, bloques de producto,
-ficha, píldoras claras), `--kraft-oscuro` (kraft con tinta: texto secundario)
-y `--verde-claro` (verde yerba aclarado, ≈ `#A3C388`: CTA principal, hover de
-productos y del carrito, foco sobre fondos oscuros).
+ficha, botones secundarios), `--kraft-oscuro` (kraft con tinta: texto
+secundario), `--verde-vivo` (`#7DC243`, verde yerba vivo y saturado: la acción
+principal, `.boton`) y `--verde-claro` (verde yerba aclarado, ≈ `#A3C388`:
+hover del carrito y de los botones secundarios, hojitas).
 
 ### Color por categoría
 
@@ -106,8 +152,8 @@ en el `<main>`.
 | Termos     | azul       | papel            |
 | Accesorios | tinta      | amarillo         |
 
-Contrastes medidos (WCAG): tinta sobre kraft 10:1, tinta sobre verde claro
-≈ 8,9:1, papel sobre rojo 6,9:1, tinta sobre amarillo 8,6:1, papel sobre azul
+Contrastes medidos (WCAG): tinta sobre kraft 10:1, tinta sobre verde vivo
+7,95:1, tinta sobre verde claro 8,8:1, papel sobre rojo 6,9:1, tinta sobre amarillo 8,6:1, papel sobre azul
 7,8:1, papel sobre verde 9:1 y rojo sobre kraft 4,7:1 (solo texto grande o en
 negrita).
 
@@ -118,30 +164,31 @@ estrecha para los títulos, una sans amable para leer y una máquina de
 escribir para la navegación, los botones y las etiquetas. **Todo va en
 sentence case**: no hay mayúsculas sostenidas en ningún lado.
 
-| Rol      | Fuente           | Uso                                                                                                   |
-| -------- | ---------------- | ----------------------------------------------------------------------------------------------------- |
-| Logo     | Fraunces         | Solo el wordmark «Amargo»: peso 900 y eje `SOFT` al máximo                                            |
-| Títulos  | Instrument Serif | Un solo peso (400), tracking `-0.02em`. Los principales van muy grandes. Itálica solo en los sellos   |
-| Texto    | Work Sans        | Texto corrido, marcas, migas, contadores y stock                                                      |
-| Máquina  | Courier Prime    | Bold: navegación (header y footer), botones y carrito. También precios y datos de la ficha            |
+| Rol     | Fuente           | Uso                                                                                                 |
+| ------- | ---------------- | --------------------------------------------------------------------------------------------------- |
+| Logo    | Fraunces         | Solo el wordmark «Amargo»: peso 900 y eje `SOFT` al máximo                                          |
+| Títulos | Instrument Serif | Un solo peso (400), tracking `-0.02em`. Los principales van muy grandes. Itálica solo en los sellos |
+| Texto   | Work Sans        | Solo texto para leer: bajadas, descripciones, legales                                               |
+| Máquina | Courier Prime    | Bold: navegación, migas, botones, links, carrito y etiquetas chicas (`.dato`). Precios y ficha      |
 
 ### Logo
 
 El logo es el wordmark «Amargo» en Fraunces 900 con `SOFT` 100: gordo y de
 terminales redondeadas, como el de Graza. Es solo texto, sin dibujo (se sacó
 la montañita que hacía de tilde de la ñ). Va en verde yerba sobre el header
-claro y en papel sobre el video y sobre el footer de tinta.
+claro y en papel sobre el video. En el footer va gigante (hasta 11rem), en
+papel sobre verde.
 
 ### Escala
 
-| Token          | Tamaño                       | Uso                               |
-| -------------- | ---------------------------- | --------------------------------- |
-| `--t-dato`     | 0.8125rem (13px)             | Datos chicos (marcas, contadores) |
-| `--t-texto`    | 1rem                         | Texto corrido                     |
-| `--t-entrada`  | 1.1875rem                    | Bajadas y descripciones           |
-| `--t-titulo-3` | 2rem                         | Nombre de producto                |
-| `--t-titulo-2` | clamp(2.75rem, 6vw, 4.75rem) | Títulos de sección                |
-| `--t-titulo-1` | clamp(4.5rem, 15vw, 12rem)   | Título de categoría               |
+| Token          | Tamaño                     | Uso                                        |
+| -------------- | -------------------------- | ------------------------------------------ |
+| `--t-dato`     | 0.8125rem (13px)           | Datos chicos (marcas, contadores)          |
+| `--t-texto`    | 1rem                       | Texto corrido                              |
+| `--t-entrada`  | 1.1875rem                  | Bajadas y descripciones                    |
+| `--t-titulo-3` | 2rem                       | Nombre de producto en la grilla            |
+| `--t-titulo-2` | clamp(3rem, 7vw, 6.5rem)   | Títulos de sección, de producto y de carga |
+| `--t-titulo-1` | clamp(3.5rem, 9vw, 8.5rem) | Hero, categoría, error y 404               |
 
 Interlineado: 0.88–0.95 para los títulos y 1.55 para el texto.
 
@@ -150,14 +197,12 @@ Interlineado: 0.88–0.95 para los títulos y 1.55 para el texto.
 - **Sin bordes ni líneas.** Nada se contornea ni se subraya con filetes. La
   única línea que queda es el contorno de foco del teclado (accesibilidad).
 - **Píldoras** (`border-radius: 999px`) para botones, CTA y carrito.
-  `.boton` es tinta; `.boton-secundario`, papel; `.boton-yerba`, verde yerba
-  claro (el CTA de compra).
-- **Bloques redondeados** (`--radio`, 16px) para productos, filas de
-  categorías, ficha y frente del producto.
+  `.boton` es la acción principal en verde yerba vivo; `.boton-secundario`,
+  papel.
+- **Fondos redondeados** (`--radio`, 16px) para productos, filas de
+  categorías, opciones del selector, ficha y frente del producto.
 - **Círculos** para los botones de ícono (pausa del video).
 - **Óvalo relleno** para los sellos.
-- **Troquel**: la etiqueta de precio lleva una esquina cortada con
-  `clip-path`.
 - **Sin sombras.** La profundidad sale de los bloques de color planos.
 
 ## Ilustración
@@ -201,7 +246,8 @@ chiste por línea. Ejemplos: «Que no se corte la ronda», «Elaborada con palo�
 3. **El color tiene significado.** El color de acento dice en qué categoría
    estás; no está para decorar.
 4. **La máquina de escribir es para hacer cosas.** Navegación, botones,
-   carrito, precios y datos de la ficha. Leer, en Work Sans.
+   links, carrito, etiquetas chicas, precios y datos de la ficha. Leer, en
+   Work Sans.
 5. **Accesible siempre.** Contraste AA, foco de 3px en tinta, papel o verde
    claro según el fondo, navegación con teclado y layout fluido desde 320px.
 

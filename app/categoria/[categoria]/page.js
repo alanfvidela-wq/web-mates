@@ -37,8 +37,8 @@ export default async function PaginaCategoria({ params }) {
       </header>
 
       <div className={styles.contenido}>
-        <p className={styles.cuenta}>
-          {productos.length} productos en la góndola
+        <p className={`dato ${styles.cuenta}`}>
+          {productos.length} en la góndola
         </p>
         <GrillaProductos productos={productos} />
       </div>

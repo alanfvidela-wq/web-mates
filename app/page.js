@@ -72,7 +72,7 @@ export default async function Home() {
                     <span className={styles.categoriaDescripcion}>
                       {categoria.descripcion}
                     </span>
-                    <span className={styles.categoriaCantidad}>
+                    <span className={`dato ${styles.categoriaCantidad}`}>
                       {cantidad} productos
                     </span>
                     <IlustracionProducto

@@ -11,7 +11,7 @@
   flex-wrap: wrap;
   justify-content: center;
   gap: var(--espacio-2) var(--espacio-6);
-  padding: var(--espacio-8) var(--gutter);
+  padding: var(--espacio-12) var(--gutter);
   background: var(--verde);
   color: var(--papel);
   list-style: none;
@@ -32,6 +32,13 @@
   width: 1.25rem;
   height: 1.25rem;
   color: var(--verde-claro);
+}
+
+/* Apiladas en mobile, las hojitas separadoras sobran */
+@media (max-width: 640px) {
+  .hojita {
+    display: none;
+  }
 }
 
 .contenido {
@@ -77,7 +84,8 @@
   font-size: var(--t-titulo-2);
 }
 
-/* Categorías como lista de almacén: filas en bloques kraft, separadas por aire */
+/* Categorías como lista de almacén: cada fila en un bloque suave del color de
+   su categoría, separadas por aire */
 .categorias {
   display: flex;
   flex-direction: column;
@@ -96,7 +104,7 @@
   column-gap: var(--espacio-6);
   padding: var(--espacio-4) var(--espacio-6);
   border-radius: var(--radio);
-  background: var(--kraft);
+  background: color-mix(in srgb, var(--acento) 16%, var(--papel));
   transition:
     background-color var(--transicion),
     color var(--transicion);
@@ -126,8 +134,6 @@
 .categoriaCantidad {
   grid-area: cantidad;
   margin-top: var(--espacio-1);
-  font-family: var(--fuente-texto);
-  font-size: var(--t-dato);
 }
 
 .categoriaDibujo {

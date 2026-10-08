@@ -4,8 +4,8 @@
   align-items: flex-start;
 }
 
-/* El dibujo va sobre un bloque claro, sin estante ni bordes */
-.estante {
+/* Fondo suave del color de la categoría: contiene al dibujo, sin borde */
+.fondo {
   position: relative;
   align-self: stretch;
   display: flex;
@@ -13,12 +13,12 @@
   margin-bottom: var(--espacio-4);
   padding: var(--espacio-4);
   border-radius: var(--radio);
-  background: var(--fondo-tarjeta, var(--papel));
+  background: color-mix(in srgb, var(--acento) 16%, var(--papel));
   transition: background-color var(--transicion);
 }
 
-.producto:hover .estante {
-  background: var(--verde-claro);
+.producto:hover .fondo {
+  background: color-mix(in srgb, var(--acento) 30%, var(--papel));
 }
 
 .dibujo {
@@ -47,19 +47,6 @@
   transform: rotate(-12deg);
 }
 
-/* Etiqueta de precio troquelada, a máquina */
-.precio {
-  margin-bottom: var(--espacio-3);
-  padding: var(--espacio-1) var(--espacio-4) var(--espacio-1) var(--espacio-3);
-  background: var(--etiqueta, var(--amarillo));
-  color: var(--sobre-etiqueta, var(--tinta));
-  font-family: var(--fuente-datos);
-  font-size: 0.875rem;
-  font-weight: 700;
-  white-space: nowrap;
-  clip-path: polygon(0 0, 100% 0, 100% 70%, calc(100% - 8px) 100%, 0 100%);
-}
-
 /* Mismo estilo de título aunque cambie el nivel del encabezado */
 .nombre {
   font-family: var(--fuente-titulos);
@@ -69,16 +56,16 @@
   text-wrap: balance;
 }
 
-.producto:hover .nombre {
-  text-decoration: underline;
-  text-decoration-thickness: 3px;
-  text-underline-offset: 4px;
-}
-
 .marca {
   margin-top: var(--espacio-1);
-  font-family: var(--fuente-texto);
-  font-size: var(--t-dato);
+}
+
+.precio {
+  margin-top: var(--espacio-2);
+  font-family: var(--fuente-datos);
+  font-size: 1.125rem;
+  font-weight: 700;
+  white-space: nowrap;
 }
 
 @media (prefers-reduced-motion: no-preference) {

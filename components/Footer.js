@@ -7,12 +7,8 @@ export default function Footer() {
   return (
     <footer className={styles.footer}>
       <div className={styles.contenido}>
-        <div className={styles.marca}>
-          <Logo />
-          <p className={styles.frase}>
-            Elaborada con palo, cebada con paciencia.
-          </p>
-        </div>
+        <Logo className={styles.logo} />
+        <p className={styles.frase}>Elaborada con palo, cebada con paciencia.</p>
 
         <nav aria-label="Categorías del pie">
           <ul className={styles.lista}>

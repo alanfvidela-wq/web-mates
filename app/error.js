@@ -16,8 +16,7 @@ export default function Error({ error, retry }) {
       <p className={styles.codigo}>Uy</p>
       <h1 className={styles.titulo}>Se nos volcó el termo</h1>
       <p className={styles.texto}>
-        No pudimos cargar esta página. Secamos la mesa y probás de nuevo en unos
-        segundos.
+        Algo falló de nuestro lado. Secamos la mesa y probás de nuevo.
       </p>
       <div className={styles.acciones}>
         <button type="button" className="boton" onClick={() => retry()}>

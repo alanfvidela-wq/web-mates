@@ -26,7 +26,8 @@
   gap: var(--espacio-6);
   max-width: var(--ancho-max);
   margin: 0 auto;
-  padding: var(--espacio-4) var(--gutter);
+  /* Aire arriba: ni el logo ni el carrito tocan el borde */
+  padding: var(--espacio-6) var(--gutter) var(--espacio-4);
 }
 
 .logo {
@@ -91,8 +92,8 @@
 @media (max-width: 860px) {
   .contenido {
     grid-template-columns: 1fr auto;
-    row-gap: var(--espacio-2);
-    padding-block: var(--espacio-3);
+    row-gap: var(--espacio-3);
+    padding-bottom: var(--espacio-3);
   }
 
   .nav {

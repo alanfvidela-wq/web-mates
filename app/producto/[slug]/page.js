@@ -46,7 +46,7 @@ export default async function PaginaProducto({ params }) {
         </div>
 
         <div className={styles.info}>
-          <p className={styles.marca}>{producto.marca}</p>
+          <p className="dato">{producto.marca}</p>
           <h1 className={styles.nombre}>{producto.nombre}</h1>
           <p className={styles.descripcion}>{producto.descripcion}</p>
 
