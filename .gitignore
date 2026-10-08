@@ -42,3 +42,5 @@ next-env.d.ts
 
 # Modelos 3D originales (pesados); en public/ va la versión optimizada
 /modelos-fuente/
+
+modelos-fuente/

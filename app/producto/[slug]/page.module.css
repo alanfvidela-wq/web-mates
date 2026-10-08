@@ -43,10 +43,10 @@
   border: 2px solid currentColor;
   border-radius: 50%;
   font-family: var(--fuente-titulos);
-  font-size: 1.25rem;
-  font-weight: 850;
+  font-size: 1.375rem;
+  font-style: italic;
+  font-weight: 400;
   line-height: 1;
-  text-transform: uppercase;
   transform: rotate(6deg);
 }
 
@@ -63,7 +63,7 @@
 }
 
 .nombre {
-  font-size: clamp(2.75rem, 6vw, 5rem);
+  font-size: clamp(3.25rem, 7vw, 6rem);
 }
 
 .descripcion {
@@ -92,7 +92,7 @@
   gap: var(--espacio-4);
   padding: var(--espacio-2) 0;
   border-bottom: 1px solid var(--tinta);
-  font-family: var(--fuente-texto);
+  font-family: var(--fuente-datos);
 }
 
 .fila dt {

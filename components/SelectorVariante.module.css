@@ -6,9 +6,9 @@
 }
 
 .precio {
-  font-family: var(--fuente-titulos);
-  font-size: var(--t-titulo-2);
-  font-weight: 900;
+  font-family: var(--fuente-datos);
+  font-size: 2.25rem;
+  font-weight: 700;
   line-height: 1;
 }
 

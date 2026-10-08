@@ -23,12 +23,11 @@ es tinta sobre papel, ordenado.
 ## Concepto: «el paquete y la góndola»
 
 - **El paquete.** Cada página se arma como la cara de un paquete de yerba:
-  franjas de color de lado a lado, un título condensado bien grande y sellos
-  con datos cortos («Elaborada con palo», «Estacionada sin apuro»).
+  franjas de color de lado a lado, un título serif muy grande y sellos con
+  datos cortos («Elaborada con palo», «Estacionada sin apuro»).
 - **La góndola.** Los productos van apoyados en estantes, no en tarjetas.
   Cada fila tiene una línea gruesa de estante abajo. El precio va en una
-  etiqueta troquelada, escrita a máquina (es el único lugar donde aparece la
-  máquina de escribir).
+  etiqueta troquelada, escrita a máquina.
 - **La etiqueta.** La ficha de producto se lee como el dorso de un paquete:
   una tabla de datos separada por filetes finos, sin cajas ni sombras.
 
@@ -70,39 +69,45 @@ rojo sobre kraft 4,7:1 (solo texto grande o en negrita).
 
 ## Tipografía
 
-| Rol     | Fuente                     | Uso                                                                                                                                                                                          |
-| ------- | -------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Títulos | Sofia Sans Extra Condensed | Peso 800–900, en mayúsculas y sin espaciado extra. Es la letra del frente del paquete                                                                                                        |
-| Texto   | Archivo                    | Peso 400–600. Texto corrido, marcas, links, contadores («4 productos»), ficha técnica, stock, migas y «Deslizá». El eje de ancho (`wdth`) se usa para la navegación y los botones (ancho 80) |
-| Precio  | Courier Prime              | Solo en las etiquetas de precio troqueladas de la góndola. Es la máquina de escribir del almacenero                                                                                          |
+Inspirada en Graza: una serif de libro, estrecha, para los títulos, una sans
+amable para leer y una máquina de escribir para las etiquetas. **Todo va en
+sentence case**: no hay mayúsculas sostenidas en ningún lado (navegación,
+botones, títulos ni franjas).
 
-El logo es un sello ovalado con el nombre en la fuente de títulos y dos
-volutas de fileteado porteño dibujadas en SVG. Es el único fileteado del
-sitio.
+| Rol            | Fuente           | Uso                                                                                                                                                          |
+| -------------- | ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Títulos y logo | Instrument Serif | Un solo peso (400), con tracking levemente negativo (`-0.02em`). Los títulos principales van muy grandes. La itálica se usa solo en los sellos ovalados      |
+| Texto          | Work Sans        | Texto corrido, navegación (500), botones (600), marcas, links, contadores, migas, stock y «Deslizá»                                                          |
+| Etiquetas      | Courier Prime    | Solo precios (etiquetas de la góndola y precio del producto) y datos de la ficha de producto (origen, capacidad, material…), como etiqueta escrita a máquina |
 
-En el título de la portada, la tilde de la Ñ se dibuja en SVG: la de la
-fuente es casi tan ancha como la N y, a ese tamaño, queda separada. La propia
-mide un tercio del ancho de la letra, tiene un trazo proporcional al de la
-fuente y va pegada a la N.
+### Logo
+
+El logo es el wordmark «La Montañita» en Instrument Serif. La tilde de la ñ
+es una montañita de yerba dibujada en SVG, apoyada sobre la n como si fuera
+la tilde. Va en verde yerba sobre kraft y en amarillo sobre el verde del
+header y la tinta del footer. El mismo wordmark, en tamaño de título
+principal, es el título de la portada. Se sacaron el sello ovalado y las
+volutas de fileteado porque competían con la montañita: el sitio ya no tiene
+fileteado.
 
 ### Escala
 
-| Token          | Tamaño                      | Uso                               |
-| -------------- | --------------------------- | --------------------------------- |
-| `--t-dato`     | 0.8125rem (13px)            | Datos chicos (marcas, contadores) |
-| `--t-texto`    | 1rem                        | Texto corrido                     |
-| `--t-entrada`  | 1.1875rem                   | Bajadas y descripciones           |
-| `--t-titulo-3` | 1.75rem                     | Nombre de producto en la góndola  |
-| `--t-titulo-2` | clamp(2.25rem, 5vw, 3.5rem) | Títulos de sección                |
-| `--t-titulo-1` | clamp(3.5rem, 12vw, 8.5rem) | Título de categoría y de producto |
+| Token          | Tamaño                       | Uso                               |
+| -------------- | ---------------------------- | --------------------------------- |
+| `--t-dato`     | 0.8125rem (13px)             | Datos chicos (marcas, contadores) |
+| `--t-texto`    | 1rem                         | Texto corrido                     |
+| `--t-entrada`  | 1.1875rem                    | Bajadas y descripciones           |
+| `--t-titulo-3` | 2rem                         | Nombre de producto en la góndola  |
+| `--t-titulo-2` | clamp(2.75rem, 6vw, 4.75rem) | Títulos de sección                |
+| `--t-titulo-1` | clamp(4.5rem, 15vw, 12rem)   | Portada, título de categoría      |
 
-Interlineado: 0.9 para los títulos condensados y 1.55 para el texto.
+Interlineado: 0.88–0.95 para los títulos y 1.55 para el texto.
 
 ## Formas
 
 - **Rectas por defecto**: radio 0 en la estructura, los botones y los
   selectores.
-- **Óvalo** solo en el logo y en los sellos.
+- **Óvalo** solo en los sellos (en serif itálica).
 - **Troquel**: la etiqueta de precio lleva esquinas cortadas con
   `clip-path`.
 - **Sin sombras.** La profundidad sale de los filetes de 2px y de los
@@ -142,21 +147,20 @@ chiste por línea. Ejemplos: «Elaborada con palo», «Se nos lavó el mate»,
    dos o tres tintas, sobra.
 3. **El color tiene significado.** El color de acento dice en qué categoría
    estás; no está para decorar.
-4. **El precio va en etiqueta.** Solo el precio se escribe a máquina, en
-   su etiqueta troquelada. Los demás datos van en la letra de texto, ordenados
-   en filas con filetes.
+4. **La máquina de escribir es para etiquetas.** Solo los precios y los datos
+   de la ficha se escriben a máquina. Todo lo demás va en Work Sans.
 5. **Accesible siempre.** Contraste AA, foco de 3px en tinta o amarillo según
    el fondo, navegación con teclado y layout fluido desde 320px.
 
 ## Revisión contra «Evitar»
 
-| Evitar                                                  | Cómo se resuelve                                                                        |
-| ------------------------------------------------------- | --------------------------------------------------------------------------------------- |
-| Fondo crema + serif + píldora                           | El fondo es kraft con textura, los títulos son sans condensada y los botones son rectos |
-| Etiquetas en mayúsculas con tracking sobre los títulos  | No hay antetítulos. Los datos chicos van en minúscula y abajo del título                |
-| Resaltar una palabra del título                         | Cada título va en un solo color y un solo estilo                                        |
-| Grillas de tarjetas iguales con el mismo radio y sombra | Góndola sin cajas, categorías como lista de almacén, radio 0, sin sombras               |
-| Gradientes o resplandores                               | Solo colores planos y textura de papel. Se saca el gradiente del hero 3D y del skeleton |
-| «→» en botones y «·» como separador                     | Sin flechas de texto. El separador es una hojita de yerba en SVG                        |
-| Fade + slide up por sección                             | No hay. Solo se anima el ritual                                                         |
-| Inter, Geist, Roboto, Playfair, Fraunces, Poppins       | Se usan Sofia Sans Extra Condensed, Archivo y Courier Prime. Se saca Fraunces           |
+| Evitar                                                  | Cómo se resuelve                                                                                                                                     |
+| ------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Fondo crema + serif + píldora                           | La serif no es la única identidad: el fondo es kraft con textura, hay franjas de paquete, ilustraciones a mano, etiquetas a máquina y botones rectos |
+| Etiquetas en mayúsculas con tracking sobre los títulos  | No hay antetítulos. Los datos chicos van en minúscula y abajo del título                                                                             |
+| Resaltar una palabra del título                         | Cada título va en un solo color y un solo estilo                                                                                                     |
+| Grillas de tarjetas iguales con el mismo radio y sombra | Góndola sin cajas, categorías como lista de almacén, radio 0, sin sombras                                                                            |
+| Gradientes o resplandores                               | Solo colores planos y textura de papel. Se saca el gradiente del hero 3D y del skeleton                                                              |
+| «→» en botones y «·» como separador                     | Sin flechas de texto. El separador es una hojita de yerba en SVG                                                                                     |
+| Fade + slide up por sección                             | No hay. Solo se anima el ritual                                                                                                                      |
+| Inter, Geist, Roboto, Playfair, Fraunces, Poppins       | Se usan Instrument Serif, Work Sans y Courier Prime                                                                                                  |

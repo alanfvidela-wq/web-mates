@@ -1,34 +1,9 @@
+/* Wordmark en el header y el footer: la montañita va en amarillo */
 .logo {
-  display: inline-flex;
-  align-items: center;
-  gap: 2px;
-  color: var(--amarillo);
-  /* El sello va en papel; las volutas toman el amarillo */
-}
-
-.sello {
-  padding: 0.15em 0.8em 0.2em;
-  border: 2px solid var(--amarillo);
-  border-radius: 50%;
-  outline: 1px solid var(--amarillo);
-  outline-offset: 3px;
-  color: var(--papel);
-  font-family: var(--fuente-titulos);
-  font-size: 1.5rem;
-  font-weight: 900;
+  --montanita: var(--amarillo);
+  display: inline-block;
+  padding-top: 0.2em;
+  font-size: 2.25rem;
   line-height: 1;
-  text-transform: uppercase;
   white-space: nowrap;
-}
-
-.voluta {
-  width: 2.25rem;
-  height: auto;
-  flex-shrink: 0;
-}
-
-@media (max-width: 400px) {
-  .voluta {
-    display: none;
-  }
 }

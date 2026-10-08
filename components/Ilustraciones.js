@@ -179,34 +179,6 @@ export function FlechaAbajo(props) {
   );
 }
 
-// Voluta de fileteado porteño: el único fileteado del sitio, en el logo.
-export function Voluta({ className, espejada = false }) {
-  return (
-    <svg
-      viewBox="0 0 48 32"
-      className={className}
-      aria-hidden="true"
-      focusable="false"
-      style={espejada ? { transform: "scaleX(-1)" } : undefined}
-    >
-      <g fill="none" strokeLinecap="round" strokeLinejoin="round">
-        <path
-          d="M46 16C36 16 30 6 20 6 11 6 6 12 7 18c1 6 8 8 12 5 4-3 2-9-3-8-3 1-3 5 0 5"
-          stroke="currentColor"
-          strokeWidth="3"
-        />
-        <path d="M30 17c4 4 9 7 16 7-3-6-8-9-16-7Z" fill="currentColor" />
-        <path
-          d="M46 16C36 16 30 6 20 6"
-          stroke="#f7f1e3"
-          strokeWidth="1"
-          strokeOpacity="0.7"
-        />
-      </g>
-    </svg>
-  );
-}
-
 const POR_CATEGORIA = {
   mates: Mate,
   bombillas: Bombilla,

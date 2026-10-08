@@ -19,15 +19,16 @@
   --foco: var(--tinta);
 
   /* Tipografía */
-  --fuente-titulos: var(--font-titulos), "Arial Narrow", sans-serif;
+  --fuente-titulos: var(--font-titulos), Georgia, serif;
   --fuente-texto: var(--font-texto), system-ui, sans-serif;
   --fuente-datos: var(--font-datos), "Courier New", monospace;
   --t-dato: 0.8125rem;
   --t-texto: 1rem;
   --t-entrada: 1.1875rem;
-  --t-titulo-3: 1.75rem;
-  --t-titulo-2: clamp(2.25rem, 5vw, 3.5rem);
-  --t-titulo-1: clamp(3.5rem, 12vw, 8.5rem);
+  --t-titulo-3: 2rem;
+  --t-titulo-2: clamp(2.75rem, 6vw, 4.75rem);
+  --t-titulo-1: clamp(4.5rem, 15vw, 12rem);
+  --tracking-titulos: -0.02em;
 
   /* Espaciado */
   --espacio-1: 0.25rem;
@@ -114,9 +115,9 @@ h1,
 h2,
 h3 {
   font-family: var(--fuente-titulos);
-  font-weight: 850;
-  line-height: 0.9;
-  text-transform: uppercase;
+  font-weight: 400;
+  line-height: 0.95;
+  letter-spacing: var(--tracking-titulos);
   text-wrap: balance;
 }
 
@@ -153,7 +154,7 @@ button {
   transform: none;
 }
 
-/* Botones: rectos, condensados, como una franja de paquete */
+/* Botones: rectos, en la letra de texto y en sentence case */
 .boton {
   display: inline-flex;
   align-items: center;
@@ -164,10 +165,8 @@ button {
   border: var(--filete);
   background: var(--tinta);
   color: var(--papel);
-  font-weight: 700;
+  font-weight: 600;
   font-size: 1.0625rem;
-  font-stretch: 80%;
-  text-transform: uppercase;
   transition:
     background var(--transicion),
     color var(--transicion);

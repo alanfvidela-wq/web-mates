@@ -20,40 +20,8 @@
 }
 
 .marca {
-  font-size: clamp(4rem, 13vw, 10rem);
-  line-height: 0.82;
-}
-
-.oculto {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  overflow: hidden;
-  clip-path: inset(50%);
-  white-space: nowrap;
-}
-
-.palabra {
-  white-space: nowrap;
-}
-
-.enie {
-  position: relative;
-  display: inline-block;
-}
-
-.tilde {
-  position: absolute;
-  bottom: 0.745em;
-  left: 50%;
-  width: 0.36em;
-  height: 0.108em;
-  overflow: visible;
-  transform: translateX(-50%);
-  fill: none;
-  stroke: currentColor;
-  stroke-width: 11;
-  stroke-linecap: round;
+  font-size: var(--t-titulo-1);
+  line-height: 0.88;
 }
 
 .propuesta {
@@ -104,10 +72,10 @@
   border-radius: 50%;
   color: var(--rojo);
   font-family: var(--fuente-titulos);
-  font-size: 1.375rem;
-  font-weight: 850;
+  font-size: 1.625rem;
+  font-style: italic;
+  font-weight: 400;
   line-height: 1;
-  text-transform: uppercase;
   transform: rotate(8deg);
 }
 

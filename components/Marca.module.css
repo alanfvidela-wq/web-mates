@@ -1,0 +1,44 @@
+.marca {
+  font-family: var(--fuente-titulos);
+  font-weight: 400;
+  letter-spacing: var(--tracking-titulos);
+}
+
+.oculto {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.palabra {
+  white-space: nowrap;
+}
+
+/* La montañita se apoya justo sobre la n, como la tilde */
+.enie {
+  position: relative;
+  display: inline-block;
+  line-height: 1;
+}
+
+.montanita {
+  position: absolute;
+  bottom: 0.62em;
+  left: 50%;
+  width: 0.46em;
+  height: 0.21em;
+  overflow: visible;
+  transform: translateX(-50%);
+  fill: var(--montanita, var(--verde));
+}
+
+.palito {
+  fill: none;
+  stroke: var(--kraft);
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  opacity: 0.7;
+}

@@ -1,21 +1,18 @@
-import {
-  Archivo,
-  Courier_Prime,
-  Sofia_Sans_Extra_Condensed,
-} from "next/font/google";
+import { Courier_Prime, Instrument_Serif, Work_Sans } from "next/font/google";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import "./globals.css";
 
-const titulos = Sofia_Sans_Extra_Condensed({
+const titulos = Instrument_Serif({
   variable: "--font-titulos",
   subsets: ["latin"],
+  weight: "400",
+  style: ["normal", "italic"],
 });
 
-const texto = Archivo({
+const texto = Work_Sans({
   variable: "--font-texto",
   subsets: ["latin"],
-  axes: ["wdth"],
 });
 
 const datos = Courier_Prime({
