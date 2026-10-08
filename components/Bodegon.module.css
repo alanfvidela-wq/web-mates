@@ -1,0 +1,25 @@
+.bodegon {
+  position: relative;
+  aspect-ratio: 8 / 5;
+  border-bottom: 3px solid var(--tinta);
+}
+
+.bodegon svg {
+  position: absolute;
+  bottom: -6px;
+}
+
+.termo {
+  left: 6%;
+  width: 52%;
+}
+
+.paquete {
+  right: 0;
+  width: 46%;
+}
+
+.mate {
+  left: 32%;
+  width: 40%;
+}

@@ -28,6 +28,12 @@
   aspect-ratio: 1;
 }
 
+/* El bodegón del combo es apaisado y más ancho que un dibujo suelto */
+.dibujoAncho {
+  width: clamp(240px, 36vw, 420px);
+  aspect-ratio: 8 / 5;
+}
+
 /* Sello de goma rojo */
 .codigo {
   padding: var(--espacio-1) var(--espacio-4);

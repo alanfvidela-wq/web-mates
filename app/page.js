@@ -1,5 +1,5 @@
 import Link from "next/link";
-import Portada from "@/components/Portada";
+import Hero from "@/components/Hero";
 import RitualMate from "@/components/ritual/RitualMate";
 import TarjetaProducto from "@/components/TarjetaProducto";
 import { Hojita, IlustracionProducto } from "@/components/Ilustraciones";
@@ -19,7 +19,7 @@ export default async function Home() {
 
   return (
     <main className={styles.home}>
-      <Portada />
+      <Hero />
 
       <ul className={styles.franja} aria-label="Leyendas de la casa">
         {LEYENDAS.map((leyenda, i) => (

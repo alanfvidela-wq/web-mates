@@ -44,3 +44,7 @@ next-env.d.ts
 /modelos-fuente/
 
 modelos-fuente/
+
+# Videos originales (pesados); en public/videos va la versión comprimida
+/public/videos/fuente/
+/public/videos/fuentes/

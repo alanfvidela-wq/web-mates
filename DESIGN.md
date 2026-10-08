@@ -2,14 +2,17 @@
 
 La tienda tiene que parecer un almacén de barrio que vende yerba. Nada de
 plantilla de e-commerce. Las referencias son los paquetes de yerba, las
-etiquetas de almacén y la lista de precios escrita a máquina. El mate 3D de
-«La montañita, paso a paso» es lo único que llama la atención. Todo lo demás
-es tinta sobre papel, ordenado.
+etiquetas de almacén y la lista de precios escrita a máquina. Hay dos cosas
+que llaman la atención: el video del mate cebándose en la portada y el mate 3D
+de «La montañita, paso a paso». Todo lo demás es tinta sobre papel, ordenado.
 
 ## Estructura de la home
 
-1. **Portada estática**: la marca en grande, la propuesta en una frase, el
-   botón «Armá tu combo» y un bodegón dibujado. Funciona sola, sin 3D.
+1. **Portada con video**: a pantalla completa (100svh menos el header), un
+   video en loop de un mate cebándose, al estilo de graza.co. Encima, un
+   degradado oscuro desde abajo y, abajo a la izquierda, el titular «Que no
+   se corte la ronda» en Instrument Serif, una frase corta y el botón «Armá tu
+   combo» en amarillo. Ver «Video de la portada».
 2. **Franja de leyendas** y **Lo que más sale**: solo los productos
    destacados, en un único estante continuo. Todas las ilustraciones tienen la
    misma altura, y precios y nombres comparten línea base.
@@ -19,6 +22,25 @@ es tinta sobre papel, ordenado.
    recién cuando la sección está a media pantalla de distancia; hasta entonces
    se ve un mate dibujado.
 4. **Qué hay en el almacén**: la única sección de categorías de la home.
+
+## Video de la portada
+
+- **Fuente**: `public/videos/fuente(s)/`, fuera de git. `npm run video:hero`
+  (`scripts/video-hero.mjs`, usa ffmpeg) genera todo en `public/videos/`. Si
+  cambia el video fuente, se ajustan el tramo y los recortes al principio del
+  script y se vuelve a correr.
+- **Dos versiones**, H.264 sin audio, de menos de 4 MB y sin escalar por
+  encima del original: `hero-desktop` horizontal (espejada para que el mate
+  quede a la derecha, lejos del texto) y `hero-mobile` vertical 9:16 recortada
+  sobre el mate. Los recortes dejan afuera la marca de agua.
+- **Loop**: el final se funde medio segundo con el principio, así no se nota
+  el corte.
+- **Poster**: el primer frame de cada versión en webp. Lo pinta el servidor en
+  un `<picture>`, así se ve desde el primer momento y sin saltos; el video se
+  monta encima desde un componente cliente (`VideoFondo`), que elige la
+  versión según el ancho (corte en 760px).
+- **Control**: botón cuadrado de pausa/play, chico, en una esquina, con
+  etiqueta accesible.
 
 ## Concepto: «el paquete y la góndola»
 
@@ -33,7 +55,8 @@ es tinta sobre papel, ordenado.
 
 ## Paleta
 
-Seis colores planos, sin gradientes. Las variantes más claras u oscuras salen
+Seis colores planos, sin gradientes (la única excepción es el degradado de
+tinta sobre el video de la portada, para que el texto se lea). Las variantes más claras u oscuras salen
 de mezclarlos (`color-mix`), no son colores nuevos.
 
 | Token        | Nombre           | Hex       | Uso                                                     |
@@ -119,7 +142,8 @@ Los dibujos son SVG hechos a mano, con trazo de tinta de 2.5px, puntas
 redondeadas y líneas un poco irregulares. El relleno es plano y toma el color
 del producto. Hay dibujos de mate, bombilla, termo, paquete de yerba, matera,
 pava (pantalla de carga) y termo volcado (error). Reemplazan a los íconos
-genéricos y a los placeholders de color.
+genéricos y a los placeholders de color. El bodegón (termo, paquete y mate
+apoyados en una línea) ilustra «Armá tu combo», porque es el combo completo.
 
 ## Voz
 
@@ -129,19 +153,22 @@ chiste por línea. Ejemplos: «Elaborada con palo», «Se nos lavó el mate»,
 
 ## Movimiento
 
-- La única animación orquestada es la del ritual (el mate 3D con el scroll).
+- Hay dos movimientos: el video en loop de la portada y el ritual (el mate 3D
+  con el scroll). El video se puede pausar.
 - El resto solo tiene cambios de estado inmediatos: hover que invierte los
   colores y foco visible. No hay entradas con fundido.
 - Easter egg: si la persona se queda un rato largo en la home, la yerba del
   mate 3D se va lavando (se aclara) y aparece el botón «Cambiar la yerba»,
   que la deja nueva otra vez.
+- Con `prefers-reduced-motion` la portada muestra solo el poster, sin video.
 - Con `prefers-reduced-motion` el ritual se muestra como una secuencia fija
   de pasos con el mate ya cebado, y ni el cambio de yerba ni la pantalla de
   carga se animan.
 
 ## Principios
 
-1. **El mate es la estrella.** Nada compite con el mate 3D: ni gradientes, ni
+1. **El mate es la estrella.** En la portada, el mate de verdad en video; a
+   mitad de página, el mate 3D. Nada más compite con ellos: ni gradientes, ni
    brillos, ni movimiento.
 2. **Tinta sobre papel.** Si algo no se podría imprimir en una etiqueta con
    dos o tres tintas, sobra.
@@ -160,7 +187,7 @@ chiste por línea. Ejemplos: «Elaborada con palo», «Se nos lavó el mate»,
 | Etiquetas en mayúsculas con tracking sobre los títulos  | No hay antetítulos. Los datos chicos van en minúscula y abajo del título                                                                             |
 | Resaltar una palabra del título                         | Cada título va en un solo color y un solo estilo                                                                                                     |
 | Grillas de tarjetas iguales con el mismo radio y sombra | Góndola sin cajas, categorías como lista de almacén, radio 0, sin sombras                                                                            |
-| Gradientes o resplandores                               | Solo colores planos y textura de papel. Se saca el gradiente del hero 3D y del skeleton                                                              |
+| Gradientes o resplandores                               | Solo colores planos y textura de papel. El único degradado es el de tinta sobre el video de la portada, que está para la legibilidad                 |
 | «→» en botones y «·» como separador                     | Sin flechas de texto. El separador es una hojita de yerba en SVG                                                                                     |
 | Fade + slide up por sección                             | No hay. Solo se anima el ritual                                                                                                                      |
 | Inter, Geist, Roboto, Playfair, Fraunces, Poppins       | Se usan Instrument Serif, Work Sans y Courier Prime                                                                                                  |

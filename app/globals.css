@@ -44,6 +44,8 @@
   --filete: 2px solid var(--tinta);
   --estante: 6px solid var(--tinta);
   --transicion: 120ms ease;
+  /* Aproximado; el hero lo reemplaza por el alto medido del header */
+  --alto-header: 70px;
 
   /* Textura de papel kraft: ruido muy sutil, sin gradientes */
   --textura-papel: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.32 0 0 0 0 0.22 0 0 0 0 0.1 0 0 0 0.16 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
@@ -209,6 +211,12 @@ button {
 
 .migas a:hover {
   text-decoration-thickness: 2px;
+}
+
+@media (max-width: 860px) {
+  :root {
+    --alto-header: 114px;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

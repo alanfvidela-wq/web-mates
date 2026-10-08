@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Mate } from "@/components/Ilustraciones";
+import Bodegon from "@/components/Bodegon";
 import styles from "../estados.module.css";
 
 export const metadata = {
@@ -11,7 +11,7 @@ export const metadata = {
 export default function ArmaTuCombo() {
   return (
     <main className={styles.estado}>
-      <Mate className={styles.dibujo} />
+      <Bodegon className={`${styles.dibujo} ${styles.dibujoAncho}`} />
       <p className={styles.codigo}>Próximamente</p>
       <h1 className={styles.titulo}>Armá tu combo</h1>
       <p className={styles.texto}>
