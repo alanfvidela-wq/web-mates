@@ -48,3 +48,6 @@ modelos-fuente/
 # Videos originales (pesados); en public/videos va la versión comprimida
 /public/videos/fuente/
 /public/videos/fuentes/
+
+# Fotos de producto originales; en public/productos va la versión procesada
+/public/productos/fuente/

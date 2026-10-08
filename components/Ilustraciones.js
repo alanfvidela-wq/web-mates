@@ -40,22 +40,6 @@ export function Mate({ color = "#7a3b22", yerba = "#6d7a36", ...props }) {
   );
 }
 
-export function Bombilla({ color = "#b7a37a", ...props }) {
-  return (
-    <Lienzo {...props}>
-      <path
-        d="M96 150 94 52c-1-14 6-24 19-27l9-2"
-        strokeWidth="9"
-        stroke={color}
-      />
-      <path d="M91 150 89 52c-1-17 8-29 24-32l9-2M101 150l-2-97c0-10 4-17 14-19l10-2" />
-      <path d="M84 150c-4 20 4 31 15 31s20-11 16-31Z" fill={color} />
-      <path d="M93 160v12M100 158v15M107 160v12" />
-      <path d="M89 72c4 2 7 2 11 0" />
-    </Lienzo>
-  );
-}
-
 export function Termo({ color = "#2f5a26", ...props }) {
   return (
     <Lienzo {...props}>
@@ -84,22 +68,6 @@ export function PaqueteYerba({ color = "#5b7f2e", ...props }) {
       <path d="M100 140c-12 7-14 20-4 27 10-8 13-19 4-27Z" fill={color} />
       <path d="M100 145v20" />
       <path d="M76 101h48M84 109h32" stroke="#f3ecdc" />
-    </Lienzo>
-  );
-}
-
-export function Matera({ color = "#7b4a2a", ...props }) {
-  return (
-    <Lienzo {...props}>
-      <path d="M68 80c0-40 64-40 64 0" strokeWidth="6" stroke={color} />
-      <path d="M64 80c0-46 72-46 72 0M72 80c0-34 56-34 56 0" />
-      <path
-        d="M48 80h104l-6 92c-1 6-5 9-11 9H65c-6 0-10-3-11-9Z"
-        fill={color}
-      />
-      <path d="M56 98h88" strokeDasharray="4 6" />
-      <path d="M86 120h28v22H86Z" fill="#e8e3d6" />
-      <path d="M58 168h84" strokeDasharray="4 6" />
     </Lienzo>
   );
 }
@@ -155,19 +123,6 @@ export function Hojita({ className }) {
   );
 }
 
-export function BolsaAlmacen(props) {
-  return (
-    <Lienzo viewBox="0 0 32 32" {...props}>
-      <path
-        d="M7 10h18l-1.5 17c0 1-1 2-2 2h-11c-1 0-2-1-2-2Z"
-        strokeWidth="2"
-      />
-      <path d="M11.5 13V9c0-3 2-5 4.5-5s4.5 2 4.5 5v4" strokeWidth="2" />
-      <path d="M8 15c5 1 11 1 16 0" strokeWidth="1.5" />
-    </Lienzo>
-  );
-}
-
 export function FlechaAbajo(props) {
   return (
     <Lienzo viewBox="0 0 24 32" {...props}>
@@ -177,17 +132,4 @@ export function FlechaAbajo(props) {
       />
     </Lienzo>
   );
-}
-
-const POR_CATEGORIA = {
-  mates: Mate,
-  bombillas: Bombilla,
-  termos: Termo,
-  yerbas: PaqueteYerba,
-  accesorios: Matera,
-};
-
-export function IlustracionProducto({ categoria, color, titulo, className }) {
-  const Dibujo = POR_CATEGORIA[categoria] ?? Matera;
-  return <Dibujo color={color} titulo={titulo} className={className} />;
 }

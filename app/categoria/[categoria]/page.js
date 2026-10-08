@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import GrillaProductos from "@/components/GrillaProductos";
-import { IlustracionProducto } from "@/components/Ilustraciones";
+import FotoProducto from "@/components/FotoProducto";
 import { SELLOS } from "@/lib/fichas";
 import { getCategoria, getProductosPorCategoria } from "@/lib/productos";
 import styles from "./page.module.css";
@@ -33,7 +33,9 @@ export default async function PaginaCategoria({ params }) {
           <p className={styles.descripcion}>{categoria.descripcion}</p>
           <p className={styles.sello}>{SELLOS[slug]}</p>
         </div>
-        <IlustracionProducto categoria={slug} className={styles.dibujo} />
+        <div className={styles.foto}>
+          <FotoProducto src={categoria.imagen} sizes="260px" prioridad />
+        </div>
       </header>
 
       <div className={styles.contenido}>

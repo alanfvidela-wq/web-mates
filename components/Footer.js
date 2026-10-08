@@ -8,7 +8,9 @@ export default function Footer() {
     <footer className={styles.footer}>
       <div className={styles.contenido}>
         <Logo className={styles.logo} />
-        <p className={styles.frase}>Elaborada con palo, cebada con paciencia.</p>
+        <p className={styles.frase}>
+          Elaborada con palo, cebada con paciencia.
+        </p>
 
         <nav aria-label="Categorías del pie">
           <ul className={styles.lista}>
@@ -31,7 +33,8 @@ export default function Footer() {
           </a>{" "}
           de Ermolli, licencia{" "}
           <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>.
-          HDRI de Poly Haven (CC0).
+          HDRI de Poly Haven (CC0). Fotos de producto de las marcas y tiendas de
+          origen (ver /productos/CREDITOS.md).
         </p>
       </div>
     </footer>

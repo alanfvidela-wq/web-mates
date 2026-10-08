@@ -137,8 +137,9 @@
 }
 
 .categoriaDibujo {
+  position: relative;
   grid-area: dibujo;
-  width: clamp(72px, 14vw, 132px);
+  width: clamp(80px, 14vw, 140px);
   aspect-ratio: 1;
 }
 

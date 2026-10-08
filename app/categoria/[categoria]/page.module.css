@@ -48,8 +48,9 @@
   transform: rotate(-4deg);
 }
 
-.dibujo {
-  width: clamp(110px, 24vw, 260px);
+.foto {
+  position: relative;
+  width: clamp(120px, 24vw, 280px);
   aspect-ratio: 1;
 }
 

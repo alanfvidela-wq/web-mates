@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { IlustracionProducto } from "@/components/Ilustraciones";
+import FotoProducto from "@/components/FotoProducto";
 import SelectorVariante from "@/components/SelectorVariante";
 import { getFicha, SELLOS } from "@/lib/fichas";
 import { getCategoria, getProductoPorSlug } from "@/lib/productos";
@@ -36,12 +36,14 @@ export default async function PaginaProducto({ params }) {
 
       <div className={styles.detalle}>
         <div className={styles.frente}>
-          <IlustracionProducto
-            categoria={producto.categoria}
-            color={producto.colorPlaceholder}
-            titulo={`Dibujo de ${producto.nombre}`}
-            className={styles.dibujo}
-          />
+          <div className={styles.foto}>
+            <FotoProducto
+              src={producto.imagen}
+              alt={`${producto.nombre} ${producto.marca}`}
+              sizes="(max-width: 860px) 90vw, 560px"
+              prioridad
+            />
+          </div>
           <p className={styles.sello}>{SELLOS[categoria.slug]}</p>
         </div>
 

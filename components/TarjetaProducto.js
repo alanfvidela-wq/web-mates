@@ -1,10 +1,10 @@
 import Link from "next/link";
-import { IlustracionProducto } from "./Ilustraciones";
+import FotoProducto from "./FotoProducto";
 import { formatearPrecio } from "@/lib/formato";
 import { tieneStock, tienePreciosDistintos } from "@/lib/productos";
 import styles from "./TarjetaProducto.module.css";
 
-// Producto: dibujo sobre un fondo suave del color de su categoría y, debajo,
+// Producto: foto sobre un fondo suave del color de su categoría y, debajo,
 // nombre, marca y precio. Sin recuadro.
 export default function TarjetaProducto({ producto }) {
   const disponible = tieneStock(producto);
@@ -16,11 +16,12 @@ export default function TarjetaProducto({ producto }) {
       data-categoria={producto.categoria}
     >
       <div className={styles.fondo}>
-        <IlustracionProducto
-          categoria={producto.categoria}
-          color={producto.colorPlaceholder}
-          className={styles.dibujo}
-        />
+        <div className={styles.foto}>
+          <FotoProducto
+            src={producto.imagen}
+            sizes="(max-width: 640px) 45vw, (max-width: 1000px) 30vw, 260px"
+          />
+        </div>
         {!disponible && <span className={styles.sinStock}>Sin stock</span>}
       </div>
       <h3 className={styles.nombre}>{producto.nombre}</h3>

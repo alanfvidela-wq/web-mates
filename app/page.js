@@ -2,7 +2,8 @@ import Link from "next/link";
 import Hero from "@/components/Hero";
 import RitualMate from "@/components/ritual/RitualMate";
 import TarjetaProducto from "@/components/TarjetaProducto";
-import { Hojita, IlustracionProducto } from "@/components/Ilustraciones";
+import FotoProducto from "@/components/FotoProducto";
+import { Hojita } from "@/components/Ilustraciones";
 import { CATEGORIAS, getProductos } from "@/lib/productos";
 import styles from "./page.module.css";
 
@@ -75,10 +76,9 @@ export default async function Home() {
                     <span className={`dato ${styles.categoriaCantidad}`}>
                       {cantidad} productos
                     </span>
-                    <IlustracionProducto
-                      categoria={categoria.slug}
-                      className={styles.categoriaDibujo}
-                    />
+                    <span className={styles.categoriaDibujo}>
+                      <FotoProducto src={categoria.imagen} sizes="140px" />
+                    </span>
                   </Link>
                 </li>
               );

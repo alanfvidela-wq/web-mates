@@ -35,9 +35,11 @@ las cumple, se corrige.
    con texto en tinta. Mínimo 48px de alto (56px en el hero).
 7. **El patrón del hero.** Cada bloque importante dice una cosa: un título,
    una frase corta (34–46ch como máximo) y, si hace falta, una acción.
-8. **Productos sin recuadro.** La ilustración va sobre un fondo suave del color
-   de su categoría que la contiene, sin borde. Debajo, el nombre en Instrument
-   Serif, la marca como `.dato` y el precio en Courier Prime.
+8. **Productos sin recuadro.** La foto (sin fondo) va sobre un fondo suave del
+   color de su categoría que la contiene, sin borde, con una sombra de
+   contacto sutil debajo del producto. Debajo, el nombre en Instrument Serif
+   (dos líneas como máximo, alto fijo), la marca como `.dato` y el precio en
+   Courier Prime: marca y precio quedan alineados en toda la fila.
 9. **Listas sin líneas.** «Qué hay en el almacén», la ficha de producto y
    cualquier lista se separan con espacio o con fondos alternados.
 10. **Footer como bloque.** Verde yerba sólido, el logo «Amargo» grande, los
@@ -107,9 +109,10 @@ acento de la categoría (solo en categoría) → kraft → verde.
 - **Bloques en vez de bordes.** Las secciones se separan con color de fondo
   (kraft, papel, verde, tinta, el acento de la categoría) y con espacio
   generoso. No hay bordes, contornos, filetes ni estantes.
-- **El producto en su fondo.** Cada producto va dibujado sobre un fondo suave
-  del color de su categoría (acento al 16% sobre papel; al 30% al pasar el
-  mouse), con esquinas redondeadas. Debajo: nombre, marca y precio a máquina.
+- **El producto en su fondo.** Cada producto es una foto real sobre un fondo
+  suave del color de su categoría (acento al 16% sobre papel; al 30% al pasar
+  el mouse), con esquinas redondeadas. Debajo: nombre, marca y precio a
+  máquina. Ver «Fotos de producto».
 - **La etiqueta.** La ficha de producto se lee como el dorso de un paquete:
   un bloque papel con filas alternadas, sin líneas.
 - **Sellos** ovalados y rellenos (no contorneados), en serif itálica:
@@ -203,16 +206,36 @@ Interlineado: 0.88–0.95 para los títulos y 1.55 para el texto.
   categorías, opciones del selector, ficha y frente del producto.
 - **Círculos** para los botones de ícono (pausa del video).
 - **Óvalo relleno** para los sellos.
-- **Sin sombras.** La profundidad sale de los bloques de color planos.
+- **Sin sombras de caja.** La profundidad sale de los bloques de color planos.
+  La única sombra es la de contacto debajo de cada foto de producto (sigue
+  la forma del producto, nunca la de la tarjeta).
+
+## Fotos de producto
+
+El catálogo usa fotos reales, al nivel del video del hero: en las tarjetas,
+en la página de producto, en el encabezado de cada categoría y en «Qué hay en
+el almacén» (una foto representativa por categoría, en `CATEGORIAS`).
+
+- **Origen.** Productos de marca: foto del modelo, de la marca o de una tienda
+  conocida (Carrefour, Jumbo, Mercado Libre). Artesanales: foto del tipo de
+  producto, de tiendas de mate. El detalle está en
+  `public/productos/CREDITOS.md`.
+- **Misma sesión.** `npm run fotos:productos` (`scripts/fotos-productos.mjs`)
+  baja cada original a `public/productos/fuente/` (fuera de git), le saca el
+  fondo, limpia restos sueltos, recorta al contorno y centra el producto en
+  1000×1000 con fondo transparente, todos a la misma escala (caja de 820px) y
+  con el mismo margen. Sale WebP en `public/productos/<slug>.webp`.
+- **En pantalla.** `FotoProducto` usa `next/image` con `fill` y
+  `object-fit: contain`, y le pone la sombra de contacto (`drop-shadow` en
+  tinta, muy suave).
 
 ## Ilustración
 
 Los dibujos son SVG hechos a mano, con trazo de tinta de 2.5px, puntas
-redondeadas y líneas un poco irregulares. El relleno es plano y toma el color
-del producto. Hay dibujos de mate, bombilla, termo, paquete de yerba, matera,
-pava (pantalla de carga) y termo volcado (error). Reemplazan a los íconos
-genéricos y a los placeholders de color. El bodegón (termo, paquete y mate
-juntos) ilustra «Armá tu combo», porque es el combo completo.
+redondeadas y líneas un poco irregulares. El relleno es plano. Ya no
+representan productos (para eso están las fotos): quedan el mate, el termo y
+el paquete del bodegón de «Armá tu combo», la pava (pantalla de carga), el
+termo volcado (error), el mate lavado (404) y la hojita separadora.
 
 ## Voz
 
@@ -258,7 +281,7 @@ chiste por línea. Ejemplos: «Que no se corte la ronda», «Elaborada con palo�
 | Fondo crema + serif + píldora                           | Fondo kraft con textura, bloques de color plenos, ilustraciones a mano, máquina de escribir y video real                |
 | Etiquetas en mayúsculas con tracking sobre los títulos  | No hay antetítulos. Los datos chicos van en minúscula y abajo del título                                                |
 | Resaltar una palabra del título                         | Cada título va en un solo color y un solo estilo                                                                        |
-| Grillas de tarjetas iguales con el mismo radio y sombra | Sin sombras; el bloque es solo el fondo del dibujo, y el precio, el nombre y la marca quedan afuera, sobre el fondo     |
+| Grillas de tarjetas iguales con el mismo radio y sombra | Sin sombra de tarjeta; el bloque es solo el fondo de la foto, y el precio, el nombre y la marca quedan afuera           |
 | Gradientes o resplandores                               | Solo colores planos y textura de papel. El único degradado es el de tinta sobre el video de la portada, por legibilidad |
 | «→» en botones y «·» como separador                     | Sin flechas de texto. El separador es una hojita de yerba en SVG                                                        |
 | Fade + slide up por sección                             | No hay. Solo se anima el ritual                                                                                         |

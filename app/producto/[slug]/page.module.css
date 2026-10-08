@@ -14,7 +14,7 @@
   }
 }
 
-/* Frente del paquete: bloque plano en el color de la categoría */
+/* Frente: la foto sobre un fondo suave del color de la categoría */
 .frente {
   position: relative;
   align-self: start;
@@ -22,18 +22,13 @@
   place-items: center;
   aspect-ratio: 1;
   border-radius: var(--radio);
-  background: var(--acento);
-  color: var(--sobre-acento);
+  background: color-mix(in srgb, var(--acento) 16%, var(--papel));
 }
 
-.dibujo {
-  width: 72%;
+.foto {
+  position: relative;
+  width: 84%;
   aspect-ratio: 1;
-  color: var(--tinta);
-}
-
-[data-categoria="accesorios"] .dibujo {
-  color: var(--amarillo);
 }
 
 .sello {
