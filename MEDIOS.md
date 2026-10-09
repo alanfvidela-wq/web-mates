@@ -16,10 +16,14 @@ sitio, en `public/fotos/` y `public/videos/`.
 | 2026-10-09 | Higgsfield | `396fcac0` la de la ruta        | Nano Banana Pro 2K, 4:5  | 2          | `public/fotos/la-de-la-ruta.webp`  |
 | 2026-10-09 | Higgsfield | `eb94df6c` la de la plaza       | Nano Banana Pro 2K, 4:5  | 2          | `public/fotos/la-de-la-plaza.webp` |
 |            |            |                                 | **Total Higgsfield**     | **10 / 10** |                                    |
+| 2026-10-09 | Artlist    | `01a11ecd` loop del hero        | Kling 2.5 Turbo Pro 1080p, 5 s | 0 (video gratis) | `public/videos/hero-*.mp4` |
 
-Pendiente: el loop del hero. La idea es hacerlo con el video gratis de
-Artlist (Omni 1.1 Interpolation 1080p), con la mesa de la mañana como primer y
-último cuadro para que no tenga corte.
+En Artlist, Omni 1.1 Interpolation y Seedance 2.0 Mini figuraban como gratis
+pero cotizaban 1.250 y 480 créditos; Kling 2.5 Turbo Pro sí salió por el video
+gratis de la prueba.
+
+Control del loop: primer cuadro contra último, SSIM 0,994; cuadros vecinos,
+SSIM mínimo 0,998 (sin cortes adentro). El clip sale a 1924×1076 y 24 fps.
 
 ## La receta común
 
@@ -91,9 +95,11 @@ Las tres empiezan con la receta común:
   thermos, a small yerbera tin and a paper bag of bizcochitos. A hand reaching
   for the mate. Shot from slightly above. Vertical composition.
 
-### Loop del hero (pendiente)
+### Loop del hero
 
-Primer y último cuadro: la mesa de la mañana.
+Kling 2.5 Turbo Pro en Artlist, 16:9, 5 s, 1080p. Primer y último cuadro: la
+mesa de la mañana. Prompt negativo: «camera movement, zoom, pan, dolly,
+people, hands, text, logos, objects moving, cuts, flicker».
 
 > Locked-off static camera on a tripod, absolutely no camera movement, no
 > zoom, no pan. Same framing as the image the whole time. A soft wisp of steam

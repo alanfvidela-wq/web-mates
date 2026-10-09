@@ -12,27 +12,27 @@ const SALIDA = path.join(RAIZ, "public", "videos");
 
 const CONFIG = {
   fuente: buscarFuente(),
-  // Tramo del video fuente que se usa, en segundos
+  // Tramo del video fuente que se usa, en segundos. El clip ya es un loop
+  // (primer cuadro = último, ver MEDIOS.md): se corta antes del último cuadro
+  // para que no se repita al volver a empezar.
   inicio: 0,
-  fin: 8,
-  // Fundido cruzado entre el final y el principio para que el loop no se note
-  fundido: 0.5,
-  fps: 30,
+  fin: 121 / 24,
+  // Fundido cruzado entre el final y el principio; 0 si el clip ya cierra solo
+  fundido: 0,
+  fps: 24,
   maxBytes: 4 * 1024 * 1024,
-  // Recortes en píxeles del video fuente (x, y, ancho, alto). Dejan afuera la
-  // marca de agua de abajo a la derecha (x ≥ 920, y ≥ 630) y el sello de
-  // arriba a la izquierda (x < 50, y < 42).
+  // Recortes en píxeles del video fuente (x, y, ancho, alto), sobre 1924×1076
   versiones: [
     {
       nombre: "hero-desktop",
-      recorte: { x: 52, y: 0, ancho: 1196, alto: 624 },
-      // Espejado: el mate queda a la derecha y el texto va a la izquierda
-      espejar: true,
+      // Entero: el mate ya está a la derecha y la cortina a la izquierda
+      recorte: { x: 2, y: 0, ancho: 1920, alto: 1076 },
+      espejar: false,
     },
     {
       nombre: "hero-mobile",
       // 9:16 centrado sobre el mate, a alto completo
-      recorte: { x: 270, y: 0, ancho: 396, alto: 704 },
+      recorte: { x: 948, y: 0, ancho: 606, alto: 1076 },
       espejar: false,
     },
   ],
@@ -40,9 +40,7 @@ const CONFIG = {
 
 function buscarFuente() {
   const candidatos = [
-    "public/videos/fuente/cebando.mp4",
-    "public/videos/fuentes/cebando.mp4",
-    "public/videos/fuentes/cebando.mp4.mp4",
+    "public/videos/fuentes/higgsfield/hero-loop.mp4",
   ].map((p) => path.join(RAIZ, p));
   const fuente = candidatos.find((p) => existsSync(p));
   if (!fuente) {
@@ -87,6 +85,8 @@ function filtro({ recorte, espejar }) {
   ]
     .filter(Boolean)
     .join(",");
+
+  if (!fundido) return `[0:v]${base}[v]`;
 
   // El cuerpo arranca en `fundido` y termina fundiéndose con los primeros
   // `fundido` segundos: al volver a empezar, el loop continúa sin salto.

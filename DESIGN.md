@@ -105,18 +105,22 @@ Secuencia de fondos de la home: foto → verde → avena → papel → tinta →
 
 - **Foto**: la mesa de la mañana, generada con Higgsfield (ver «Fotos y
   video» y `MEDIOS.md`). Composición pensada para el texto: el mate a la
-  derecha y la cortina clara a la izquierda. El poster de escritorio es la
-  foto entera; el de mobile, un recorte 9:16 centrado en el mate. Los dos son
-  WebP en `public/videos/` y los pinta el servidor en un `<picture>`, así se
-  ven desde el primer momento.
+  derecha y la cortina clara a la izquierda.
 - **Velo de avena**: un degradado de avena desde la izquierda (desde abajo en
   mobile) que aclara la cortina lo justo para que el titular en tinta se lea.
   Es la única excepción a los colores planos.
-- **Loop**: un clip que arranca y termina en la misma foto, así no hay corte.
-  Lo monta un componente cliente (`VideoFondo`) encima del poster y elige la
-  versión según el ancho (corte en 760px). Mientras `VIDEOS_HERO` tenga `src`
-  en null se ve solo la foto, con un acercamiento lentísimo.
-  `npm run video:hero` arma las dos versiones desde el clip fuente.
+- **Loop**: 5 segundos de Kling 2.5 Turbo Pro (Artlist) con la foto como
+  primer y último cuadro: el vapor sube y las sombras de las hojas se mueven
+  en la cortina, con la cámara quieta. Primer y último cuadro casi idénticos
+  (SSIM 0,994) y sin cortes adentro. `npm run video:hero`
+  (`scripts/video-hero.mjs`) arma dos versiones H.264 sin audio, sin escalar
+  y de menos de 4 MB: `hero-desktop` entera (1920×1076) y `hero-mobile`, un
+  recorte 9:16 centrado en el mate. Corta el último cuadro, que repite el
+  primero, para que el loop no se trabe.
+- **Poster**: el primer cuadro de cada versión en WebP. Lo pinta el servidor
+  en un `<picture>`, así se ve desde el primer momento y sin saltos; el video
+  se monta encima desde un componente cliente (`VideoFondo`), que elige la
+  versión según el ancho (corte en 760px).
 - **Sello**: círculo amarillo con «Elaborada con palo, cebada con paciencia,»
   en máquina de escribir, girando despacio al lado del botón.
 - **Control**: si hay video, círculo claro sin borde con el ícono de
@@ -258,7 +262,8 @@ el almacén» (una foto representativa por categoría, en `CATEGORIAS`).
 ## Fotos y video
 
 Las fotos de la home (portada, la ronda y los tres momentos) se generaron con
-Higgsfield, Nano Banana Pro a 2K, todas con la misma receta: película de
+Higgsfield, Nano Banana Pro a 2K; el loop de la portada, con Kling 2.5 Turbo
+Pro en Artlist. Las fotos comparten la misma receta: película de
 35mm, grano suave, luz natural cálida, foco corto, paleta de crema, avena,
 verde oliva, terracota y marrón, sin caras, sin texto y sin marcas. El mate
 es siempre el mismo: calabaza forrada en cuero marrón con virola de alpaca y
@@ -293,8 +298,8 @@ chiste por línea. Ejemplos: «Que no se corte la ronda», «Elaborada con palo�
 Cada bloque de la home tiene un movimiento propio, que tiene que ver con lo
 que muestra. Nada entra con fundido y desplazamiento genérico.
 
-- **Portada**: el loop de video (o, sin video, un acercamiento lentísimo de
-  la foto) y el sello que gira. El video se puede pausar.
+- **Portada**: el loop de video (vapor y sombras de hojas) y el sello que
+  gira. El video se puede pausar.
 - **Marquesina**: la cinta corre sola; se frena con el mouse encima.
 - **Manifiesto**: la rama de yerba se dibuja con el scroll: primero el tallo,
   después cada hoja cuando el tallo pasa por su lugar, y al final brotan los
@@ -311,8 +316,8 @@ que muestra. Nada entra con fundido y desplazamiento genérico.
 - El header cambia de transparente a sólido con una transición suave.
 - Lo atado al scroll usa `animation-timeline: view()`. Donde el navegador no
   lo soporta, todo se ve quieto y completo.
-- Con `prefers-reduced-motion` la portada muestra solo la foto, sin video ni
-  acercamiento, la marquesina queda quieta (y baja de línea si no entra) y no
+- Con `prefers-reduced-motion` la portada muestra solo la foto, sin video,
+  la marquesina queda quieta (y baja de línea si no entra) y no
   hay animaciones ni transiciones.
 
 ## Principios

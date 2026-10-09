@@ -29,19 +29,6 @@
   object-position: 62% 50%;
 }
 
-/* Mientras no hay video, la foto respira: un acercamiento lentísimo */
-@media (prefers-reduced-motion: no-preference) {
-  .poster {
-    animation: respirar 26s ease-in-out infinite alternate;
-  }
-}
-
-@keyframes respirar {
-  to {
-    transform: scale(1.06);
-  }
-}
-
 /* Velo de avena desde la izquierda: la única excepción a los colores planos.
    Aclara la cortina lo justo para que el titular en tinta se lea siempre. */
 .velo {

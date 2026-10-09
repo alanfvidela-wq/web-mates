@@ -35,9 +35,9 @@ export default function Footer() {
         <p className={styles.legal}>
           Proyecto académico — Programación Web, ITBA. Precios ficticios.
           <br />
-          Fotos de la home y del hero generadas con Higgsfield (Nano Banana
-          Pro). Fotos de producto de las marcas y tiendas de origen (ver
-          /productos/CREDITOS.md).
+          Fotos de la home generadas con Higgsfield (Nano Banana Pro) y video
+          de la portada con Kling en Artlist. Fotos de producto de las marcas y
+          tiendas de origen (ver /productos/CREDITOS.md).
         </p>
       </div>
     </footer>
