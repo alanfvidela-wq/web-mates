@@ -4,47 +4,10 @@
   padding: 0;
 }
 
-/* Bloque verde con las leyendas de la casa */
-.franja {
-  --foco: var(--papel);
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: var(--espacio-2) var(--espacio-6);
-  padding: var(--espacio-12) var(--gutter);
-  background: var(--verde);
-  color: var(--papel);
-  list-style: none;
-  font-family: var(--fuente-titulos);
-  font-size: clamp(1.625rem, 3.4vw, 2.5rem);
-  letter-spacing: var(--tracking-titulos);
-  font-weight: 400;
-  line-height: 1;
-}
-
-.franja li {
-  display: flex;
-  align-items: center;
-  gap: var(--espacio-6);
-}
-
-.hojita {
-  width: 1.25rem;
-  height: 1.25rem;
-  color: var(--verde-claro);
-}
-
-/* Apiladas en mobile, las hojitas separadoras sobran */
-@media (max-width: 640px) {
-  .hojita {
-    display: none;
-  }
-}
-
 .contenido {
   max-width: var(--ancho-max);
   margin: 0 auto;
-  padding: 0 var(--gutter) var(--espacio-16);
+  padding: 0 var(--gutter);
 }
 
 .seccion {
@@ -56,12 +19,95 @@
   scroll-margin-top: calc(var(--alto-header) + var(--espacio-4));
 }
 
-/* Sección sobre fondo papel, a todo el ancho */
 .fondoPapel {
   background: var(--papel);
 }
 
-/* Destacados en una sola fila, todos a la misma altura */
+.subtitulo {
+  font-size: var(--t-titulo-2);
+}
+
+/* Link a máquina, que se subraya al pasar el mouse */
+.enlace {
+  align-self: flex-start;
+  font-family: var(--fuente-datos);
+  font-size: 1.0625rem;
+  font-weight: 700;
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 6px;
+  transition: text-decoration-color var(--transicion);
+}
+
+.enlace:hover,
+a:hover .enlace {
+  text-decoration-color: currentColor;
+}
+
+/* ---------- Manifiesto ---------- */
+
+.manifiesto {
+  padding: var(--espacio-24) 0 var(--espacio-24);
+  background: var(--kraft);
+  /* clip y no hidden: hidden lo volvería contenedor de scroll y la rama no
+     se dibujaría con el scroll de la página */
+  overflow: clip;
+}
+
+.manifiestoTitulo {
+  display: flex;
+  flex-direction: column;
+  font-size: clamp(3.25rem, 10.5vw, 10rem);
+  line-height: 0.86;
+  text-wrap: nowrap;
+}
+
+/* La segunda línea corrida a la derecha, como en un afiche */
+.manifiestoCorrido {
+  align-self: flex-end;
+  color: var(--verde);
+}
+
+.manifiestoPie {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--espacio-8);
+  align-items: end;
+  margin-top: var(--espacio-12);
+}
+
+.rama {
+  width: min(100%, 560px);
+  color: var(--verde);
+}
+
+.manifiestoTexto {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espacio-4);
+  max-width: 40ch;
+  font-size: var(--t-entrada);
+}
+
+@media (min-width: 860px) {
+  .manifiestoPie {
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+}
+
+@media (max-width: 640px) {
+  .manifiestoTitulo {
+    text-wrap: balance;
+  }
+
+  .manifiestoCorrido {
+    align-self: flex-start;
+  }
+}
+
+/* ---------- Lo que más sale ---------- */
+
 .estante {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -80,12 +126,252 @@
   }
 }
 
-.subtitulo {
-  font-size: var(--t-titulo-2);
+/* ---------- La receta de la casa ---------- */
+
+.receta {
+  --foco: var(--papel);
+  padding: var(--espacio-16) 0 var(--espacio-24);
+  background: var(--tinta);
+  color: var(--papel);
 }
 
-/* Categorías como lista de almacén: cada fila en un bloque suave del color de
-   su categoría, separadas por aire */
+.recetaGrilla {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--espacio-12);
+}
+
+.recetaFoto {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  overflow: clip;
+  border-radius: var(--radio-grande);
+  background: var(--tinta-suave);
+}
+
+.recetaImagen {
+  object-fit: cover;
+}
+
+.recetaTexto {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espacio-6);
+}
+
+/* Rinde, tiempo y dificultad, como en el encabezado de una receta */
+.recetaDatos {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--espacio-4) var(--espacio-8);
+}
+
+.recetaDatos dt {
+  color: color-mix(in srgb, var(--papel) 70%, var(--tinta));
+}
+
+.recetaDatos dd {
+  font-family: var(--fuente-titulos);
+  font-size: 1.625rem;
+  letter-spacing: var(--tracking-titulos);
+  line-height: 1.1;
+}
+
+.recetaSubtitulo {
+  margin-top: var(--espacio-4);
+  font-size: var(--t-titulo-3);
+}
+
+.ingredientes {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
+  gap: var(--espacio-3) var(--espacio-6);
+  list-style: none;
+  font-size: var(--t-entrada);
+}
+
+.ingredientes li {
+  display: flex;
+  align-items: center;
+  gap: var(--espacio-3);
+}
+
+.ingredienteHoja {
+  flex-shrink: 0;
+  width: 1.25rem;
+  height: 1.25rem;
+  color: var(--verde-vivo);
+}
+
+.pasos {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espacio-6);
+  list-style: none;
+}
+
+.paso {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  grid-template-areas:
+    "numero titulo"
+    "numero texto";
+  column-gap: var(--espacio-4);
+  row-gap: var(--espacio-1);
+}
+
+/* El número va en un sello amarillo relleno, en serif itálica */
+.pasoNumero {
+  grid-area: numero;
+  display: grid;
+  place-items: center;
+  width: 3rem;
+  height: 3.5rem;
+  border-radius: 50%;
+  background: var(--amarillo);
+  color: var(--tinta);
+  font-family: var(--fuente-titulos);
+  font-size: 1.75rem;
+  font-style: italic;
+  line-height: 1;
+  transform: rotate(-6deg);
+}
+
+.paso:nth-child(even) .pasoNumero {
+  transform: rotate(5deg);
+}
+
+.pasoTitulo {
+  grid-area: titulo;
+  align-self: end;
+  font-family: var(--fuente-titulos);
+  font-size: 1.875rem;
+  font-weight: 400;
+  letter-spacing: var(--tracking-titulos);
+  line-height: 1;
+}
+
+.pasoTexto {
+  grid-area: texto;
+  max-width: 46ch;
+  color: color-mix(in srgb, var(--papel) 85%, var(--tinta));
+}
+
+.recetaCierre {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--espacio-4) var(--espacio-6);
+  margin-top: var(--espacio-6);
+}
+
+.recetaPregunta {
+  font-family: var(--fuente-titulos);
+  font-size: clamp(2.25rem, 4vw, 3rem);
+  letter-spacing: var(--tracking-titulos);
+  line-height: 1;
+}
+
+@media (min-width: 900px) {
+  .recetaGrilla {
+    grid-template-columns: minmax(0, 0.85fr) minmax(0, 1fr);
+    align-items: start;
+    gap: var(--espacio-16);
+  }
+
+  /* La foto acompaña mientras se leen los pasos */
+  .recetaFoto {
+    position: sticky;
+    top: calc(var(--alto-header) + var(--espacio-6));
+  }
+}
+
+/* ---------- Para cada ronda ---------- */
+
+.momentos {
+  background: var(--kraft);
+}
+
+.encabezado {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--espacio-4) var(--espacio-12);
+}
+
+.encabezadoFrase {
+  max-width: 36ch;
+  font-size: var(--t-entrada);
+}
+
+.momentosLista {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--espacio-8) var(--espacio-6);
+  list-style: none;
+}
+
+.momentoEnlace {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espacio-2);
+}
+
+.momentoFoto {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  margin-bottom: var(--espacio-3);
+  overflow: clip;
+  border-radius: var(--radio-grande);
+  background: color-mix(in srgb, var(--acento) 16%, var(--papel));
+}
+
+.momentoImagen {
+  object-fit: cover;
+  transition: transform 600ms var(--suave);
+}
+
+.momentoEnlace:hover .momentoImagen {
+  transform: scale(1.04);
+}
+
+.momentoTitulo {
+  font-size: clamp(2rem, 3vw, 2.5rem);
+}
+
+.momentoTexto {
+  max-width: 34ch;
+}
+
+/* En pantallas chicas los momentos se pasan de costado, como fotos */
+@media (max-width: 760px) {
+  .momentosLista {
+    display: flex;
+    gap: var(--espacio-4);
+    margin-inline: calc(-1 * var(--gutter));
+    padding-inline: var(--gutter);
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: var(--gutter);
+    scrollbar-width: none;
+  }
+
+  .momento {
+    flex: 0 0 78%;
+    scroll-snap-align: start;
+  }
+
+  /* Dentro de la tira que se pasa de costado no hay scroll vertical que
+     siga: las fotos van reveladas desde el principio */
+  .momentoImagen {
+    animation: none !important;
+  }
+}
+
+/* ---------- Qué hay en el almacén ---------- */
+
+/* Cada fila en un bloque suave del color de su categoría, separadas por aire */
 .categorias {
   display: flex;
   flex-direction: column;
@@ -103,7 +389,7 @@
   align-items: center;
   column-gap: var(--espacio-6);
   padding: var(--espacio-4) var(--espacio-6);
-  border-radius: var(--radio);
+  border-radius: var(--radio-grande);
   background: color-mix(in srgb, var(--acento) 16%, var(--papel));
   transition:
     background-color var(--transicion),
@@ -141,6 +427,12 @@
   grid-area: dibujo;
   width: clamp(80px, 14vw, 140px);
   aspect-ratio: 1;
+  transition: transform 400ms var(--suave);
+}
+
+/* Al pasar el mouse el producto se asoma, un poco ladeado */
+.categoria:hover .categoriaDibujo {
+  transform: rotate(-8deg) scale(1.08);
 }
 
 @media (min-width: 900px) {
@@ -152,5 +444,60 @@
   .categoriaDescripcion,
   .categoriaCantidad {
     margin-top: 0;
+  }
+}
+
+/* ---------- Movimiento atado al scroll ---------- */
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    /* La foto de la receta se acomoda despacio al entrar */
+    .recetaImagen {
+      animation: acercar linear both;
+      animation-timeline: view();
+      animation-range: entry 0% cover 60%;
+    }
+
+    /* Los números de los pasos se estampan como un sello de goma */
+    .pasoNumero {
+      animation: estampar linear both;
+      animation-timeline: view();
+      animation-range: entry 60% entry 100%;
+    }
+
+    /* Las fotos de los momentos se revelan como un rollo recién salido */
+    .momentoFoto {
+      view-timeline-name: --momento;
+    }
+
+    .momentoImagen {
+      animation: revelar linear both;
+      animation-timeline: --momento;
+      animation-range: entry 10% cover 45%;
+    }
+  }
+}
+
+@keyframes acercar {
+  from {
+    transform: scale(1.12);
+  }
+}
+
+@keyframes estampar {
+  0% {
+    opacity: 0;
+    transform: scale(1.8) rotate(-24deg);
+  }
+
+  70% {
+    opacity: 1;
+    transform: scale(0.94) rotate(-4deg);
+  }
+}
+
+@keyframes revelar {
+  from {
+    filter: sepia(0.7) saturate(0.35) brightness(1.18) contrast(0.85);
   }
 }

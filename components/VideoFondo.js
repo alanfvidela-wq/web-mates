@@ -17,7 +17,8 @@ export default function VideoFondo({ className, claseBoton, claseIcono }) {
   const ref = useRef(null);
 
   const version = VIDEOS_HERO[mobile ? "mobile" : "desktop"];
-  const conVideo = montado && !reducido;
+  // Sin video cargado (src null) queda solo el poster
+  const conVideo = montado && !reducido && Boolean(version.src);
 
   useEffect(() => {
     const video = ref.current;

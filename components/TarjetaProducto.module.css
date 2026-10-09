@@ -4,20 +4,36 @@
   align-items: flex-start;
 }
 
-/* Fondo suave del color de la categoría: contiene al dibujo, sin borde */
+/* Mancha suave del color de la categoría: una forma orgánica que contiene
+   al producto, sin borde. Cada tarjeta de la fila tiene su propia forma. */
 .fondo {
+  --mancha: 46% 54% 52% 48% / 56% 44% 56% 44%;
+  --mancha-hover: 54% 46% 44% 56% / 48% 56% 44% 52%;
   position: relative;
   align-self: stretch;
   display: flex;
   justify-content: center;
   margin-bottom: var(--espacio-4);
-  padding: var(--espacio-3);
-  border-radius: var(--radio);
+  padding: var(--espacio-4);
+  border-radius: var(--mancha);
   background: color-mix(in srgb, var(--acento) 16%, var(--papel));
-  transition: background-color var(--transicion);
+  transition:
+    background-color var(--transicion),
+    border-radius 700ms var(--suave);
+}
+
+.producto:nth-child(3n + 2) .fondo {
+  --mancha: 58% 42% 40% 60% / 48% 60% 40% 52%;
+  --mancha-hover: 44% 56% 58% 42% / 58% 44% 56% 42%;
+}
+
+.producto:nth-child(3n) .fondo {
+  --mancha: 40% 60% 56% 44% / 60% 42% 58% 40%;
+  --mancha-hover: 56% 44% 42% 58% / 44% 58% 42% 56%;
 }
 
 .producto:hover .fondo {
+  border-radius: var(--mancha-hover);
   background: color-mix(in srgb, var(--acento) 30%, var(--papel));
 }
 
@@ -27,8 +43,9 @@
   aspect-ratio: 1;
 }
 
+/* Al pasar el mouse el producto se levanta y se ladea apenas */
 .producto:hover .foto {
-  transform: translateY(-4px);
+  transform: translateY(-6px) rotate(-3deg);
 }
 
 /* Sello ovalado rojo, relleno */
@@ -78,6 +95,6 @@
 
 @media (prefers-reduced-motion: no-preference) {
   .foto {
-    transition: transform 160ms ease;
+    transition: transform 400ms var(--suave);
   }
 }

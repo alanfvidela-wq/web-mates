@@ -1,11 +1,12 @@
 # Amargo — Sistema de diseño
 
-Amargo es un almacén de mate con la limpieza de graza.co: bloques de color
-plano, mucho aire y nada de bordes. Las referencias siguen siendo los paquetes
-de yerba y la lista de precios escrita a máquina, pero ahora sin filetes ni
-estantes dibujados. Hay dos cosas que llaman la atención: el video del mate
-cebándose en la portada y el mate 3D de «La montañita, paso a paso». Todo lo
-demás es tinta sobre papel, ordenado.
+Amargo es un almacén de mate que se lee como un recetario: la limpieza y la
+tipografía gigante de graza.co, las fotos de cocina con luz de mañana de
+alisoneroman.com y las manchas de color, los dibujos botánicos y el humor de
+palais.bio. Bloques de color plano, mucho aire, nada de bordes. Lo que llama la
+atención son las fotos propias (la mesa de la portada, la ronda, los momentos),
+la rama de yerba que se dibuja sola y el Cimarrón, el mate con cara del pie.
+Todo lo demás es tinta sobre papel, ordenado.
 
 ## Reglas de la estética
 
@@ -17,9 +18,12 @@ las cumple, se corrige.
    foco del teclado.
 2. **Bloques de color a todo el ancho.** Cada sección es un bloque de fondo
    de lado a lado, con el contenido alineado a `--ancho-max` y `--gutter`. Los
-   fondos alternan entre el claro de base (kraft o papel), el verde yerba, la
+   fondos alternan entre el claro de base (avena o papel), el verde yerba, la
    tinta y el acento de la categoría. **Nunca dos secciones seguidas con el
-   mismo fondo** (el header sólido cuenta como papel).
+   mismo fondo** (el header sólido cuenta como papel). En la home, los bloques
+   que siguen al manifiesto entran con **ola** (`.ola`): el borde de arriba
+   ondulado, del mismo color del bloque. No es una línea, es el bloque que se
+   asoma sobre el anterior.
 3. **Aire generoso.** Las secciones llevan al menos `--espacio-16` arriba y
    `--espacio-24` abajo; dentro, los elementos se separan con espacio, no con
    cajas.
@@ -35,9 +39,10 @@ las cumple, se corrige.
    con texto en tinta. Mínimo 48px de alto (56px en el hero).
 7. **El patrón del hero.** Cada bloque importante dice una cosa: un título,
    una frase corta (34–46ch como máximo) y, si hace falta, una acción.
-8. **Productos sin recuadro.** La foto (sin fondo) va sobre un fondo suave del
-   color de su categoría que la contiene, sin borde, con una sombra de
-   contacto sutil debajo del producto. Debajo, el nombre en Instrument Serif
+8. **Productos sin recuadro.** La foto (sin fondo) va sobre una **mancha**
+   suave del color de su categoría (una forma orgánica, distinta en cada
+   tarjeta de la fila), sin borde, con una sombra de contacto sutil debajo del
+   producto. Debajo, el nombre en Instrument Serif
    (dos líneas como máximo, alto fijo), la marca como `.dato` y el precio en
    Courier Prime: marca y precio quedan alineados en toda la fila.
 9. **Listas sin líneas.** «Qué hay en el almacén», la ficha de producto y
@@ -49,75 +54,89 @@ las cumple, se corrige.
 
 ## Estructura de la home
 
-1. **Portada con video**: a pantalla completa (100svh), con el header
-   flotando transparente encima. Un video en loop de un mate cebándose; encima,
-   un degradado oscuro desde abajo y, abajo a la izquierda, el titular «Que no
-   se corte la ronda» en Instrument Serif, una frase corta y la píldora «Armá tu
-   combo» en verde yerba vivo. Ver «Video de la portada».
-2. **Leyendas** (bloque verde) y **Lo que más sale** (sobre kraft): solo los
-   productos destacados, en una fila. Todas las ilustraciones tienen la misma
-   altura, y precios y nombres comparten línea base.
-3. **La montañita, paso a paso**: sección sticky guiada por el scroll, a mitad
-   de página. El nombre es un paso del ritual (la montañita de yerba), no la
-   marca. El mate 3D muestra el ritual de cebar en seis pasos y cierra con «¿Te
-   falta algo? Armá tu combo». three.js, el modelo y el HDRI se cargan recién
-   cuando la sección está a media pantalla de distancia; hasta entonces se ve
-   un mate dibujado.
-4. **Qué hay en el almacén** (sobre papel): la única sección de categorías de
-   la home. Cada categoría es una fila en un bloque suave de su color.
-5. **Footer** (verde yerba).
+1. **Portada**: a pantalla completa (100svh), con el header flotando
+   transparente encima. La foto de la mesa de la mañana (mate, termo, yerba y
+   medialunas junto a una cortina con sombras de hojas), con un loop de video
+   encima cuando está. El titular «Que no se corte la ronda» va en tinta sobre
+   la cortina clara, abajo a la izquierda, con una frase corta, la píldora
+   «Armá tu combo» y un sello amarillo que gira. Ver «Portada».
+2. **Marquesina** (verde): las leyendas de la casa corriendo de derecha a
+   izquierda, separadas por hojitas. Se frena con el mouse encima.
+3. **Manifiesto** (avena): «Un mate bien cebado / arregla casi todo.» en dos
+   líneas gigantes, la segunda corrida a la derecha y en verde, como en un
+   afiche. Debajo, una rama de yerba que se dibuja sola y una frase.
+4. **Lo que más sale** (papel, con ola): los destacados en una fila, cada uno
+   sobre su mancha.
+5. **Cómo cebar un buen mate** (tinta, con ola): la receta de la casa. La foto
+   de la ronda (dos manos pasándose el mate) queda fija a la izquierda
+   mientras se leen, a la derecha, los datos (rinde, tiempo, dificultad), lo
+   que hace falta y los cinco pasos con su número en un sello amarillo. Cierra
+   con «¿Te falta algo? Armá tu combo».
+6. **Para cada ronda** (avena, con ola): la mañana, la ruta y la plaza, con
+   una foto cada una y el link a la categoría que la resuelve. En mobile se
+   pasan de costado.
+7. **Qué hay en el almacén** (papel, con ola): la única sección de
+   categorías de la home. Cada categoría es una fila en un bloque suave de su
+   color; al pasar el mouse el producto se ladea.
+8. **Footer** (verde, con ola).
 
-Secuencia de fondos de la home: video → verde → kraft → tinta (cabecera del
-ritual) → kraft (escena) → papel → verde. En las demás páginas: header papel →
-acento de la categoría (solo en categoría) → kraft → verde.
+El contenido editorial (leyendas, receta, momentos) está en `lib/home.js`.
+
+Secuencia de fondos de la home: foto → verde → avena → papel → tinta → avena
+→ papel → verde. En las demás páginas: header papel → acento de la categoría
+(solo en categoría) → avena → verde.
 
 ## Header
 
 - **Aire arriba.** `--espacio-6` de margen superior en escritorio y mobile:
   ni el logo ni la píldora del carrito tocan el borde. Logo a 2.75rem.
-- **Fijo y flotante.** En la home arranca transparente sobre el video, con el
-  texto en papel y un velo de tinta muy sutil detrás para que el menú se lea. Cuando se scrollea (un poco antes de terminar el hero, para
-  que el titular no pase por debajo) pasa a fondo papel con texto en tinta, con
-  una transición de 300ms. En las demás páginas es sólido desde el principio.
+- **Fijo y flotante.** En la home arranca transparente sobre la foto, con el
+  mismo texto en tinta (la foto es clara arriba). Cuando se scrollea (un poco
+  antes de terminar el hero, para que el titular no pase por debajo) pasa a
+  fondo papel, con una transición de 300ms. En las demás páginas es sólido
+  desde el principio.
   Mide su alto y lo publica en `--alto-header`; el contenido arranca debajo.
 - **Sin franjas.** No hay líneas de color abajo ni arriba.
 - **Navegación** en Courier Prime bold; al pasar el mouse se subraya.
 - **Carrito**: píldora clara con el texto «Carrito [0]» y la cantidad, en
   lugar de un ícono. La cantidad se lee en el servidor (`lib/carrito.js`).
 
-## Video de la portada
+## Portada
 
-- **Fuente**: `public/videos/fuente(s)/`, fuera de git. `npm run video:hero`
-  (`scripts/video-hero.mjs`, usa ffmpeg) genera todo en `public/videos/`. Si
-  cambia el video fuente, se ajustan el tramo y los recortes al principio del
-  script y se vuelve a correr.
-- **Dos versiones**, H.264 sin audio, de menos de 4 MB y sin escalar por
-  encima del original: `hero-desktop` horizontal (espejada para que el mate
-  quede a la derecha, lejos del texto) y `hero-mobile` vertical 9:16 recortada
-  sobre el mate. Los recortes dejan afuera la marca de agua.
-- **Loop**: el final se funde medio segundo con el principio, así no se nota
-  el corte.
-- **Poster**: el primer frame de cada versión en webp. Lo pinta el servidor en
-  un `<picture>`, así se ve desde el primer momento y sin saltos; el video se
-  monta encima desde un componente cliente (`VideoFondo`), que elige la
-  versión según el ancho (corte en 760px).
-- **Control**: círculo claro sin borde, con el ícono de pausa/play en tinta,
-  abajo a la derecha, con etiqueta accesible.
+- **Foto**: la mesa de la mañana, generada con Higgsfield (ver «Fotos y
+  video» y `MEDIOS.md`). Composición pensada para el texto: el mate a la
+  derecha y la cortina clara a la izquierda. El poster de escritorio es la
+  foto entera; el de mobile, un recorte 9:16 centrado en el mate. Los dos son
+  WebP en `public/videos/` y los pinta el servidor en un `<picture>`, así se
+  ven desde el primer momento.
+- **Velo de avena**: un degradado de avena desde la izquierda (desde abajo en
+  mobile) que aclara la cortina lo justo para que el titular en tinta se lea.
+  Es la única excepción a los colores planos.
+- **Loop**: un clip que arranca y termina en la misma foto, así no hay corte.
+  Lo monta un componente cliente (`VideoFondo`) encima del poster y elige la
+  versión según el ancho (corte en 760px). Mientras `VIDEOS_HERO` tenga `src`
+  en null se ve solo la foto, con un acercamiento lentísimo.
+  `npm run video:hero` arma las dos versiones desde el clip fuente.
+- **Sello**: círculo amarillo con «Elaborada con palo, cebada con paciencia,»
+  en máquina de escribir, girando despacio al lado del botón.
+- **Control**: si hay video, círculo claro sin borde con el ícono de
+  pausa/play en tinta, abajo a la derecha (arriba en mobile), con etiqueta
+  accesible.
 
 ## Concepto: «bloques, aire y etiquetas»
 
 - **Bloques en vez de bordes.** Las secciones se separan con color de fondo
-  (kraft, papel, verde, tinta, el acento de la categoría) y con espacio
+  (avena, papel, verde, tinta, el acento de la categoría) y con espacio
   generoso. No hay bordes, contornos, filetes ni estantes.
-- **El producto en su fondo.** Cada producto es una foto real sobre un fondo
-  suave del color de su categoría (acento al 16% sobre papel; al 30% al pasar
-  el mouse), con esquinas redondeadas. Debajo: nombre, marca y precio a
+- **El producto en su mancha.** Cada producto es una foto real sobre una
+  mancha suave del color de su categoría (acento al 16% sobre papel; al 30% al
+  pasar el mouse, cuando además cambia de forma). Debajo: nombre, marca y precio a
   máquina. Ver «Fotos de producto».
 - **La etiqueta.** La ficha de producto se lee como el dorso de un paquete:
   un bloque papel con filas alternadas, sin líneas.
 - **Sellos** ovalados y rellenos (no contorneados), en serif itálica:
   «Sin stock», «Próximamente», «404», el sello de la categoría y el número de
-  cada paso del ritual.
+  cada paso de la receta.
 
 ## Paleta
 
@@ -128,15 +147,15 @@ mezclarlos (`color-mix`), no son colores nuevos.
 
 | Token        | Nombre           | Hex       | Uso                                               |
 | ------------ | ---------------- | --------- | ------------------------------------------------- |
-| `--kraft`    | Papel kraft      | `#D9C49E` | Fondo general, con una textura de papel muy sutil |
-| `--tinta`    | Tinta            | `#1F1A14` | Texto y cabecera del ritual                       |
+| `--kraft`    | Avena            | `#EFE4CF` | Fondo general, con una textura de papel muy sutil |
+| `--tinta`    | Tinta            | `#1F1A14` | Texto y bloque de la receta                       |
 | `--verde`    | Verde yerba      | `#1F5135` | Logo, leyendas, footer, categoría Yerbas          |
 | `--rojo`     | Rojo almacén     | `#BF3A1E` | Sellos, «sin stock», categoría Mates              |
 | `--amarillo` | Amarillo paquete | `#E9AE1B` | Categoría Bombillas                               |
 | `--azul`     | Azul enlozado    | `#2C4B6B` | Categoría Termos, links en el texto               |
 
-Derivados: `--papel` (kraft con blanco: header sólido, bloques de producto,
-ficha, botones secundarios), `--kraft-oscuro` (kraft con tinta: texto
+Derivados: `--papel` (avena con blanco: header sólido, bloques de producto,
+ficha, botones secundarios), `--kraft-oscuro` (avena con tinta: texto
 secundario), `--verde-vivo` (`#7DC243`, verde yerba vivo y saturado: la acción
 principal, `.boton`) y `--verde-claro` (verde yerba aclarado, ≈ `#A3C388`:
 hover del carrito y de los botones secundarios, hojitas).
@@ -155,9 +174,9 @@ en el `<main>`.
 | Termos     | azul       | papel            |
 | Accesorios | tinta      | amarillo         |
 
-Contrastes medidos (WCAG): tinta sobre kraft 10:1, tinta sobre verde vivo
+Contrastes medidos (WCAG): tinta sobre avena 13:1, tinta sobre verde vivo
 7,95:1, tinta sobre verde claro 8,8:1, papel sobre rojo 6,9:1, tinta sobre amarillo 8,6:1, papel sobre azul
-7,8:1, papel sobre verde 9:1 y rojo sobre kraft 4,7:1 (solo texto grande o en
+7,8:1, papel sobre verde 9:1 y rojo sobre avena 4,6:1 (solo texto grande o en
 negrita).
 
 ## Tipografía
@@ -202,17 +221,24 @@ Interlineado: 0.88–0.95 para los títulos y 1.55 para el texto.
 - **Píldoras** (`border-radius: 999px`) para botones, CTA y carrito.
   `.boton` es la acción principal en verde yerba vivo; `.boton-secundario`,
   papel.
-- **Fondos redondeados** (`--radio`, 16px) para productos, filas de
-  categorías, opciones del selector, ficha y frente del producto.
-- **Círculos** para los botones de ícono (pausa del video).
-- **Óvalo relleno** para los sellos.
+- **Manchas** para los productos: radios elípticos distintos en cada tarjeta
+  de la fila (tres formas que se repiten), que cambian de forma al pasar el
+  mouse.
+- **Fondos redondeados** (`--radio`, 16px) para opciones del selector, ficha
+  y frente del producto; `--radio-grande` (28px) para las fotos de la home y
+  las filas de categorías.
+- **Ola** (`.ola`) en el borde de arriba de los bloques de la home y del
+  footer.
+- **Círculos** para los botones de ícono (pausa del video) y el sello de la
+  portada.
+- **Óvalo relleno** para los sellos y los números de la receta.
 - **Sin sombras de caja.** La profundidad sale de los bloques de color planos.
   La única sombra es la de contacto debajo de cada foto de producto (sigue
   la forma del producto, nunca la de la tarjeta).
 
 ## Fotos de producto
 
-El catálogo usa fotos reales, al nivel del video del hero: en las tarjetas,
+El catálogo usa fotos reales, al nivel de las fotos de la home: en las tarjetas,
 en la página de producto, en el encabezado de cada categoría y en «Qué hay en
 el almacén» (una foto representativa por categoría, en `CATEGORIAS`).
 
@@ -229,13 +255,32 @@ el almacén» (una foto representativa por categoría, en `CATEGORIAS`).
   `object-fit: contain`, y le pone la sombra de contacto (`drop-shadow` en
   tinta, muy suave).
 
+## Fotos y video
+
+Las fotos de la home (portada, la ronda y los tres momentos) se generaron con
+Higgsfield, Nano Banana Pro a 2K, todas con la misma receta: película de
+35mm, grano suave, luz natural cálida, foco corto, paleta de crema, avena,
+verde oliva, terracota y marrón, sin caras, sin texto y sin marcas. El mate
+es siempre el mismo: calabaza forrada en cuero marrón con virola de alpaca y
+bombilla de plata. Los prompts, los trabajos y los créditos están en
+`MEDIOS.md`. Los originales quedan en `public/videos/fuentes/` (fuera de git);
+en `public/fotos/` van los WebP.
+
 ## Ilustración
 
 Los dibujos son SVG hechos a mano, con trazo de tinta de 2.5px, puntas
 redondeadas y líneas un poco irregulares. El relleno es plano. Ya no
 representan productos (para eso están las fotos): quedan el mate, el termo y
 el paquete del bodegón de «Armá tu combo», la pava (pantalla de carga), el
-termo volcado (error), el mate lavado (404) y la hojita separadora.
+termo volcado (error), el mate lavado (404) y la hojita separadora. Además:
+
+- **Rama de yerba** (`RamaYerba`): tallo, siete hojas alternadas con su
+  nervadura y un racimo de frutitos, como un grabado de botánica. Cada trazo
+  tiene `pathLength="1"` para poder dibujarse de punta a punta.
+- **El Cimarrón** (`Cimarron`): el mate de la casa con cara, cachetes y
+  vapor. Vive en el footer, sentado sobre la última letra del logo.
+- **Sello redondo** (`SelloRedondo`): texto en círculo alrededor de una
+  hojita, como el sello de un paquete viejo.
 
 ## Voz
 
@@ -245,25 +290,35 @@ chiste por línea. Ejemplos: «Que no se corte la ronda», «Elaborada con palo�
 
 ## Movimiento
 
-- Hay dos movimientos: el video en loop de la portada y el ritual (el mate 3D
-  con el scroll). El video se puede pausar.
+Cada bloque de la home tiene un movimiento propio, que tiene que ver con lo
+que muestra. Nada entra con fundido y desplazamiento genérico.
+
+- **Portada**: el loop de video (o, sin video, un acercamiento lentísimo de
+  la foto) y el sello que gira. El video se puede pausar.
+- **Marquesina**: la cinta corre sola; se frena con el mouse encima.
+- **Manifiesto**: la rama de yerba se dibuja con el scroll: primero el tallo,
+  después cada hoja cuando el tallo pasa por su lugar, y al final brotan los
+  frutitos.
+- **Lo que más sale**: la mancha cambia de forma y el producto se levanta y se
+  ladea al pasar el mouse.
+- **Receta**: la foto se acomoda al entrar y los números de los pasos se
+  estampan como un sello de goma.
+- **Para cada ronda**: las fotos se revelan como un rollo recién salido (de
+  sepia lavado a color) y se acercan apenas al pasar el mouse.
+- **Qué hay en el almacén**: el producto de cada fila se ladea al pasar el
+  mouse.
+- **Footer**: el Cimarrón parpadea, se hamaca y le sale vapor.
 - El header cambia de transparente a sólido con una transición suave.
-- El resto solo tiene cambios de estado rápidos: hover que cambia el fondo
-  y foco visible. No hay entradas con fundido.
-- Easter egg: si la persona se queda un rato largo en la home, la yerba del
-  mate 3D se va lavando (se aclara) y aparece el botón «Cambiar la yerba»,
-  que la deja nueva otra vez.
-- Con `prefers-reduced-motion` la portada muestra solo el poster, sin video,
-  y no hay transiciones.
-- Con `prefers-reduced-motion` el ritual se muestra como una secuencia fija
-  de pasos con el mate ya cebado, y ni el cambio de yerba ni la pantalla de
-  carga se animan.
+- Lo atado al scroll usa `animation-timeline: view()`. Donde el navegador no
+  lo soporta, todo se ve quieto y completo.
+- Con `prefers-reduced-motion` la portada muestra solo la foto, sin video ni
+  acercamiento, la marquesina queda quieta (y baja de línea si no entra) y no
+  hay animaciones ni transiciones.
 
 ## Principios
 
-1. **El mate es la estrella.** En la portada, el mate de verdad en video; a
-   mitad de página, el mate 3D. Nada más compite con ellos: ni gradientes, ni
-   brillos, ni movimiento.
+1. **El mate es la estrella.** En la portada, la mesa con el mate; en la
+   receta, el mate pasando de mano en mano; en el pie, el Cimarrón.
 2. **Color y aire, no líneas.** Si algo necesita separarse, se le cambia el
    fondo o se le da espacio; nunca un borde.
 3. **El color tiene significado.** El color de acento dice en qué categoría
@@ -271,18 +326,20 @@ chiste por línea. Ejemplos: «Que no se corte la ronda», «Elaborada con palo�
 4. **La máquina de escribir es para hacer cosas.** Navegación, botones,
    links, carrito, etiquetas chicas, precios y datos de la ficha. Leer, en
    Work Sans.
-5. **Accesible siempre.** Contraste AA, foco de 3px en tinta, papel o verde
+5. **Cada movimiento cuenta algo.** Se dibuja, se revela, se estampa, gira o
+   parpadea; nunca aparece por aparecer.
+6. **Accesible siempre.** Contraste AA, foco de 3px en tinta, papel o verde
    claro según el fondo, navegación con teclado y layout fluido desde 320px.
 
 ## Revisión contra «Evitar»
 
-| Evitar                                                  | Cómo se resuelve                                                                                                        |
-| ------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
-| Fondo crema + serif + píldora                           | Fondo kraft con textura, bloques de color plenos, ilustraciones a mano, máquina de escribir y video real                |
-| Etiquetas en mayúsculas con tracking sobre los títulos  | No hay antetítulos. Los datos chicos van en minúscula y abajo del título                                                |
-| Resaltar una palabra del título                         | Cada título va en un solo color y un solo estilo                                                                        |
-| Grillas de tarjetas iguales con el mismo radio y sombra | Sin sombra de tarjeta; el bloque es solo el fondo de la foto, y el precio, el nombre y la marca quedan afuera           |
-| Gradientes o resplandores                               | Solo colores planos y textura de papel. El único degradado es el de tinta sobre el video de la portada, por legibilidad |
-| «→» en botones y «·» como separador                     | Sin flechas de texto. El separador es una hojita de yerba en SVG                                                        |
-| Fade + slide up por sección                             | No hay. Solo se anima el ritual                                                                                         |
-| Inter, Geist, Roboto, Playfair, Poppins                 | Se usan Fraunces (solo el logo), Instrument Serif, Work Sans y Courier Prime                                            |
+| Evitar                                                  | Cómo se resuelve                                                                                                               |
+| ------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
+| Fondo crema + serif + píldora                           | Avena con textura de papel, manchas de color orgánicas, olas, dibujos a mano, el Cimarrón, máquina de escribir y fotos propias |
+| Etiquetas en mayúsculas con tracking sobre los títulos  | No hay antetítulos. Los datos chicos van en minúscula y abajo del título                                                       |
+| Resaltar una palabra del título                         | Cada línea va en un solo color y un solo estilo (la segunda línea del manifiesto es entera verde)                              |
+| Grillas de tarjetas iguales con el mismo radio y sombra | Sin sombra de tarjeta; cada producto tiene su propia mancha, y el precio, el nombre y la marca quedan afuera                    |
+| Gradientes o resplandores                               | Solo colores planos y textura de papel. El único degradado es el velo de avena de la portada, por legibilidad                  |
+| «→» en botones y «·» como separador                     | Sin flechas de texto. El separador es una hojita de yerba en SVG; en el sello, comas                                           |
+| Fade + slide up por sección                             | No hay. Cada bloque tiene su movimiento propio (ver «Movimiento»)                                                              |
+| Inter, Geist, Roboto, Playfair, Poppins                 | Se usan Fraunces (solo el logo), Instrument Serif, Work Sans y Courier Prime                                                   |

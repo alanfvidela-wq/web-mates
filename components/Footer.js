@@ -1,13 +1,18 @@
 import Link from "next/link";
 import { CATEGORIAS } from "@/lib/productos";
+import { Cimarron } from "./Ilustraciones";
 import Logo from "./Logo";
 import styles from "./Footer.module.css";
 
 export default function Footer() {
   return (
-    <footer className={styles.footer}>
+    <footer className={`ola ${styles.footer}`}>
       <div className={styles.contenido}>
-        <Logo className={styles.logo} />
+        {/* El Cimarrón se asoma por encima del logo gigante */}
+        <div className={styles.firma}>
+          <Cimarron className={styles.cimarron} />
+          <Logo className={styles.logo} />
+        </div>
         <p className={styles.frase}>
           Elaborada con palo, cebada con paciencia.
         </p>
@@ -21,20 +26,18 @@ export default function Footer() {
                 </Link>
               </li>
             ))}
+            <li>
+              <Link href="/arma-tu-combo">Armá tu combo</Link>
+            </li>
           </ul>
         </nav>
 
         <p className={styles.legal}>
           Proyecto académico — Programación Web, ITBA. Precios ficticios.
           <br />
-          Modelo 3D{" "}
-          <a href="https://sketchfab.com/3d-models/mate-uruguayo-e2fd6553b7b144f8afe2dc51929f95a3">
-            «Mate Uruguayo.»
-          </a>{" "}
-          de Ermolli, licencia{" "}
-          <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>.
-          HDRI de Poly Haven (CC0). Fotos de producto de las marcas y tiendas de
-          origen (ver /productos/CREDITOS.md).
+          Fotos de la home y del hero generadas con Higgsfield (Nano Banana
+          Pro). Fotos de producto de las marcas y tiendas de origen (ver
+          /productos/CREDITOS.md).
         </p>
       </div>
     </footer>

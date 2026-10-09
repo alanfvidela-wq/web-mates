@@ -123,6 +123,133 @@ export function Hojita({ className }) {
   );
 }
 
+// Hoja de yerba: elíptica y con punta, con la nervadura al medio.
+// Mide 64 de largo y nace en (0, 0) hacia la derecha.
+const HOJA = "M0 0C12-15 44-19 64-3 46 9 15 11 0 0Z";
+const NERVIO = "M3 0C22-3 42-5 60-3";
+
+// Las hojas de la rama, alternadas a los dos lados del tallo
+const HOJAS_RAMA = [
+  { x: 52, y: 160, giro: -100, escala: 0.62 },
+  { x: 84, y: 150, giro: 12, escala: 0.8 },
+  { x: 124, y: 133, giro: -72, escala: 0.95 },
+  { x: 168, y: 113, giro: 22, escala: 1 },
+  { x: 210, y: 90, giro: -58, escala: 0.9 },
+  { x: 248, y: 67, giro: 30, escala: 0.74 },
+  { x: 290, y: 40, giro: -24, escala: 0.62 },
+];
+
+// Rama de yerba mate (Ilex paraguariensis) dibujada con trazos sueltos, como
+// un grabado de botánica. Cada trazo lleva pathLength="1" para que el CSS lo
+// pueda dibujar de punta a punta (ver .rama en las hojas de estilo).
+export function RamaYerba({ className, relleno = "currentColor" }) {
+  return (
+    <svg
+      viewBox="0 0 330 190"
+      className={className}
+      aria-hidden="true"
+      focusable="false"
+    >
+      <g {...TRAZO} strokeWidth="2">
+        <path
+          className="trazo"
+          pathLength="1"
+          d="M14 178C70 160 140 132 200 98S280 44 314 26"
+        />
+        {HOJAS_RAMA.map(({ x, y, giro, escala }, i) => (
+          <g
+            key={`${x}-${y}`}
+            className="ramita"
+            transform={`translate(${x} ${y}) rotate(${giro}) scale(${escala})`}
+            style={{ "--orden": i }}
+          >
+            <path
+              className="trazo hoja"
+              pathLength="1"
+              d={HOJA}
+              fill={relleno}
+              fillOpacity="0.14"
+            />
+            <path className="trazo" pathLength="1" d={NERVIO} />
+          </g>
+        ))}
+        {/* Racimo de frutitos al pie de una hoja */}
+        <path className="trazo" pathLength="1" d="M104 143c2 8 0 14-5 19" />
+        <circle className="fruto" cx="98" cy="165" r="4.5" fill={relleno} />
+        <circle className="fruto" cx="108" cy="163" r="4" fill={relleno} />
+        <circle className="fruto" cx="102" cy="173" r="3.5" fill={relleno} />
+      </g>
+    </svg>
+  );
+}
+
+// El Cimarrón: el mate de la casa, con cara. Parpadea y le sale vapor
+// (las animaciones viven en el CSS de quien lo usa: .ojo y .vapor).
+export function Cimarron({ className, color = "#8a3b1e" }) {
+  return (
+    <svg
+      viewBox="0 0 160 190"
+      className={className}
+      aria-hidden="true"
+      focusable="false"
+    >
+      <g {...TRAZO} strokeWidth="3">
+        <path className="vapor" d="M58 40c-8-9 6-14-1-24" />
+        <path className="vapor" d="M74 34c-8-9 6-14-1-24" />
+        <path d="M100 74 122 16c2-5 6-7 11-6" strokeWidth="7" stroke="#b9b7ad" />
+        <path d="M100 74 122 16c2-5 6-7 11-6" />
+        <path
+          d="M34 82c-14 22-13 62 12 82 19 15 50 16 69 0 23-20 25-60 10-82Z"
+          fill={color}
+        />
+        <path
+          d="M30 80c1-14 99-15 101 0 1 13-100 15-101 0Z"
+          fill="#e3e1d8"
+        />
+        <path d="M44 79c7-7 66-8 72 0-7 6-65 7-72 0Z" fill="#6d7a36" />
+        <ellipse className="ojo" cx="62" cy="116" rx="4.5" ry="7" fill="currentColor" />
+        <ellipse className="ojo" cx="98" cy="116" rx="4.5" ry="7" fill="currentColor" />
+        <path d="M70 134c6 7 14 7 20 0" />
+        <ellipse cx="50" cy="132" rx="7" ry="4.5" fill="#e98a6b" stroke="none" />
+        <ellipse cx="110" cy="132" rx="7" ry="4.5" fill="#e98a6b" stroke="none" />
+      </g>
+    </svg>
+  );
+}
+
+// Sello redondo con texto en círculo, como el de un paquete viejo. El texto
+// gira (clase .giro); la hojita del centro queda quieta.
+export function SelloRedondo({ texto, className }) {
+  return (
+    <svg
+      viewBox="0 0 200 200"
+      className={className}
+      aria-hidden="true"
+      focusable="false"
+    >
+      <defs>
+        <path id="circulo-sello" d="M100 100m-72 0a72 72 0 1 1 144 0a72 72 0 1 1-144 0" />
+      </defs>
+      <circle cx="100" cy="100" r="98" fill="var(--fondo-sello, currentColor)" />
+      <g className="giro">
+        <text className="textoSello">
+          <textPath href="#circulo-sello" textLength="448">
+            {texto}
+          </textPath>
+        </text>
+      </g>
+      <g transform="translate(70 70) scale(2.5)" {...TRAZO} strokeWidth="1.6">
+        <path
+          d="M5 19C4 11 9 5 19 4c1 9-5 15-14 15Z"
+          fill="currentColor"
+          fillOpacity="0.25"
+        />
+        <path d="M5 19 14 10" />
+      </g>
+    </svg>
+  );
+}
+
 export function FlechaAbajo(props) {
   return (
     <Lienzo viewBox="0 0 24 32" {...props}>

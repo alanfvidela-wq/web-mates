@@ -11,14 +11,90 @@
   gap: var(--espacio-8);
   max-width: var(--ancho-max);
   margin: 0 auto;
-  padding: var(--espacio-16) var(--gutter) var(--espacio-12);
+  /* Arriba hay lugar para el Cimarrón, que se asoma sobre el logo */
+  padding: clamp(7rem, 13vw, 11rem) var(--gutter) var(--espacio-12);
 }
 
 /* El logo ocupa toda la primera fila; abajo, la frase y los links */
-.contenido .logo {
+.firma {
+  position: relative;
   grid-column: 1 / -1;
   justify-self: start;
-  font-size: clamp(4.5rem, 16vw, 11rem);
+}
+
+.contenido .logo {
+  font-size: clamp(4.5rem, 19vw, 15rem);
+}
+
+/* El Cimarrón, sentado sobre la última letra del logo */
+.cimarron {
+  position: absolute;
+  right: -0.2em;
+  bottom: 88%;
+  width: clamp(64px, 11vw, 148px);
+  color: var(--tinta);
+  transform: rotate(8deg);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .cimarron :global(.ojo) {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: parpadear 5s infinite;
+  }
+
+  .cimarron :global(.vapor) {
+    animation: vapor 3.2s ease-in-out infinite;
+  }
+
+  .cimarron :global(.vapor:nth-of-type(2)) {
+    animation-delay: -1.6s;
+  }
+
+  /* Se balancea apenas, como si escuchara la charla */
+  .cimarron {
+    transform-origin: 50% 100%;
+    animation: hamacarse 6s ease-in-out infinite;
+  }
+}
+
+@keyframes parpadear {
+  0%,
+  92%,
+  100% {
+    transform: scaleY(1);
+  }
+
+  95% {
+    transform: scaleY(0.1);
+  }
+}
+
+@keyframes vapor {
+  0% {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+
+  40% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes hamacarse {
+  0%,
+  100% {
+    transform: rotate(8deg);
+  }
+
+  50% {
+    transform: rotate(2deg);
+  }
 }
 
 .frase {

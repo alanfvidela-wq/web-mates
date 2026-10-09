@@ -1,0 +1,69 @@
+/* Bloque verde a todo el ancho con la cinta que corre */
+.marquesina {
+  display: flex;
+  overflow: hidden;
+  padding: var(--espacio-8) 0;
+  background: var(--verde);
+  color: var(--papel);
+}
+
+.cinta {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  list-style: none;
+  font-family: var(--fuente-titulos);
+  font-size: clamp(2rem, 4.4vw, 3.75rem);
+  letter-spacing: var(--tracking-titulos);
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.cinta li {
+  display: flex;
+  align-items: center;
+  gap: var(--espacio-8);
+  padding-right: var(--espacio-8);
+}
+
+.hojita {
+  width: 0.6em;
+  height: 0.6em;
+  color: var(--verde-vivo);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .cinta {
+    animation: correr 48s linear infinite;
+  }
+
+  /* Se frena al pasar el mouse, para poder leerla */
+  .marquesina:hover .cinta {
+    animation-play-state: paused;
+  }
+}
+
+@keyframes correr {
+  to {
+    transform: translateX(-100%);
+  }
+}
+
+/* Quieta: una sola copia, que baja de línea si no entra */
+@media (prefers-reduced-motion: reduce) {
+  .marquesina {
+    padding-inline: var(--gutter);
+  }
+
+  .cinta {
+    flex-shrink: 1;
+    flex-wrap: wrap;
+    justify-content: center;
+    row-gap: var(--espacio-3);
+    white-space: normal;
+  }
+
+  .cinta[aria-hidden] {
+    display: none;
+  }
+}

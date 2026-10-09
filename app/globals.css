@@ -1,7 +1,8 @@
 /* Sistema de diseño: ver DESIGN.md */
 :root {
   /* Paleta */
-  --kraft: #d9c49e;
+  /* Avena: el kraft aclarado, como el crema de una cocina con luz de mañana */
+  --kraft: #efe4cf;
   --tinta: #1f1a14;
   --verde: #1f5135;
   --rojo: #bf3a1e;
@@ -48,12 +49,17 @@
   --espacio-24: 6rem;
   --espacio-32: 8rem;
   --radio: 16px;
+  --radio-grande: 28px;
   --transicion: 120ms ease;
+  /* Curva de entrada: arranca rápido y se apoya despacio */
+  --suave: cubic-bezier(0.22, 1, 0.36, 1);
+  /* Alto de la ola que corona algunos bloques */
+  --alto-ola: clamp(18px, 2.4vw, 32px);
   /* Aproximado; el header lo reemplaza por su alto medido */
   --alto-header: 84px;
 
   /* Textura de papel kraft: ruido muy sutil, sin gradientes */
-  --textura-papel: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.32 0 0 0 0 0.22 0 0 0 0 0.1 0 0 0 0.16 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  --textura-papel: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.32 0 0 0 0 0.22 0 0 0 0 0.1 0 0 0 0.09 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
 [data-categoria="yerbas"] {
@@ -237,10 +243,102 @@ button {
   }
 }
 
+/* Ola: el borde de arriba de un bloque ondulado, del mismo color que el
+   bloque. No es una línea: es el bloque que se asoma sobre el anterior. */
+.ola {
+  position: relative;
+}
+
+.ola::before {
+  content: "";
+  position: absolute;
+  right: 0;
+  bottom: calc(100% - 1px);
+  left: 0;
+  height: var(--alto-ola);
+  background: inherit;
+  -webkit-mask: var(--mascara-ola) repeat-x 0 100% / calc(var(--alto-ola) * 12) 100%;
+  mask: var(--mascara-ola) repeat-x 0 100% / calc(var(--alto-ola) * 12) 100%;
+  pointer-events: none;
+}
+
+:root {
+  --mascara-ola: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 240 20' preserveAspectRatio='none'%3E%3Cpath d='M0 20V10C30 10 30 0 60 0s30 10 60 10 30-10 60-10 30 10 60 10v10Z'/%3E%3C/svg%3E");
+}
+
+/* Ramas de yerba que se dibujan solas al entrar (ver RamaYerba) */
+.rama {
+  overflow: visible;
+}
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .rama {
+      view-timeline-name: --rama;
+    }
+
+    .rama .trazo {
+      stroke-dasharray: 1;
+      stroke-dashoffset: 1;
+      animation: dibujar linear both;
+      animation-timeline: --rama;
+      animation-range: cover 5% cover 38%;
+    }
+
+    /* Cada hoja aparece cuando el tallo ya pasó por su lugar */
+    .rama .ramita > .trazo {
+      animation-range: cover calc(8% + var(--orden) * 4.5%) cover
+        calc(18% + var(--orden) * 4.5%);
+    }
+
+    .rama .hoja {
+      animation-name: dibujar, rellenar;
+    }
+
+    .rama .fruto {
+      transform-box: fill-box;
+      transform-origin: center;
+      animation: brotar linear both;
+      animation-timeline: --rama;
+      animation-range: cover 40% cover 46%;
+    }
+  }
+}
+
+/* Arranca invisible: la punta redondeada de un trazo sin dibujar deja un
+   puntito suelto */
+@keyframes dibujar {
+  from {
+    opacity: 0;
+  }
+
+  3% {
+    opacity: 1;
+  }
+
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes rellenar {
+  from {
+    fill-opacity: 0;
+  }
+}
+
+@keyframes brotar {
+  from {
+    transform: scale(0);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
   *::after {
     transition-duration: 0ms !important;
+    animation-duration: 0ms !important;
+    animation-iteration-count: 1 !important;
   }
 }

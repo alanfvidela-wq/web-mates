@@ -1,4 +1,4 @@
-/* Fijo arriba: sólido y claro, salvo cuando flota sobre el video del hero */
+/* Fijo arriba: sólido y claro, salvo cuando flota sobre la foto del hero */
 .header {
   --foco: var(--tinta);
   position: fixed;
@@ -13,10 +13,9 @@
     color 300ms ease;
 }
 
+/* Sobre el hero: sin fondo, con el mismo texto en tinta (la foto es clara) */
 .header[data-transparente] {
-  --foco: var(--papel);
   background: transparent;
-  color: var(--papel);
 }
 
 .contenido {
@@ -33,10 +32,6 @@
 .logo {
   color: var(--verde);
   transition: color 300ms ease;
-}
-
-.header[data-transparente] .logo {
-  color: var(--papel);
 }
 
 /* Navegación a máquina de escribir, como en Graza */
@@ -79,7 +74,6 @@
 }
 
 .header[data-transparente] .carrito {
-  --foco: var(--papel);
   background: var(--papel);
 }
 
